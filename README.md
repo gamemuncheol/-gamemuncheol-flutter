@@ -1,6 +1,6 @@
 # gamemuncheol
 
-A new Flutter project.
+개발 브랜치입니다.
 
 ## Getting Started
 
