@@ -22,9 +22,15 @@ class AppleAuthNotifier extends _$AppleAuthNotifier {
       debugPrint(credential.email ?? "Email is null");
       debugPrint(credential.identityToken ?? "Identity token is null");
       Dio dio = Dio();
-      String url = 'http://192.168.0.4:8080/open-api/apple/login';
+      String url = 'http://192.168.0.4:8080/open-api/apple/sign-up';
 
-      var data = {'identityToken': credential.identityToken};
+      // Name이 null일 경우 회원가입이 안되도록 처리해야 함
+      String fullName = credential.givenName! + credential.familyName!;
+
+      var data = {
+        'name': fullName,
+        'identityToken': credential.identityToken
+        };
       var response = await dio.post(url, data: data);
 
       debugPrint(response.toString());
