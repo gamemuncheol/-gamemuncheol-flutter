@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:gamemuncheol/common/util/screen_utils.dart';
 import 'package:gamemuncheol/common/widget/app_text.dart';
-import 'package:gamemuncheol/feature/auth/provider/auth_provider.dart';
+import 'package:gamemuncheol/feature/auth/provider/apple_auth_provider.dart';
 
 class SocialAuthButton extends ConsumerWidget {
   final String imagePath;
@@ -26,14 +26,22 @@ class SocialAuthButton extends ConsumerWidget {
     required this.signInFunc,
   });
 
-  void showPrivatePolicyDocs(BuildContext context, WidgetRef ref) {
-    ref
-        .read(
-          authNotifierProvider.notifier,
-        )
-        .showPrivatePolicyDocs(
-          context,
-        );
+  void showPrivatePolicyDocs(BuildContext context, WidgetRef ref) async {
+    // ref
+    //     .read(
+    //       authNotifierProvider.notifier,
+    //     )
+    //     .showPrivatePolicyDocs(
+    //       context,
+    //     );
+    final String res = await ref.read(appleAuthNotifierProvider.notifier).signIn();
+    if(context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(res),
+        ),
+      );
+    }
   }
 
   @override
