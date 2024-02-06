@@ -49,6 +49,9 @@ dependencies:
   video_player: ^2.8.2
   flutter_svg: ^2.0.9
 
+  sign_in_with_apple: ^5.0.0
+  dio: ^5.4.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
