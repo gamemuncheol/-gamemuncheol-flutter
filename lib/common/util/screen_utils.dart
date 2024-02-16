@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 extension ScreenUtilPadding on EdgeInsets {
-  EdgeInsets useScreenUtil() {
+  // 패딩에 스크린유틸 적용
+  EdgeInsets su() {
     return copyWith(
       left: left.w,
       right: right.w,
@@ -13,7 +14,8 @@ extension ScreenUtilPadding on EdgeInsets {
 }
 
 extension ScreenUtilContainer on Container {
-  Container useScreenUtil({
+  // 컨테이너에 스크린유틸 적용
+  Container su({
     double? width,
     double? height,
   }) {
@@ -29,7 +31,8 @@ extension ScreenUtilContainer on Container {
 }
 
 extension ScreenUtilSizedBox on SizedBox {
-  SizedBox useScreenUtil() {
+  // 사이즈드박스에 스크린유틸 적용
+  SizedBox su() {
     return SizedBox(
       width: width?.w,
       height: height?.h,

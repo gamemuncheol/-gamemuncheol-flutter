@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:video_player/video_player.dart';
 
@@ -44,6 +43,7 @@ class _SocialAuthScreenState extends State<SocialAuthScreen> {
       controller.setLooping(
         true,
       );
+
       controller.play();
     });
   }
@@ -72,12 +72,7 @@ class _SocialAuthScreenState extends State<SocialAuthScreen> {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                children: [
-                  renderLolMunCheol(),
-                  renderWelcomeText(),
-                ],
-              ),
+              renderWelcomeObject(),
               renderSocialLoginButton(),
             ],
           )
@@ -95,100 +90,138 @@ class _SocialAuthScreenState extends State<SocialAuthScreen> {
     );
   }
 
-  Widget renderLolMunCheol() {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 200,
-      ).useScreenUtil(),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: AppColors.PRIMARY_BLUE,
-        ),
-        child: SvgPicture.asset(
-          AssetPaths.LOL_MUNCHEOL_PATH,
-        ),
-      ).useScreenUtil(
-        width: 270,
-        height: 133,
-      ),
-    );
-  }
+  Widget renderWelcomeObject() {
+    const double space1 = 148;
 
-  Widget renderWelcomeText() {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 48,
-      ).useScreenUtil(),
-      child: const Column(
-        children: [
-          AppText(
-            "정치질과 입롤에 지칠 때는\n112말고, 롤문철",
-            color: AppColors.PRIMARY_WITHE,
-            size: 24,
-            weight: FontWeight.w700,
-            align: TextAlign.center,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          AppText(
-            "3초 가입으로 바로 시작하세요.",
-            color: AppColors.PRIMARY_WITHE,
-            size: 18,
-            weight: FontWeight.w500,
-            align: TextAlign.center,
-          )
-        ],
-      ),
+    return const Column(
+      children: [
+        SizedBox(
+          height: space1,
+        ),
+        _WelcomeObject(),
+      ],
     );
   }
 
   Widget renderSocialLoginButton() {
+    const double topPadding = 148;
+    const double bottomPadding = 74;
+    const double frameWidth = 358;
+    const double frameHeight = 128;
+
     return Padding(
       padding: const EdgeInsets.only(
-        bottom: 74,
-      ).useScreenUtil(),
-      child: const SizedBox(
-        width: 358,
-        height: 128,
+        top: topPadding,
+        bottom: bottomPadding,
+      ).su(),
+      child: SizedBox(
+        width: frameWidth,
+        height: frameHeight,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _AppleSignInButton(),
-            _GoogleSignInButton(),
+            SocialAuthButton.apple(),
+            SocialAuthButton.google(),
           ],
         ),
-      ).useScreenUtil(),
+      ).su(),
     );
   }
 }
 
-class _AppleSignInButton extends ConsumerWidget {
-  const _AppleSignInButton();
+class _WelcomeObject extends StatelessWidget {
+  const _WelcomeObject();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return SocialAuthButton(
-      signInFunc: () {},
-      imagePath: AssetPaths.APPLE_LOGO_PATH,
-      buttonText: "Apple로 계속하기",
-      buttonColor: AppColors.BLACK_800,
-      fontColor: AppColors.PRIMARY_WITHE,
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        renderStackBaseFrame(),
+        renderGradientUnderline(),
+        renderWelcomeText(),
+        renderLolMunCheol(),
+      ],
     );
   }
-}
 
-class _GoogleSignInButton extends ConsumerWidget {
-  const _GoogleSignInButton();
+  Widget renderStackBaseFrame() {
+    const double frameWidth = 390;
+    const double frameHeight = 280;
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return SocialAuthButton(
-      signInFunc: () {},
-      imagePath: AssetPaths.GOOGLE_LOGO_PATH,
-      buttonText: "Google로 계속하기",
-      buttonColor: AppColors.PRIMARY_WITHE,
-      fontColor: AppColors.FONT_DARK_GREY,
+    return Center(
+      child: const SizedBox(
+        width: frameWidth,
+        height: frameHeight,
+      ).su(),
+    );
+  }
+
+  Container renderGradientUnderline() {
+    const double leftMargin = 45;
+    const double topMargin = 142;
+    const double frameWidth = 300;
+
+    return Container(
+      margin: const EdgeInsets.only(
+        left: leftMargin,
+        top: topMargin,
+      ).su(),
+      child: SvgPicture.asset(
+        fit: BoxFit.fitWidth,
+        AssetPaths.LOL_MUNCHEOL_UNDERLINE_PATH,
+      ),
+    ).su(
+      width: frameWidth,
+    );
+  }
+
+  Widget renderWelcomeText() {
+    const double topPadding = 200;
+    const double space1 = 20;
+
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.only(
+          top: topPadding,
+        ).su(),
+        child: Column(
+          children: [
+            const AppText(
+              "정치질과 입롤에 지칠 때는\n112말고, 롤문철",
+              color: ColorGuidance.PRIMARY_WITHE,
+              size: 24,
+              weight: FontWeight.w700,
+              align: TextAlign.center,
+            ),
+            const SizedBox(
+              height: space1,
+            ).su(),
+            const AppText(
+              "3초 가입으로 바로 시작하세요.",
+              color: ColorGuidance.PRIMARY_WITHE,
+              size: 18,
+              weight: FontWeight.w500,
+              align: TextAlign.center,
+            )
+          ],
+        ),
+      ).su(),
+    );
+  }
+
+  Positioned renderLolMunCheol() {
+    const double frameHeight = 191;
+
+    return Positioned(
+      child: Align(
+        alignment: Alignment.center,
+        child: SizedBox(
+          height: frameHeight,
+          child: Image.asset(
+            AssetPaths.LOL_MUNCHEOL_PATH,
+          ),
+        ).su(),
+      ),
     );
   }
 }

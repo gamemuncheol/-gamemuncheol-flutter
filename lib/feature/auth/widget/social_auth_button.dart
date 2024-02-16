@@ -1,21 +1,25 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gamemuncheol/common/const/asset_paths.dart';
+import 'package:gamemuncheol/common/const/colors.dart';
 
 import 'package:gamemuncheol/common/util/screen_utils.dart';
 import 'package:gamemuncheol/common/widget/app_text.dart';
-import 'package:gamemuncheol/feature/auth/provider/apple_auth_provider.dart';
+import 'package:gamemuncheol/feature/auth/provider/auth_provider.dart';
 
 class SocialAuthButton extends ConsumerWidget {
+  // 플랫폼 로고 주소
   final String imagePath;
 
+  // 버튼 문구
   final String buttonText;
 
+  // 버튼 색상
   final Color buttonColor;
 
+  // 폰트 생상
   final Color fontColor;
-
-  final VoidCallback signInFunc;
 
   const SocialAuthButton({
     super.key,
@@ -23,26 +27,68 @@ class SocialAuthButton extends ConsumerWidget {
     required this.buttonText,
     required this.buttonColor,
     required this.fontColor,
-    required this.signInFunc,
   });
 
-  void showPrivatePolicyDocs(BuildContext context, WidgetRef ref) async {
-    // ref
-    //     .read(
-    //       authNotifierProvider.notifier,
-    //     )
-    //     .showPrivatePolicyDocs(
-    //       context,
-    //     );
-    final String res = await ref.read(appleAuthNotifierProvider.notifier).signIn();
-    if(context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(res),
-        ),
-      );
-    }
+  factory SocialAuthButton.apple() {
+    return const SocialAuthButton(
+      imagePath: AssetPaths.APPLE_LOGO_PATH,
+      buttonText: "Apple로 계속하기",
+      buttonColor: ColorGuidance.BLACK_800,
+      fontColor: ColorGuidance.PRIMARY_WITHE,
+    );
   }
+
+  factory SocialAuthButton.google() {
+    return const SocialAuthButton(
+      imagePath: AssetPaths.GOOGLE_LOGO_PATH,
+      buttonText: "Google로 계속하기",
+      buttonColor: ColorGuidance.PRIMARY_WITHE,
+      fontColor: ColorGuidance.FONT_DARK_GREY,
+    );
+  }
+
+  void showPrivatePolicyDocs(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    void signInFunc() {
+      switch (imagePath) {
+        case AssetPaths.APPLE_LOGO_PATH:
+          ref
+              .read(
+                authNotifierProvider.notifier,
+              )
+              .signInWithGoogle(
+                context,
+              );
+
+          break;
+
+        case AssetPaths.GOOGLE_LOGO_PATH:
+          ref
+              .read(
+                authNotifierProvider.notifier,
+              )
+              .signInWithGoogle(
+                context,
+              );
+
+          break;
+      }
+    }
+
+    ref
+        .read(
+          authNotifierProvider.notifier,
+        )
+        .showPrivatePolicyDocs(
+          context,
+          signInFunc: signInFunc,
+        );
+  }
+
+  final double buttonWidth = 358;
+  final double buttonHegith = 50;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -59,29 +105,37 @@ class SocialAuthButton extends ConsumerWidget {
           ),
         ),
         child: SizedBox(
-          width: 156,
-          height: 22,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                imagePath,
-              ),
-              const SizedBox(
-                width: 16,
-              ).useScreenUtil(),
-              AppText(
-                buttonText,
-                color: fontColor,
-                size: 18,
-                weight: FontWeight.w700,
-              )
+              renderPlatformLogo(),
+              renderText(),
             ],
           ),
-        ).useScreenUtil(),
-      ).useScreenUtil(
-        width: 358,
-        height: 50,
+        ).su(),
+      ).su(
+        width: buttonWidth,
+        height: buttonHegith,
+      ),
+    );
+  }
+
+  Widget renderPlatformLogo() => SvgPicture.asset(
+        imagePath,
+      );
+
+  Widget renderText() {
+    const double leftPadding = 12;
+
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: leftPadding,
+      ).su(),
+      child: AppText(
+        buttonText,
+        color: fontColor,
+        size: 18,
+        weight: FontWeight.w700,
       ),
     );
   }
