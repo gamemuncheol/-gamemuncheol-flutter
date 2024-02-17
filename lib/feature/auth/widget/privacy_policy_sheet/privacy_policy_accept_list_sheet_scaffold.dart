@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamemuncheol/common/util/screen_utils.dart';
 
 class PrivacyPolicyAcceptListSheetScaffold extends StatelessWidget {
   // 헤더
@@ -32,8 +33,9 @@ class PrivacyPolicyAcceptListSheetScaffold extends StatelessWidget {
         top: topPadding,
         left: leftPadding,
         right: rightPadding,
-      ),
+      ).su(),
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             sheetHeader,

@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:gamemuncheol/common/const/asset_paths.dart';
 import 'package:gamemuncheol/common/const/colors.dart';
-
 import 'package:gamemuncheol/common/util/screen_utils.dart';
 import 'package:gamemuncheol/common/widget/app_text.dart';
+import 'package:gamemuncheol/feature/auth/model/sign_in_method.dart';
 import 'package:gamemuncheol/feature/auth/provider/auth_provider.dart';
+import 'package:gamemuncheol/feature/auth/provider/privacy_policy_sheet_provider.dart';
 
 class SocialAuthButton extends ConsumerWidget {
+  // 플랫폼
+  final SignInMethod signInMethod;
+
   // 플랫폼 로고 주소
   final String imagePath;
 
@@ -23,6 +28,7 @@ class SocialAuthButton extends ConsumerWidget {
 
   const SocialAuthButton({
     super.key,
+    required this.signInMethod,
     required this.imagePath,
     required this.buttonText,
     required this.buttonColor,
@@ -31,6 +37,7 @@ class SocialAuthButton extends ConsumerWidget {
 
   factory SocialAuthButton.apple() {
     return const SocialAuthButton(
+      signInMethod: SignInMethod.APPLE,
       imagePath: AssetPaths.APPLE_LOGO_PATH,
       buttonText: "Apple로 계속하기",
       buttonColor: ColorGuidance.BLACK_800,
@@ -40,6 +47,7 @@ class SocialAuthButton extends ConsumerWidget {
 
   factory SocialAuthButton.google() {
     return const SocialAuthButton(
+      signInMethod: SignInMethod.GOOGLE,
       imagePath: AssetPaths.GOOGLE_LOGO_PATH,
       buttonText: "Google로 계속하기",
       buttonColor: ColorGuidance.PRIMARY_WITHE,
@@ -51,39 +59,20 @@ class SocialAuthButton extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) async {
-    void signInFunc() {
-      switch (imagePath) {
-        case AssetPaths.APPLE_LOGO_PATH:
-          ref
-              .read(
-                authNotifierProvider.notifier,
-              )
-              .signInWithGoogle(
-                context,
-              );
-
-          break;
-
-        case AssetPaths.GOOGLE_LOGO_PATH:
-          ref
-              .read(
-                authNotifierProvider.notifier,
-              )
-              .signInWithGoogle(
-                context,
-              );
-
-          break;
-      }
-    }
-
     ref
         .read(
           authNotifierProvider.notifier,
         )
+        .selectPlatform(
+          signInMethod: signInMethod,
+        );
+        
+    ref
+        .read(
+          privacyPolicyNotifierProvider.notifier,
+        )
         .showPrivatePolicyDocs(
           context,
-          signInFunc: signInFunc,
         );
   }
 

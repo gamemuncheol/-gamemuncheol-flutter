@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:gamemuncheol/feature/auth/view/social_auth_screen.dart';
+import 'package:gamemuncheol/feature/auth/view/social_auth_screen/social_auth_screen.dart';
 import 'package:gamemuncheol/feature/auth/view/OauthWebviewScreen.dart';
 import 'package:gamemuncheol/feature/user/view/register_nickname_screen.dart';
 

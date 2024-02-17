@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:video_player/video_player.dart';
 
+import 'package:gamemuncheol/feature/auth/view/social_auth_screen/social_auth_screen_scaffold.dart';
 import 'package:gamemuncheol/common/const/colors.dart';
 import 'package:gamemuncheol/feature/auth/widget/social_auth_button.dart';
-import 'package:gamemuncheol/common/layout/default_layout.dart';
 import 'package:gamemuncheol/common/const/asset_paths.dart';
 import 'package:gamemuncheol/common/util/screen_utils.dart';
 import 'package:gamemuncheol/common/widget/app_text.dart';
@@ -64,20 +64,10 @@ class _SocialAuthScreenState extends State<SocialAuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          renderBackgroundVideo(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              renderWelcomeObject(),
-              renderSocialLoginButton(),
-            ],
-          )
-        ],
-      ),
+    return SocialAuthScreenScaffold(
+      backgroundVideo: renderBackgroundVideo(),
+      mainObject: renderMainObject(),
+      socialLoginButton: renderSocialLoginButton(),
     );
   }
 
@@ -90,15 +80,15 @@ class _SocialAuthScreenState extends State<SocialAuthScreen> {
     );
   }
 
-  Widget renderWelcomeObject() {
+  Widget renderMainObject() {
     const double space1 = 148;
 
-    return const Column(
+    return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: space1,
-        ),
-        _WelcomeObject(),
+        ).su(),
+        const _MainObject(),
       ],
     );
   }
@@ -129,8 +119,8 @@ class _SocialAuthScreenState extends State<SocialAuthScreen> {
   }
 }
 
-class _WelcomeObject extends StatelessWidget {
-  const _WelcomeObject();
+class _MainObject extends StatelessWidget {
+  const _MainObject();
 
   @override
   Widget build(BuildContext context) {

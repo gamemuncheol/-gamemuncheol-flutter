@@ -1,10 +1,11 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:gamemuncheol/feature/user/view/register_nickname_screen_scaffold.dart';
 import 'package:gamemuncheol/common/const/colors.dart';
-import 'package:gamemuncheol/common/layout/default_layout.dart';
 import 'package:gamemuncheol/common/util/screen_utils.dart';
 import 'package:gamemuncheol/common/widget/app_text.dart';
 
@@ -18,35 +19,15 @@ class RegisterNickNameScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Size size = MediaQuery.sizeOf(context);
+    final TextEditingController textEditingController =
+        useTextEditingController();
 
-    const double contentPadding = 16;
-
-    return DefaultLayout(
-      child: SingleChildScrollView(
-        child: SizedBox(
-          height: size.height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: contentPadding,
-                ).su(),
-                child: Column(
-                  children: [
-                    renderTopBar(),
-                    renderTitle(),
-                    renderTextField(),
-                    renderErrorText(),
-                  ],
-                ),
-              ),
-              renderNextButton(),
-            ],
-          ),
-        ),
-      ),
+    return RegisterNicknameScreenScaffold(
+      registerStatusBar: renderTopBar(),
+      title: renderTitle(),
+      textField: renderTextField(textEditingController: textEditingController),
+      errorText: renderErrorText(),
+      nextButton: renderNextButton(),
     );
   }
 
@@ -55,12 +36,7 @@ class RegisterNickNameScreen extends HookConsumerWidget {
   Widget renderNextButton() {
     const double buttonHeight = 64;
 
-    const double bottomPadding = 34;
-
-    return Padding(
-      padding: const EdgeInsets.only(
-        bottom: bottomPadding,
-      ).su(),
+    return SafeArea(
       child: GestureDetector(
         onTap: () {},
         child: Container(
@@ -83,12 +59,12 @@ class RegisterNickNameScreen extends HookConsumerWidget {
   }
 
   Widget renderTitle() {
-    const double titleTopPadding = 30;
+    const double topPadding = 30;
 
     return Column(
       children: [
         const SizedBox(
-          height: titleTopPadding,
+          height: topPadding,
         ).su(),
         const Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -105,7 +81,9 @@ class RegisterNickNameScreen extends HookConsumerWidget {
     );
   }
 
-  Widget renderTextField() {
+  Widget renderTextField({
+    required TextEditingController textEditingController,
+  }) {
     const double topPadding = 120;
     const double frameHeight = 38;
 
@@ -119,10 +97,11 @@ class RegisterNickNameScreen extends HookConsumerWidget {
       padding: const EdgeInsets.only(
         top: topPadding,
       ).su(),
-      child: const SizedBox(
+      child: SizedBox(
         height: frameHeight,
         child: TextField(
-          decoration: InputDecoration(
+          controller: textEditingController,
+          decoration: const InputDecoration(
             hintText: "닉네임을 입력해주세요.",
             hintStyle: TextStyle(
               color: ColorGuidance.NATURAL_04,
@@ -168,11 +147,8 @@ class _TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double topPadding = 45;
-
     const double frameWidth = 390;
-
     const double frameHeight = 56;
-
     const double verticalPadding = 7;
 
     return Container(
@@ -213,9 +189,7 @@ class _TopBar extends StatelessWidget {
 
   Widget renderCurrentStep() {
     const double frameWidth = 40;
-
     const double frameHeight = 24;
-
     const double processSize = 16;
 
     return const SizedBox(

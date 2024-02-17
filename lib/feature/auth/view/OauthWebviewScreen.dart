@@ -38,7 +38,6 @@ class OauthWebviewScreen extends StatefulWidget {
       );
 
   static const PATH = "/oauth_webview_screen/:platform";
-
   static const ROUTE_NAME = "OauthWebviewScreen";
 
   @override

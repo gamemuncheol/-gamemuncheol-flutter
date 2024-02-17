@@ -1,26 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'apple_auth_provider.dart';
+part of 'auth_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appleAuthNotifierHash() => r'62f208f1d435e1dfa4696912ace3a6bf0f900d7d';
+String _$authRepositoryHash() => r'9f8b7aac9c4f60ce419975fb5500d79d77830de1';
 
-/// See also [AppleAuthNotifier].
-@ProviderFor(AppleAuthNotifier)
-final appleAuthNotifierProvider =
-    AutoDisposeNotifierProvider<AppleAuthNotifier, dynamic>.internal(
-  AppleAuthNotifier.new,
-  name: r'appleAuthNotifierProvider',
+/// See also [authRepository].
+@ProviderFor(authRepository)
+final authRepositoryProvider = AutoDisposeProvider<AuthRepository>.internal(
+  authRepository,
+  name: r'authRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$appleAuthNotifierHash,
+      : _$authRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AppleAuthNotifier = AutoDisposeNotifier<dynamic>;
+typedef AuthRepositoryRef = AutoDisposeProviderRef<AuthRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

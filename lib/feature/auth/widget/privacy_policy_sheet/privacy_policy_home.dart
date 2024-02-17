@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:gamemuncheol/feature/auth/widget/privacy_policy_sheet/privacy_policy_summary_sheet.dart';
 import 'package:gamemuncheol/feature/auth/provider/privacy_policy_sheet_provider.dart';
 import 'package:gamemuncheol/feature/auth/widget/privacy_policy_sheet/privacy_policy_accept_list_sheet.dart';
 import 'package:gamemuncheol/common/const/colors.dart';
@@ -9,12 +10,8 @@ import 'package:gamemuncheol/common/util/screen_utils.dart';
 import 'package:gamemuncheol/common/widget/app_text.dart';
 
 class PrivacyPolicyHome extends HookConsumerWidget {
-  // 모든 약관 동의 후 실행할 로그인 함수
-  final void Function() signInFunc;
-
   PrivacyPolicyHome({
     super.key,
-    required this.signInFunc,
   });
 
   final double sheetHeight = 587;
@@ -39,6 +36,7 @@ class PrivacyPolicyHome extends HookConsumerWidget {
             pageController: pageController,
           ),
           renderNextButton(
+            context,
             ref,
             pageController: pageController,
           ),
@@ -57,11 +55,13 @@ class PrivacyPolicyHome extends HookConsumerWidget {
       physics: const NeverScrollableScrollPhysics(),
       children: const [
         PrivacyPolicyAcceptListSheet(),
+        PrivacyPolicySummarySheet(),
       ],
     );
   }
 
   Widget renderNextButton(
+    BuildContext context,
     WidgetRef ref, {
     required PageController pageController,
   }) {
@@ -70,6 +70,7 @@ class PrivacyPolicyHome extends HookConsumerWidget {
           privacyPolicyNotifierProvider.notifier,
         )
         .goNextPage(
+          context,
           pageController: pageController,
         );
 

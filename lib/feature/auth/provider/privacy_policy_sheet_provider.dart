@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gamemuncheol/feature/auth/model/sign_in_method.dart';
+import 'package:gamemuncheol/feature/auth/provider/auth_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:gamemuncheol/feature/auth/state/privacy_policy_sheet_state.dart';
+import 'package:gamemuncheol/feature/auth/widget/privacy_policy_sheet/privacy_policy_home.dart';
 
 part 'privacy_policy_sheet_provider.g.dart';
 
@@ -10,6 +13,15 @@ class PrivacyPolicyNotifier extends _$PrivacyPolicyNotifier {
   @override
   PrivacyPolicySheetState build() => PrivacyPolicySheetStateInitial(
         singleAcceptCount: 0,
+      );
+
+  void showPrivatePolicyDocs(
+    BuildContext context,
+  ) =>
+      showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) => PrivacyPolicyHome(),
       );
 
   void acceptAll() {
@@ -64,7 +76,8 @@ class PrivacyPolicyNotifier extends _$PrivacyPolicyNotifier {
     return false;
   }
 
-  void goNextPage({
+  void goNextPage(
+    BuildContext context, {
     required PageController pageController,
   }) {
     final double currentPage = pageController.page!;
@@ -85,6 +98,24 @@ class PrivacyPolicyNotifier extends _$PrivacyPolicyNotifier {
       } else if (state is PrivacyPolicySheetStateWithUnnecessary &&
           state.singleAcceptCount == 4) {
         move();
+      }
+    } else {
+      final AuthNotifier authNotifier = ref.read(
+        authNotifierProvider.notifier,
+      );
+
+      final SignInMethod signInMethod = ref
+          .read(
+            authNotifierProvider,
+          )
+          .signInMethod;
+
+      if (signInMethod == SignInMethod.APPLE) {
+        authNotifier.signInWithApple();
+      } else if (signInMethod == SignInMethod.GOOGLE) {
+        authNotifier.signInWithGoogle(
+          context,
+        );
       }
     }
   }
