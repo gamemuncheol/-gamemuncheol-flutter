@@ -4,7 +4,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:gamemuncheol/common/model/common_exception.dart';
 import 'package:gamemuncheol/common/util/result.dart';
 import 'package:gamemuncheol/feature/auth/model/apple_sign_in_request_body.dart';
-import 'package:gamemuncheol/feature/auth/model/auth_errors.dart';
+import 'package:gamemuncheol/feature/auth/model/auth_exceptions.dart';
 import 'package:gamemuncheol/feature/auth/model/sign_in_response.dart';
 import 'package:gamemuncheol/feature/auth/repository/auth_api.dart';
 
@@ -22,8 +22,10 @@ AuthRepository authRepository(AuthRepositoryRef ref) {
 }
 
 abstract class AuthRepository {
+  // 클라이언트 단의 애플 로그인
   Future<Result<AppleSignInRequestBody>> signInWithAppleClient();
 
+  // 서버 단의 애플 로그인
   Future<Result<SignInResponse>> signInWithApple({
     required AppleSignInRequestBody appleSignInRequestBody,
   });
@@ -78,7 +80,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
       if (signInResponse.status.statusCode != 200) {
         return Failure(
-          exc: AppleSignInFailed(),
+          exc: AppleSignInFailed(
+            message: signInResponse.status.message,
+          ),
         );
       }
 

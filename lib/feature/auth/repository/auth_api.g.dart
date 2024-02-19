@@ -82,7 +82,7 @@ class _AuthApiImpl implements AuthApiImpl {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authApiHash() => r'e9125833de37e8a0af67ab9ad10bc7cfdb8adf4e';
+String _$authApiHash() => r'7fed95ff0d1225a3554df384bd765c19ed6d12ff';
 
 /// See also [authApi].
 @ProviderFor(authApi)

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
+import 'package:gamemuncheol/common/const/data.dart';
 import 'package:gamemuncheol/feature/auth/model/apple_sign_in_request_body.dart';
 import 'package:gamemuncheol/common/dio/dio.dart';
 import 'package:gamemuncheol/feature/auth/model/sign_in_response.dart';
@@ -16,11 +17,12 @@ AuthApi authApi(AuthApiRef ref) {
 
   return AuthApiImpl(
     dio,
-    baseUrl: "https://api.gamemuncheol.com:18080",
+    baseUrl: BASE_URL,
   );
 }
 
 abstract class AuthApi {
+  // 서버 단의 애플 로그인
   Future<SignInResponse> signInWithApple({
     required AppleSignInRequestBody appleSignInRequestBody,
   });

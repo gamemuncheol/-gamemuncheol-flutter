@@ -113,7 +113,7 @@ class PrivacyPolicyNotifier extends _$PrivacyPolicyNotifier {
       if (signInMethod == SignInMethod.APPLE) {
         authNotifier.signInWithApple();
       } else if (signInMethod == SignInMethod.GOOGLE) {
-        authNotifier.signInWithGoogle(
+        authNotifier.signInWithGoogleClient(
           context,
         );
       }
