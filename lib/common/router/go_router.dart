@@ -23,6 +23,7 @@ GoRouter goRouter(
       context,
       goRouterState,
     ),
+    refreshListenable: redirectInjectionParam.redirectState,
     routes: [
       GoRoute(
         path: SocialAuthScreen.PATH,

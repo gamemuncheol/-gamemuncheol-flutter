@@ -130,5 +130,7 @@ class AuthNotifier extends _$AuthNotifier {
   // 서버 단의 구글 로그인(토큰 받아서 백엔드에 전송)
   Future<void> signInWithGoogle({
     required String token,
-  }) async {}
+  }) async {
+    print(token);
+  }
 }

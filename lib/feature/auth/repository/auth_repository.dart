@@ -50,9 +50,12 @@ class AuthRepositoryImpl implements AuthRepository {
         ],
       );
 
+      print("1. 클라이언트에서 인가 성공 $credential");
+
+// credential.givenName ?? "가나" + credential.familyName! ?? "다라"
       return Success(
         data: AppleSignInRequestBody(
-          name: credential.givenName! + credential.familyName!,
+          name: "dsdsa",
           identityToken: credential.identityToken!,
         ),
       );
@@ -76,6 +79,10 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final SignInResponse signInResponse = await authApi.signInWithApple(
         appleSignInRequestBody: appleSignInRequestBody,
+      );
+
+      print(
+        "2. 서버에 토큰 전송 성공 \n accessToken: ${signInResponse.data!.accessToken} \n refreshToken: ${signInResponse.data!.refreshToken}",
       );
 
       if (signInResponse.status.statusCode != 200) {

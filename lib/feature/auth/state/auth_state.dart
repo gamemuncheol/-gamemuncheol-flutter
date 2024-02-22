@@ -13,10 +13,7 @@ class AuthStateBase {
 
 // 예외 상태
 class AuthStateException extends AuthStateBase {
-  /** 
-   * 발생 가능한 예외
-   * common/model, auth/model에 정의돼 있음
-   */
+  // 발생 가능한 예외
   final Exception exception;
 
   AuthStateException({

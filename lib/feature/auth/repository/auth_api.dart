@@ -36,7 +36,7 @@ abstract class AuthApiImpl implements AuthApi {
   }) = _AuthApiImpl;
 
   @override
-  @POST("/open-api/apple/sign-up/")
+  @POST("/open-api/apple/sign-up")
   Future<SignInResponse> signInWithApple({
     @Body() required AppleSignInRequestBody appleSignInRequestBody,
   });

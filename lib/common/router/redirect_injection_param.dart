@@ -14,15 +14,15 @@ import 'package:gamemuncheol/feature/auth/view/social_auth_screen/social_auth_sc
 
 class RedirectInjectionParam extends Equatable {
   // 리다이렉트 상태
-  final ValueNotifier<RedirectState> redirectStaet;
+  final ValueNotifier<RedirectState> redirectState;
 
   const RedirectInjectionParam(
-    this.redirectStaet,
+    this.redirectState,
   );
 
   @override
   List<Object?> get props => [
-        redirectStaet,
+        redirectState,
       ];
 
   // 리다이렉트 로직
@@ -31,7 +31,7 @@ class RedirectInjectionParam extends Equatable {
     GoRouterState goRouterState,
   ) async {
     // 리다이렉트 상태
-    final RedirectState redirectState = this.redirectStaet.value;
+    final RedirectState redirectState = this.redirectState.value;
 
     // 로그인 + 닉네임 등록 상태
     // 홈스크린으로 이동

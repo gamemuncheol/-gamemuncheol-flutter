@@ -34,7 +34,7 @@ class _AuthApiImpl implements AuthApiImpl {
     )
             .compose(
               _dio.options,
-              '/open-api/apple/sign-up/',
+              '/open-api/apple/sign-up',
               queryParameters: queryParameters,
               data: _data,
             )

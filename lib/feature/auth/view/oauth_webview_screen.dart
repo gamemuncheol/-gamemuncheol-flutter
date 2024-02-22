@@ -49,6 +49,16 @@ class _OauthWebviewScreenState extends ConsumerState<OauthWebviewScreen> {
     });
   }
 
+  String? getToken({required String link}) {
+    final Uri uri = Uri.parse(
+      link,
+    );
+
+    final String? token = uri.queryParameters["data"];
+
+    return token;
+  }
+
   Future<void> signInWithGoogle({
     required String token,
   }) async {
@@ -61,14 +71,14 @@ class _OauthWebviewScreenState extends ConsumerState<OauthWebviewScreen> {
         );
   }
 
-  void initUniLinks() async {
+  void initUniLinks() {
     linkStream.listen((link) async {
       if (link != null) {
-        final Uri uri = Uri.parse(
-          link,
+        String? token = getToken(
+          link: link,
         );
 
-        final String? token = uri.queryParameters["data"];
+        await chromeSafariBrowser.close();
 
         if (token != null) {
           if (widget.signInMethod == SignInMethod.GOOGLE) {
@@ -77,8 +87,6 @@ class _OauthWebviewScreenState extends ConsumerState<OauthWebviewScreen> {
             );
           }
         }
-
-        chromeSafariBrowser.close();
       }
     });
   }
