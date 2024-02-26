@@ -33,9 +33,6 @@ class MyApp extends ConsumerWidget {
 
     // authNotifierProvider 상태에 따라 리다이렉트 상태를 변경
     ref.listen(authNotifierProvider, (previous, next) async {
-      if (next is AuthStateAuthenticatedWithNickName) {
-        redirectState.value = RedirectState.AUTHENTICATED_WITH_NICKNAME;
-      }
       if (next is AuthStateAuthenticated) {
         redirectState.value = RedirectState.AUTHENTICATED;
       } else if (next is AuthStateUnAuthenticated) {

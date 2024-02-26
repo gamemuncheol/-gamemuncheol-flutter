@@ -29,13 +29,6 @@ class AuthStateLoading extends AuthStateBase {
   });
 }
 
-// 로그인 + 닉네임 등록 상태
-class AuthStateAuthenticatedWithNickName extends AuthStateBase {
-  AuthStateAuthenticatedWithNickName({
-    required super.signInMethod,
-  });
-}
-
 // 로그인 상태
 class AuthStateAuthenticated extends AuthStateBase {
   AuthStateAuthenticated({

@@ -57,11 +57,6 @@ class AuthNotifier extends _$AuthNotifier {
 
   // 클라이언트 단의 애플 로그인
   Future<AppleSignInRequestBody?> _signInWithAppleClient() async {
-    // 로딩
-    state = AuthStateLoading(
-      signInMethod: state.signInMethod,
-    );
-
     // 클라이언트에서 인가
     final Result<AppleSignInRequestBody> appleSignInRequestBody = await ref
         .read(
@@ -88,6 +83,11 @@ class AuthNotifier extends _$AuthNotifier {
     // 클라이언트에서 인가
     final AppleSignInRequestBody? appleSignInRequestBody =
         await _signInWithAppleClient();
+
+    // 로딩
+    state = AuthStateLoading(
+      signInMethod: state.signInMethod,
+    );
 
     // 예외 발생 시 더이상 수행하지 않음
     if (appleSignInRequestBody == null) {
@@ -130,7 +130,5 @@ class AuthNotifier extends _$AuthNotifier {
   // 서버 단의 구글 로그인(토큰 받아서 백엔드에 전송)
   Future<void> signInWithGoogle({
     required String token,
-  }) async {
-    print(token);
-  }
+  }) async {}
 }

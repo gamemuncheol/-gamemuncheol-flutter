@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dio.g.dart';
@@ -18,23 +19,18 @@ Dio dio(DioRef ref) {
 class CustomInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    print("[베이스 URL - ${options.baseUrl}]");
+    debugPrint("[쿼리 스트링: ${options.path}]");
 
-    print("[패스 - ${options.path}]");
+    debugPrint("[쿼리 파람: ${options.queryParameters}]");
 
-    print("[요청 데이터 - ${options.data}]");
+    debugPrint("[바디: ${options.data}]");
 
     super.onRequest(options, handler);
   }
 
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    super.onResponse(response, handler);
-  }
-
-  @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    print("[에러 메세지 - ${err.message}]");
+    debugPrint("[에러 메세지 - ${err.message}]");
 
     super.onError(err, handler);
   }

@@ -9,7 +9,4 @@ enum RedirectState {
 
   // 로그인
   AUTHENTICATED,
-
-  // 로그인 + 닉네임 등록
-  AUTHENTICATED_WITH_NICKNAME,
 }
