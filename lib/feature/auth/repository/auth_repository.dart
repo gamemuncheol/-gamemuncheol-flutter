@@ -50,7 +50,6 @@ class AuthRepositoryImpl implements AuthRepository {
         ],
       );
 
-// credential.givenName ?? "가나" + credential.familyName! ?? "다라"
       return Success(
         data: AppleSignInRequestBody(
           name: "dsdsa",
@@ -81,9 +80,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       if (signInResponse.status.statusCode != 200) {
         return Failure(
-          exc: AppleSignInFailed(
-            message: signInResponse.status.message,
-          ),
+          exc: AppleSignInFailed(),
         );
       }
 

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:gamemuncheol/common/view/home_screen.dart';
+import 'package:gamemuncheol/common/view/home/home_screen.dart';
 import 'package:gamemuncheol/common/router/redirect_state.dart';
 import 'package:gamemuncheol/feature/auth/view/oauth_webview_screen.dart';
 import 'package:gamemuncheol/feature/auth/view/social_auth_screen/social_auth_screen.dart';

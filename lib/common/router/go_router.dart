@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:gamemuncheol/common/view/home_screen.dart';
+import 'package:gamemuncheol/common/view/home/home_screen.dart';
 import 'package:gamemuncheol/feature/auth/model/sign_in_method.dart';
 import 'package:gamemuncheol/common/router/redirect_injection_param.dart';
 import 'package:gamemuncheol/feature/auth/view/social_auth_screen/social_auth_screen.dart';
