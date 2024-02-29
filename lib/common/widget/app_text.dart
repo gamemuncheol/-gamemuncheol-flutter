@@ -19,13 +19,16 @@ class AppText extends StatelessWidget {
   // 정렬 방식
   final TextAlign? align;
 
+  final double? letterSpacing;
+
   const AppText(
     this.text, {
     super.key,
-    this.color = AppColors.FONT_BLACK,
+    this.color = ColorGuidance.FONT_BLACK,
     this.size = 14,
     this.weight = FontWeight.w300,
     this.align,
+    this.letterSpacing,
   });
 
   @override
@@ -36,6 +39,8 @@ class AppText extends StatelessWidget {
         color: color,
         fontSize: size.sp,
         fontWeight: weight,
+        height: 1,
+        letterSpacing: -0.50,
       ),
       textAlign: align,
     );

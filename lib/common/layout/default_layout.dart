@@ -9,7 +9,7 @@ class DefaultLayout extends StatelessWidget {
   // 뒤로가기 시 수행할 로직
   final Future<bool> Function()? onWillPop;
 
-  // 하위 위젯
+  // 레이아웃을 적용할 화면
   final Widget child;
 
   // 앱바 제목
@@ -18,7 +18,7 @@ class DefaultLayout extends StatelessWidget {
   // 앱바 액션들
   final List<Widget>? actions;
 
-  // 앱바 따로 사용
+  // 앱바 따로 사용 시
   final PreferredSizeWidget? customAppBar;
 
   const DefaultLayout({
@@ -36,7 +36,7 @@ class DefaultLayout extends StatelessWidget {
       onWillPop: onWillPop,
       child: Scaffold(
         appBar: renderAppBar(),
-        backgroundColor: AppColors.PRIMARY_WITHE,
+        backgroundColor: ColorGuidance.PRIMARY_WITHE,
         body: child,
       ),
     );
@@ -50,8 +50,8 @@ class DefaultLayout extends StatelessWidget {
     if (appBarTitle != null) {
       return AppBar(
         elevation: 0,
-        foregroundColor: AppColors.PRIMARY_BLACK,
-        backgroundColor: AppColors.PRIMARY_WITHE,
+        foregroundColor: ColorGuidance.PRIMARY_BLACK,
+        backgroundColor: ColorGuidance.PRIMARY_WITHE,
         centerTitle: false,
         title: AppText(
           appBarTitle!,
