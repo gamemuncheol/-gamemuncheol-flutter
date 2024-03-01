@@ -28,7 +28,7 @@ class MyApp extends ConsumerWidget {
     // 리다이렉트 상태 생성
     final ValueNotifier<RedirectState> redirectState =
         ValueNotifier<RedirectState>(
-      RedirectState.SPLASH,
+      RedirectState.AUTHENTICATED,
     );
 
     // authNotifierProvider 상태에 따라 리다이렉트 상태를 변경
@@ -46,6 +46,9 @@ class MyApp extends ConsumerWidget {
         844,
       ),
       builder: (context, child) => MaterialApp.router(
+        theme: ThemeData(
+          useMaterial3: false,
+        ),
         debugShowCheckedModeBanner: false,
         routerConfig: ref.read(
           goRouterProvider(

@@ -3,9 +3,9 @@ class SignInProccesInterruptionException implements Exception {
   final String message = "";
 }
 
-// 최초 회원가입이 아니거나, 익명 로그인 시
+// 익명 로그인 시
 class AppleSignInFailed implements Exception {
-  final String message = "회원가입에 실패했습니다. 최초 회원 가입이 아니거나 이름을 제공하지 않았습니다.";
+  final String message = "죄송합니다. 익명 로그인은 지원하지 않습니다.";
 
   AppleSignInFailed({
     String? message,
