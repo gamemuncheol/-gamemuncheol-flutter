@@ -1,10 +1,10 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import 'package:gamemuncheol/common/model/common_exception.dart';
+import 'package:gamemuncheol/common/model/common_error.dart';
 import 'package:gamemuncheol/common/util/result.dart';
 import 'package:gamemuncheol/feature/auth/model/apple_sign_in_request_body.dart';
-import 'package:gamemuncheol/feature/auth/model/auth_exceptions.dart';
+import 'package:gamemuncheol/feature/auth/model/auth_error.dart';
 import 'package:gamemuncheol/feature/auth/model/sign_in_response.dart';
 import 'package:gamemuncheol/feature/auth/repository/auth_api.dart';
 
@@ -51,21 +51,17 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       return Success(
-        data: AppleSignInRequestBody(
+        AppleSignInRequestBody(
           name: "dsdsa",
           identityToken: credential.identityToken!,
         ),
       );
     } catch (e) {
       if (credential == null) {
-        return Failure(
-          exc: SignInProccesInterruptionException(),
-        );
+        return Failure(SignInProccesInterruptionException());
       }
 
-      return Failure(
-        exc: UnKnownException(),
-      );
+      return Failure(UnKnown());
     }
   }
 
@@ -79,18 +75,12 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       if (signInResponse.status.statusCode != 200) {
-        return Failure(
-          exc: AppleSignInFailed(),
-        );
+        return Failure(AppleSignInFailed());
       }
 
-      return Success(
-        data: signInResponse,
-      );
+      return Success(signInResponse);
     } catch (e) {
-      return Failure(
-        exc: UnKnownException(),
-      );
+      return Failure(UnKnown());
     }
   }
 }

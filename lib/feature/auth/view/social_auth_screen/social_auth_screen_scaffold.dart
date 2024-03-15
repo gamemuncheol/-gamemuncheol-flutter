@@ -3,16 +3,19 @@ import 'package:flutter/widgets.dart';
 import 'package:gamemuncheol/common/layout/default_layout.dart';
 
 class SocialAuthScreenScaffold extends StatelessWidget {
+  // 배경 동영상
   final Widget backgroundVideo;
 
-  final Widget mainObject;
+  // 롤문철 로고
+  final Widget lolMunCheolLogo;
 
+  // 소셜 로그인 버튼
   final Widget socialLoginButton;
 
   const SocialAuthScreenScaffold({
     super.key,
     required this.backgroundVideo,
-    required this.mainObject,
+    required this.lolMunCheolLogo,
     required this.socialLoginButton,
   });
 
@@ -26,7 +29,7 @@ class SocialAuthScreenScaffold extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              mainObject,
+              lolMunCheolLogo,
               socialLoginButton,
             ],
           )

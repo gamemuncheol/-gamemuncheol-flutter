@@ -4,35 +4,34 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gamemuncheol/common/layout/default_layout.dart';
 
 class HomeScreenScaffold extends HookWidget {
-  // 탭들
-  final List<Widget> tabViews;
+  // 앱바
+  final Widget appBar;
 
-  // 헤더
-  final List<Widget> headerSlivers;
+  // 탭
+  final Widget tabBar;
+
+  // 탭바뷰
+  final Widget tabBarView;
 
   const HomeScreenScaffold({
     super.key,
-    required this.tabViews,
-    required this.headerSlivers,
+    required this.appBar,
+    required this.tabBar,
+    required this.tabBarView,
   });
 
   @override
   Widget build(BuildContext context) {
-    final ScrollController scrollController = useScrollController();
-
     return DefaultLayout(
-      child: DefaultTabController(
-        length: tabViews.length,
+      child: SafeArea(
+        top: true,
+        bottom: false,
         child: NestedScrollView(
-          controller: scrollController,
-          headerSliverBuilder: (
-            BuildContext context,
-            bool innerBoxIsScrolled,
-          ) =>
-              headerSlivers,
-          body: TabBarView(
-            children: tabViews,
-          ),
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            appBar,
+            tabBar,
+          ],
+          body: tabBarView,
         ),
       ),
     );

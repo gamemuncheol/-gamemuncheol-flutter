@@ -1,10 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:gamemuncheol/feature/auth/model/sign_in_method.dart';
-import 'package:gamemuncheol/feature/auth/provider/auth_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:gamemuncheol/feature/auth/state/privacy_policy_sheet_state.dart';
-import 'package:gamemuncheol/feature/auth/widget/privacy_policy_sheet/privacy_policy_home.dart';
 
 part 'privacy_policy_sheet_provider.g.dart';
 
@@ -15,43 +11,56 @@ class PrivacyPolicyNotifier extends _$PrivacyPolicyNotifier {
         singleAcceptCount: 0,
       );
 
-  void showPrivatePolicyDocs(
-    BuildContext context,
-  ) =>
-      showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (context) => PrivacyPolicyHome(),
-      );
-
+  // 모든 항목 동의
   void acceptAll() {
     state = PrivacyPolicySheetStateAllAccepted(
-      singleAcceptCount: 4,
+      singleAcceptCount: 0,
     );
   }
 
+  // 모든 항목 동의 취소
   void rejectALl() {
     state = PrivacyPolicySheetStateAllRejected(
       singleAcceptCount: 0,
     );
   }
 
+  // 개별 항목 동의
   bool accept({
     bool? isUnnecessaryTerm,
   }) {
-    if (isUnnecessaryTerm == null &&
-        state is PrivacyPolicySheetStateWithUnnecessary) {
-      state = PrivacyPolicySheetStateWithUnnecessary(
-        singleAcceptCount: state.singleAcceptCount + 1,
-      );
-    } else {
-      if (isUnnecessaryTerm == null) {
+    // 필수 항목을 동의한 경우
+    if (isUnnecessaryTerm == null) {
+      // 이미 선택 항목 동의가 되어있는 경우
+      if (state is PrivacyPolicySheetStateWithUnnecessary) {
+        final pState = state as PrivacyPolicySheetStateWithUnnecessary;
+
+        state = PrivacyPolicySheetStateWithUnnecessary(
+          singleAcceptCount: pState.singleAcceptCount + 1,
+          unnecessaryAcceptCount: pState.unnecessaryAcceptCount,
+        );
+        // 필수 항목만 동의 되어있는 경우
+      } else {
         state = PrivacyPolicySheetStateNecessary(
           singleAcceptCount: state.singleAcceptCount + 1,
         );
+      }
+      // 선택 항목을 동의한 경우
+    } else {
+      // 이미 선택 항목 동의가 되어있는 경우
+      if (state is PrivacyPolicySheetStateWithUnnecessary) {
+        final pState = state as PrivacyPolicySheetStateWithUnnecessary;
+
+        state = PrivacyPolicySheetStateWithUnnecessary(
+          singleAcceptCount: pState.singleAcceptCount + 1,
+          unnecessaryAcceptCount: pState.unnecessaryAcceptCount + 1,
+        );
+
+        // 필수 항목만 동의 되어있는 경우
       } else {
         state = PrivacyPolicySheetStateWithUnnecessary(
           singleAcceptCount: state.singleAcceptCount + 1,
+          unnecessaryAcceptCount: 1,
         );
       }
     }
@@ -59,64 +68,42 @@ class PrivacyPolicyNotifier extends _$PrivacyPolicyNotifier {
     return true;
   }
 
+  // 개별 항목 동의 취소
   bool reject({
     bool? isUnnecessaryTerm,
   }) {
-    if (isUnnecessaryTerm == null &&
-        state is PrivacyPolicySheetStateWithUnnecessary) {
-      state = PrivacyPolicySheetStateWithUnnecessary(
-        singleAcceptCount: state.singleAcceptCount - 1,
-      );
+    // 필수 항목 동의를 취소한 경우
+    if (isUnnecessaryTerm == null) {
+      // 이미 선택 항목 동의가 되어있는 경우
+      if (state is PrivacyPolicySheetStateWithUnnecessary) {
+        final pState = state as PrivacyPolicySheetStateWithUnnecessary;
+
+        state = PrivacyPolicySheetStateWithUnnecessary(
+          singleAcceptCount: state.singleAcceptCount - 1,
+          unnecessaryAcceptCount: pState.unnecessaryAcceptCount,
+        );
+        // 필수 항목만 동의 되어있는 경우
+      } else {
+        state = PrivacyPolicySheetStateNecessary(
+          singleAcceptCount: state.singleAcceptCount - 1,
+        );
+      }
+      // 선택 항목 동의를 취소한 경우
     } else {
-      state = PrivacyPolicySheetStateNecessary(
-        singleAcceptCount: state.singleAcceptCount - 1,
-      );
+      final pState = state as PrivacyPolicySheetStateWithUnnecessary;
+
+      if (pState.unnecessaryAcceptCount == 1) {
+        state = PrivacyPolicySheetStateNecessary(
+          singleAcceptCount: pState.singleAcceptCount - 1,
+        );
+      } else {
+        state = PrivacyPolicySheetStateWithUnnecessary(
+          singleAcceptCount: pState.singleAcceptCount - 1,
+          unnecessaryAcceptCount: pState.unnecessaryAcceptCount - 1,
+        );
+      }
     }
 
     return false;
-  }
-
-  void goNextPage(
-    BuildContext context, {
-    required PageController pageController,
-  }) {
-    final double currentPage = pageController.page!;
-
-    void move() => pageController.nextPage(
-          duration: const Duration(
-            milliseconds: 50,
-          ),
-          curve: Curves.linear,
-        );
-
-    if (currentPage == 0) {
-      if (state is PrivacyPolicySheetStateAllAccepted) {
-        move();
-      } else if (state is PrivacyPolicySheetStateNecessary &&
-          state.singleAcceptCount == 3) {
-        move();
-      } else if (state is PrivacyPolicySheetStateWithUnnecessary &&
-          state.singleAcceptCount == 4) {
-        move();
-      }
-    } else {
-      final AuthNotifier authNotifier = ref.read(
-        authNotifierProvider.notifier,
-      );
-
-      final SignInMethod signInMethod = ref
-          .read(
-            authNotifierProvider,
-          )
-          .signInMethod;
-
-      if (signInMethod == SignInMethod.APPLE) {
-        authNotifier.signInWithApple();
-      } else if (signInMethod == SignInMethod.GOOGLE) {
-        authNotifier.signInWithGoogleClient(
-          context,
-        );
-      }
-    }
   }
 }

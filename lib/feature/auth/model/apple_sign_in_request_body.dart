@@ -16,14 +16,8 @@ class AppleSignInRequestBody {
     required this.identityToken,
   });
 
-  factory AppleSignInRequestBody.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$AppleSignInRequestBodyFromJson(
-        json,
-      );
+  factory AppleSignInRequestBody.fromJson(Map<String, dynamic> json) =>
+      _$AppleSignInRequestBodyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AppleSignInRequestBodyToJson(
-        this,
-      );
+  Map<String, dynamic> toJson() => _$AppleSignInRequestBodyToJson(this);
 }

@@ -1,50 +1,56 @@
-// ignore_for_file: unnecessary_this
-
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
 import 'package:go_router/go_router.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:gamemuncheol/common/view/home/home_screen.dart';
 import 'package:gamemuncheol/common/router/redirect_state.dart';
-import 'package:gamemuncheol/feature/auth/view/oauth_webview_screen.dart';
+import 'package:gamemuncheol/feature/auth/state/auth_state.dart';
+import 'package:gamemuncheol/feature/auth/provider/auth_provider.dart';
+import 'package:gamemuncheol/feature/auth/view/social_auth_screen/oauth_webview_screen.dart';
 import 'package:gamemuncheol/feature/auth/view/social_auth_screen/social_auth_screen.dart';
 
-class RedirectInjectionParam extends Equatable {
-  // 리다이렉트 상태
-  final ValueNotifier<RedirectState> redirectState;
+part 'redirect_injection_param.g.dart';
 
-  const RedirectInjectionParam(
-    this.redirectState,
-  );
+@Riverpod(
+  keepAlive: true,
+)
+RedirectInjectionParam redirectInjectionParam(RedirectInjectionParamRef ref) {
+  final RedirectInjectionParam redirectInjectionParam =
+      RedirectInjectionParam();
+
+  ref.listen(authNotifierProvider, (previous, next) async {
+    if (next is AuthStateUnAuthenticated) {
+      redirectInjectionParam.redirectState.value =
+          RedirectState.UNAUTHENTICATED;
+    }
+  });
+
+  return redirectInjectionParam;
+}
+
+class RedirectInjectionParam extends Equatable {
+  late final ValueNotifier<RedirectState> redirectState;
+
+  RedirectInjectionParam() {
+    redirectState = ValueNotifier<RedirectState>(
+      RedirectState.AUTHENTICATED,
+    );
+  }
 
   @override
   List<Object?> get props => [
         redirectState,
       ];
 
-  // 리다이렉트 로직
   FutureOr<String?> redirectLogic(
     BuildContext context,
     GoRouterState goRouterState,
   ) async {
-    // 리다이렉트 상태
     final RedirectState redirectState = this.redirectState.value;
+    final String matchedLocation = goRouterState.matchedLocation;
 
-    // 로그인 상태
-    // 홈스크린으로 이동
-    if (redirectState == RedirectState.AUTHENTICATED) {
-      return HomeScreen.PATH;
-
-      // 로그아웃 상태
-      // 소셜 로그인 화면으로 이동
-    } else if (redirectState == RedirectState.UNAUTHENTICATED) {
-      // 현재 위치
-      final String currentPath = goRouterState.matchedLocation;
-
-      // 로그인을 위한 웹뷰 화면으로 이동은 허용함
-      if (currentPath == OauthWebviewScreen.PATH) {
+    if (redirectState == RedirectState.UNAUTHENTICATED) {
+      if (matchedLocation == OauthWebviewScreen.PATH) {
         return null;
       }
 

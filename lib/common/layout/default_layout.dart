@@ -11,13 +11,9 @@ class DefaultLayout extends StatelessWidget {
   // 레이아웃을 적용할 화면
   final Widget child;
 
-  // 앱바 따로 사용 시
-  final PreferredSizeWidget? customAppBar;
-
   const DefaultLayout({
     this.onWillPop,
     required this.child,
-    this.customAppBar,
     super.key,
   });
 
@@ -26,6 +22,7 @@ class DefaultLayout extends StatelessWidget {
     return WillPopScope(
       onWillPop: onWillPop,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: ColorGuidance.PRIMARY_WITHE,
         body: child,
       ),

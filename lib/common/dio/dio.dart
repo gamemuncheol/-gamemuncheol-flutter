@@ -19,10 +19,9 @@ Dio dio(DioRef ref) {
 class CustomInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    debugPrint("[베이스: ${options.baseUrl}]");
     debugPrint("[쿼리 스트링: ${options.path}]");
-
     debugPrint("[쿼리 파람: ${options.queryParameters}]");
-
     debugPrint("[바디: ${options.data}]");
 
     super.onRequest(options, handler);

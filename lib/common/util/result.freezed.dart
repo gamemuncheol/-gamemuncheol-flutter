@@ -96,7 +96,7 @@ class __$$SuccessImplCopyWithImpl<T, $Res>
     Object? data = freezed,
   }) {
     return _then(_$SuccessImpl<T>(
-      data: freezed == data
+      freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as T,
@@ -107,7 +107,7 @@ class __$$SuccessImplCopyWithImpl<T, $Res>
 /// @nodoc
 
 class _$SuccessImpl<T> implements Success<T> {
-  const _$SuccessImpl({required this.data});
+  const _$SuccessImpl(this.data);
 
   @override
   final T data;
@@ -199,7 +199,7 @@ class _$SuccessImpl<T> implements Success<T> {
 }
 
 abstract class Success<T> implements Result<T> {
-  const factory Success({required final T data}) = _$SuccessImpl<T>;
+  const factory Success(final T data) = _$SuccessImpl<T>;
 
   T get data;
   @JsonKey(ignore: true)
@@ -230,7 +230,7 @@ class __$$FailureImplCopyWithImpl<T, $Res>
     Object? exc = null,
   }) {
     return _then(_$FailureImpl<T>(
-      exc: null == exc
+      null == exc
           ? _value.exc
           : exc // ignore: cast_nullable_to_non_nullable
               as Exception,
@@ -241,7 +241,7 @@ class __$$FailureImplCopyWithImpl<T, $Res>
 /// @nodoc
 
 class _$FailureImpl<T> implements Failure<T> {
-  const _$FailureImpl({required this.exc});
+  const _$FailureImpl(this.exc);
 
   @override
   final Exception exc;
@@ -332,7 +332,7 @@ class _$FailureImpl<T> implements Failure<T> {
 }
 
 abstract class Failure<T> implements Result<T> {
-  const factory Failure({required final Exception exc}) = _$FailureImpl<T>;
+  const factory Failure(final Exception exc) = _$FailureImpl<T>;
 
   Exception get exc;
   @JsonKey(ignore: true)

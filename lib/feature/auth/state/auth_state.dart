@@ -1,5 +1,3 @@
-// ignore_for_file: slash_for_doc_comments
-
 import 'package:gamemuncheol/feature/auth/model/sign_in_method.dart';
 
 class AuthStateBase {
@@ -11,14 +9,14 @@ class AuthStateBase {
   });
 }
 
-// 예외 상태
-class AuthStateException extends AuthStateBase {
-  // 발생 가능한 예외
-  final Exception exception;
+// 에러 상태
+class AuthStateError extends AuthStateBase {
+  // 발생 가능한 에러
+  final Exception error;
 
-  AuthStateException({
+  AuthStateError({
     required super.signInMethod,
-    required this.exception,
+    required this.error,
   });
 }
 

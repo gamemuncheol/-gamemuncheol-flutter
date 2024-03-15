@@ -17,7 +17,7 @@ AuthApi authApi(AuthApiRef ref) {
 
   return AuthApiImpl(
     dio,
-    baseUrl: BASE_URL,
+    baseUrl: Data.BASE_URL,
   );
 }
 
