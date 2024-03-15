@@ -54,6 +54,7 @@ dependencies:
   json_annotation: ^4.8.1
   freezed_annotation: ^2.4.1
   flutter_secure_storage: ^9.0.0
+  gap: ^3.0.1
 
 
 dev_dependencies:
@@ -92,7 +93,7 @@ flutter:
 
   
   fonts:
-   - family: PretendardBold
+   - family: SpoqaHanSansNeo
      fonts:
        - asset: assets/fonts/SpoqaHanSansNeo-Bold.otf
          weight: 900

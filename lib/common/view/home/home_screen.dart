@@ -1,14 +1,15 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-import 'package:gamemuncheol/common/const/colors.dart';
 import 'package:gamemuncheol/common/view/home/home_screen_scaffold.dart';
+import 'package:gamemuncheol/common/view/home/widget/app_bar.dart';
+import 'package:gamemuncheol/common/view/home/widget/tab_bar.dart';
 import 'package:gamemuncheol/feature/feed/view/home_feed_screen.dart';
 import 'package:gamemuncheol/feature/feed/view/recent_feed_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends HookWidget {
   const HomeScreen({
     super.key,
   });
@@ -18,7 +19,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 탭들
+    final PageController pageController = usePageController();
+
     final List<String> tabs = [
       "홈",
       "최근",
@@ -26,99 +28,48 @@ class HomeScreen extends StatelessWidget {
       "불판",
     ];
 
-    // 탭뷰들
     final List<Widget> tabViews = [
-      HomeFeedScreen(
-        tab: tabs[0],
-      ),
-      RecentFeedScreen(
-        tab: tabs[1],
-      ),
+      const HomeFeedScreen(),
+      const RecentFeedScreen(),
       Container(),
       Container(),
     ];
 
     return HomeScreenScaffold(
-      tabViews: tabViews,
-      headerSlivers: renderHeaderSlivers(
+      appBar: renderAppBar(),
+      tabBar: renderTabBar(
+        pageController: pageController,
         tabs: tabs,
+      ),
+      tabBarView: renderCustomTabBarView(
+        pageController: pageController,
+        tabViews: tabViews,
       ),
     );
   }
 
-  List<Widget> renderHeaderSlivers({
+  Widget renderAppBar() => const CustomAppBar();
+
+  Widget renderTabBar({
+    required PageController pageController,
     required List<String> tabs,
   }) {
-    return [
-      _HeaderSlivers(
+    return SliverPersistentHeader(
+      pinned: true,
+      delegate: HomeTabBarDelegate(
+        pageController: pageController,
         tabs: tabs,
       ),
-    ];
-  }
-}
-
-class _HeaderSlivers extends ConsumerWidget {
-  // 탭들
-  final List<String> tabs;
-
-  const _HeaderSlivers({
-    required this.tabs,
-  });
-
-  final double leadingWidth = 152;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return SliverAppBar(
-      elevation: 0,
-      scrolledUnderElevation: 0,
-      snap: true,
-      pinned: true,
-      floating: true,
-      backgroundColor: ColorGuidance.PRIMARY_WITHE,
-      leadingWidth: leadingWidth,
-      leading: renderLeading(),
-      bottom: renderTapBar(),
     );
   }
 
-  Widget renderLeading() {
-    const double frameWidth = 120;
-    const double frameHeight = 38;
-    const double horizontalMargin = 16;
-
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: horizontalMargin,
-      ),
-      color: Colors.blue,
-      width: frameWidth,
-      height: frameHeight,
-    );
-  }
-
-  PreferredSizeWidget renderTapBar() {
-    return TabBar(
-      unselectedLabelStyle: const TextStyle(
-        color: ColorGuidance.NATURAL_03,
-        fontSize: 18,
-        fontWeight: FontWeight.w700,
-      ),
-      labelStyle: const TextStyle(
-        color: ColorGuidance.NATURAL_03,
-        fontSize: 18,
-        fontWeight: FontWeight.w700,
-      ),
-      indicatorSize: TabBarIndicatorSize.label,
-      indicatorWeight: 3.0,
-      indicatorColor: ColorGuidance.PRIMARY_BLUE,
-      dividerColor: ColorGuidance.PRIMARY_WITHE,
-      tabs: List.generate(
-        tabs.length,
-        (index) => Tab(
-          text: tabs[index],
-        ),
-      ),
+  Widget renderCustomTabBarView({
+    required PageController pageController,
+    required List<Widget> tabViews,
+  }) {
+    return PageView(
+      controller: pageController,
+      children: tabViews,
     );
   }
 }

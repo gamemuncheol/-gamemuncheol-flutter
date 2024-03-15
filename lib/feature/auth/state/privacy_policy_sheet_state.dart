@@ -1,18 +1,10 @@
-class PrivacyPolicySheetState {
-  // 단일 항목 동의 갯수
+sealed class PrivacyPolicySheetState {
+  // 동의한 단일 항목 개수
   final int singleAcceptCount;
 
   PrivacyPolicySheetState({
     required this.singleAcceptCount,
   });
-
-  PrivacyPolicySheetState copyWith({
-    int? singleAcceptCount,
-  }) {
-    return PrivacyPolicySheetState(
-      singleAcceptCount: singleAcceptCount ?? this.singleAcceptCount,
-    );
-  }
 }
 
 // 초기 상태
@@ -45,7 +37,11 @@ class PrivacyPolicySheetStateNecessary extends PrivacyPolicySheetState {
 
 // 선택 항목 동의 상태
 class PrivacyPolicySheetStateWithUnnecessary extends PrivacyPolicySheetState {
+  // 동의한 선택 항목 개수
+  int unnecessaryAcceptCount = 0;
+
   PrivacyPolicySheetStateWithUnnecessary({
     required super.singleAcceptCount,
+    required this.unnecessaryAcceptCount,
   });
 }

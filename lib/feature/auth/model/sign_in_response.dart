@@ -19,16 +19,10 @@ class SignInResponse {
     this.data,
   });
 
-  factory SignInResponse.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$SignInResponseFromJson(
-        json,
-      );
+  factory SignInResponse.fromJson(Map<String, dynamic> json) =>
+      _$SignInResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SignInResponseToJson(
-        this,
-      );
+  Map<String, dynamic> toJson() => _$SignInResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -41,16 +35,10 @@ class SignInResponseStatus {
     required this.message,
   });
 
-  factory SignInResponseStatus.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$SignInResponseStatusFromJson(
-        json,
-      );
+  factory SignInResponseStatus.fromJson(Map<String, dynamic> json) =>
+      _$SignInResponseStatusFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SignInResponseStatusToJson(
-        this,
-      );
+  Map<String, dynamic> toJson() => _$SignInResponseStatusToJson(this);
 }
 
 @JsonSerializable()
@@ -63,14 +51,8 @@ class SignInResponseData {
     required this.refreshToken,
   });
 
-  factory SignInResponseData.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$SignInResponseDataFromJson(
-        json,
-      );
+  factory SignInResponseData.fromJson(Map<String, dynamic> json) =>
+      _$SignInResponseDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SignInResponseDataToJson(
-        this,
-      );
+  Map<String, dynamic> toJson() => _$SignInResponseDataToJson(this);
 }
