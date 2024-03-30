@@ -1,4 +1,4 @@
-import 'package:gamemuncheol/common/hook/debounce_text_controller_hook.dart';
+import 'package:gamemuncheol/feature/feed/hook/debounce_text_controller_hook.dart';
 import 'package:gamemuncheol/common/util/app_text_style.dart';
 import 'package:gamemuncheol/feature/feed/provider/search_match_history_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -24,8 +24,7 @@ class CustomSearchBar extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     const double frameHeight = 40;
-    const double frameTopPadding = 70;
-    const double frameBottomPadding = 20;
+
     const double iconVerticalPadding = 8;
 
     final TextEditingController searchController = useDebouncedTextController(
@@ -33,46 +32,39 @@ class CustomSearchBar extends HookConsumerWidget {
     );
 
     final TextStyle hintStyle = TextStyleBuilder()
-        .withColor(ColorGuidance.FONT_GREY_03)
+        .withColor(AppColor.FONT_GREY_03)
         .withRegular()
         .build();
 
-    return PaddingBuilder()
-        .withPadding(
-          top: frameTopPadding,
-          bottom: frameBottomPadding,
+    return SizedBoxBuilder()
+        .withSize(
+          height: frameHeight,
         )
         .withChild(
-          SizedBoxBuilder()
-              .withSize(
-                height: frameHeight,
-              )
-              .withChild(
-                SearchBar(
-                  controller: searchController,
-                  surfaceTintColor: MaterialStateProperty.all(
-                    ColorGuidance.NATURAL_02,
-                  ),
-                  hintText: "검색어(게임ID)를 입력해 주세요.",
-                  hintStyle: MaterialStateProperty.all(
-                    hintStyle,
-                  ),
-                  leading: PaddingBuilder()
-                      .withPadding(
-                        top: iconVerticalPadding,
-                        bottom: iconVerticalPadding,
-                      )
-                      .withChild(
-                        SvgPicture.asset(
-                          AssetPaths.SEARCH_ICON_PATH,
-                        ),
-                      ),
-                  elevation: MaterialStateProperty.all(0),
-                  backgroundColor: MaterialStateProperty.all(
-                    ColorGuidance.NATURAL_02,
+          SearchBar(
+            controller: searchController,
+            surfaceTintColor: MaterialStateProperty.all(
+              AppColor.NATURAL_02,
+            ),
+            hintText: "검색어(게임ID)를 입력해 주세요.",
+            hintStyle: MaterialStateProperty.all(
+              hintStyle,
+            ),
+            leading: PaddingBuilder()
+                .withPadding(
+                  top: iconVerticalPadding,
+                  bottom: iconVerticalPadding,
+                )
+                .withChild(
+                  SvgPicture.asset(
+                    AppAsset.SEARCH_ICON_PATH,
                   ),
                 ),
-              ),
+            elevation: MaterialStateProperty.all(0),
+            backgroundColor: MaterialStateProperty.all(
+              AppColor.NATURAL_02,
+            ),
+          ),
         );
   }
 }

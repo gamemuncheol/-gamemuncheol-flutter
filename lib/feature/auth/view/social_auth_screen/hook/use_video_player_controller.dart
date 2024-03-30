@@ -5,44 +5,32 @@ import 'package:video_player/video_player.dart';
 VideoPlayerController useVideoPlayerController({
   required String assetPath,
 }) {
-  return use(_VideoPlayerController(
-    assetPath: assetPath,
-  ));
+  return use(_VideoPlayerController(assetPath: assetPath));
 }
 
 class _VideoPlayerController extends Hook<VideoPlayerController> {
   final String assetPath;
-  const _VideoPlayerController({
-    required this.assetPath,
-  });
+  const _VideoPlayerController({required this.assetPath});
 
   @override
-  VideoController createState() => VideoController(
-        assetPath: assetPath,
-      );
+  VideoControllerState createState() =>
+      VideoControllerState(assetPath: assetPath);
 }
 
-class VideoController
+class VideoControllerState
     extends HookState<VideoPlayerController, _VideoPlayerController> {
   final String assetPath;
   late VideoPlayerController controller;
 
-  VideoController({
-    required this.assetPath,
-  });
+  VideoControllerState({required this.assetPath});
 
   @override
   void initHook() {
     super.initHook();
-    controller = VideoPlayerController.asset(
-      assetPath,
-    );
-
+    controller = VideoPlayerController.asset(assetPath);
     controller.initialize().then((value) {
       controller.play();
-      controller.setLooping(
-        true,
-      );
+      controller.setLooping(true);
     });
   }
 

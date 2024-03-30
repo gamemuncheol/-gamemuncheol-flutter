@@ -3,16 +3,13 @@ import 'package:gap/gap.dart';
 
 import 'package:gamemuncheol/common/const/colors.dart';
 import 'package:gamemuncheol/common/util/app_text_style.dart';
-import 'package:gamemuncheol/common/util/screen_utils.dart';
+import 'package:gamemuncheol/common/util/gap.dart';
 
-class Header extends StatelessWidget {
-  // 제목
+class CreateFeedScreenHeader extends StatelessWidget {
   final String title;
-
-  // 설명
   final String description;
 
-  const Header({
+  const CreateFeedScreenHeader({
     super.key,
     required this.title,
     this.description = "",
@@ -23,14 +20,9 @@ class Header extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        renderSpace1(),
-        renderTitle(
-          title: title,
-        ),
-        renderSpace2(),
-        renderDescription(
-          description: description,
-        ),
+        renderTitle(title: title),
+        const Gap(16).withHeight(),
+        renderDescription(description: description),
       ],
     );
   }
@@ -47,17 +39,11 @@ class Header extends StatelessWidget {
     );
   }
 
-  Widget renderSpace1() {
-    const double space1 = 16;
-
-    return const Gap(space1).withHeight();
-  }
-
   Widget renderDescription({
     required String description,
   }) {
     final TextStyle descriptionStyle = TextStyleBuilder()
-        .withColor(ColorGuidance.FONT_GREY_03)
+        .withColor(AppColor.FONT_GREY_03)
         .withFontSize(16)
         .withRegular()
         .build();
@@ -66,11 +52,5 @@ class Header extends StatelessWidget {
       description,
       style: descriptionStyle,
     );
-  }
-
-  Widget renderSpace2() {
-    const double space1 = 16;
-
-    return const Gap(space1).withHeight();
   }
 }

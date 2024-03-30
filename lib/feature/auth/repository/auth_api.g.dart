@@ -19,15 +19,15 @@ class _AuthApiImpl implements AuthApiImpl {
   String? baseUrl;
 
   @override
-  Future<SignInResponse> signInWithApple(
-      {required AppleSignInRequestBody appleSignInRequestBody}) async {
+  Future<CommonResponse<TokenResponse>> signInWithApple(
+      AppleSignInRequestBody appleSignInRequestBody) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(appleSignInRequestBody.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<SignInResponse>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CommonResponse<TokenResponse>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -43,7 +43,10 @@ class _AuthApiImpl implements AuthApiImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = SignInResponse.fromJson(_result.data!);
+    final value = CommonResponse<TokenResponse>.fromJson(
+      _result.data!,
+      (json) => TokenResponse.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 
@@ -82,7 +85,7 @@ class _AuthApiImpl implements AuthApiImpl {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authApiHash() => r'7fed95ff0d1225a3554df384bd765c19ed6d12ff';
+String _$authApiHash() => r'88a4e800c7e2bc6f86e272d0b8cf120925ddf042';
 
 /// See also [authApi].
 @ProviderFor(authApi)

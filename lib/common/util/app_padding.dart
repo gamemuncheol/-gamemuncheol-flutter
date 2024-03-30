@@ -9,12 +9,14 @@ class PaddingBuilder {
     double? right,
     double? top,
     double? bottom,
+    double? horizontal,
+    double? vertical,
   }) {
     _padding = EdgeInsets.only(
-      left: left ?? 0,
-      right: right ?? 0,
-      top: top ?? 0,
-      bottom: bottom ?? 0,
+      left: left ?? (horizontal == null ? 0 : horizontal / 2),
+      right: right ?? (horizontal == null ? 0 : horizontal / 2),
+      top: top ?? (vertical == null ? 0 : vertical / 2),
+      bottom: bottom ?? (vertical == null ? 0 : vertical / 2),
     );
 
     return this;

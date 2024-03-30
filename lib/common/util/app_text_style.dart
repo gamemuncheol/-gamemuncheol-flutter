@@ -1,9 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:gamemuncheol/common/const/colors.dart';
 
 class TextStyleBuilder {
-  Color _color = ColorGuidance.PRIMARY_BLACK;
+  Color _color = AppColor.PRIMARY_BLACK;
   double _fontSize = 16;
   FontWeight _fontWeight = FontWeight.w500;
   final double _height = 1;

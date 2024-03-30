@@ -6,65 +6,42 @@ import 'package:gamemuncheol/common/const/asset_paths.dart';
 import 'package:gamemuncheol/common/const/colors.dart';
 import 'package:gamemuncheol/common/util/app_container.dart';
 import 'package:gamemuncheol/common/util/app_text_style.dart';
-import 'package:gamemuncheol/common/util/screen_utils.dart';
-import 'package:gamemuncheol/feature/auth/model/sign_in_method.dart';
-import 'package:gamemuncheol/feature/auth/view/privacy_policy_sheet/privacy_policy_home.dart';
+import 'package:gamemuncheol/common/util/gap.dart';
 import 'package:gap/gap.dart';
 
 class SocialAuthButton extends ConsumerWidget {
-  // 플랫폼
-  final SignInMethod signInMethod;
-
-  // 플랫폼 로고 주소
   final String imagePath;
-
-  // 버튼 문구
-  final String buttonText;
-
-  // 버튼 색상
+  final String label;
+  final Color labelColor;
   final Color buttonColor;
-
-  // 폰트 생상
-  final Color fontColor;
+  final VoidCallback onTap;
 
   const SocialAuthButton({
     super.key,
-    required this.signInMethod,
     required this.imagePath,
-    required this.buttonText,
+    required this.label,
     required this.buttonColor,
-    required this.fontColor,
+    required this.labelColor,
+    required this.onTap,
   });
 
-  factory SocialAuthButton.apple() {
-    return const SocialAuthButton(
-      signInMethod: SignInMethod.APPLE,
-      imagePath: AssetPaths.APPLE_LOGO_PATH,
-      buttonText: "Apple로 계속하기",
-      buttonColor: ColorGuidance.BLACK_800,
-      fontColor: ColorGuidance.PRIMARY_WITHE,
+  factory SocialAuthButton.apple({required VoidCallback onTap}) {
+    return SocialAuthButton(
+      onTap: onTap,
+      imagePath: AppAsset.APPLE_LOGO_PATH,
+      label: "Apple로 계속하기",
+      buttonColor: AppColor.NATURAL_06,
+      labelColor: AppColor.PRIMARY_WITHE,
     );
   }
 
-  factory SocialAuthButton.google() {
-    return const SocialAuthButton(
-      signInMethod: SignInMethod.GOOGLE,
-      imagePath: AssetPaths.GOOGLE_LOGO_PATH,
-      buttonText: "Google로 계속하기",
-      buttonColor: ColorGuidance.PRIMARY_WITHE,
-      fontColor: ColorGuidance.FONT_GREY_04,
-    );
-  }
-
-  void showPrivatePolicyDocs(
-    BuildContext context,
-  ) async {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => PrivacyPolicyHome(
-        signInMethod: signInMethod,
-      ),
+  factory SocialAuthButton.google({required VoidCallback onTap}) {
+    return SocialAuthButton(
+      onTap: onTap,
+      imagePath: AppAsset.GOOGLE_LOGO_PATH,
+      label: "Google로 계속하기",
+      buttonColor: AppColor.PRIMARY_WITHE,
+      labelColor: AppColor.FONT_GREY_04,
     );
   }
 
@@ -75,31 +52,23 @@ class SocialAuthButton extends ConsumerWidget {
 
     final BoxDecoration buttonDecoration = BoxDecoration(
       color: buttonColor,
-      borderRadius: BorderRadius.circular(
-        54,
-      ),
+      borderRadius: BorderRadius.circular(54),
     );
 
     return GestureDetector(
-      onTap: () => showPrivatePolicyDocs(
-        context,
-      ),
+      onTap: onTap,
       child: ContainerBuilder()
           .withSize(
             width: buttonWidth,
             height: buttonHegith,
           )
-          .withBoxDecoration(
-            buttonDecoration,
-          )
+          .withBoxDecoration(buttonDecoration)
           .withChild(
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 renderPlatformLogo(),
-                const Gap(
-                  12,
-                ).withWidth(),
+                const Gap(12).withWidth(),
                 renderText(),
               ],
             ),
@@ -107,24 +76,18 @@ class SocialAuthButton extends ConsumerWidget {
     );
   }
 
-  Widget renderPlatformLogo() => SvgPicture.asset(
-        imagePath,
-      );
+  Widget renderPlatformLogo() => SvgPicture.asset(imagePath);
 
   Widget renderText() {
-    final TextStyle textStyle = TextStyleBuilder()
-        .withColor(
-          fontColor,
-        )
-        .withFontSize(
-          18,
-        )
+    final TextStyle labelStyle = TextStyleBuilder()
+        .withColor(labelColor)
+        .withFontSize(18)
         .withMedium()
         .build();
 
     return Text(
-      buttonText,
-      style: textStyle,
+      label,
+      style: labelStyle,
     );
   }
 }

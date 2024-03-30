@@ -2,8 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-class ColorGuidance {
-  // 피그마 Primary
+class AppColor {
   static const Color PRIMARY_BLUE = Color(
     0xFF5E44DD,
   );
@@ -20,10 +19,6 @@ class ColorGuidance {
     0xFFFFFFFF,
   );
 
-  static const Color BLACK_800 = Color(
-    0xFF333436,
-  );
-
   static const Color NATURAL_02 = Color(
     0xFFF3F3F3,
   );
@@ -36,12 +31,16 @@ class ColorGuidance {
     0xFFBDC0C8,
   );
 
-  static const Color ERROR_RED = Color(
-    0xFFF22828,
+  static const Color NATURAL_05 = Color(
+    0xFF8C949E,
   );
 
-  static const Color WHITE100 = Color(
-    0xFFF3F3F3,
+  static const Color NATURAL_06 = Color(
+    0xFF333436,
+  );
+
+  static const Color ERROR_RED = Color(
+    0xFFF22828,
   );
 
   static const Color FONT_GREY_04 = Color(

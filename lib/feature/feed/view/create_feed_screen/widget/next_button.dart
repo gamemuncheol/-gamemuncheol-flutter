@@ -1,52 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:gamemuncheol/common/const/colors.dart';
 import 'package:gamemuncheol/common/util/app_container.dart';
-import 'package:gamemuncheol/common/util/app_text_style.dart';
 
-class NextButton extends ConsumerWidget {
-  final PageController pageController;
+class CreateFeedScreenNextButton extends ConsumerWidget {
+  final String text;
+  final TextStyle textStyle;
+  final BoxDecoration buttonDecoration;
+  final VoidCallback onTap;
 
-  const NextButton({
+  const CreateFeedScreenNextButton({
     super.key,
-    required this.pageController,
+    required this.text,
+    required this.textStyle,
+    required this.buttonDecoration,
+    required this.onTap,
   });
-
-  void goNextStep({
-    required PageController pageController,
-  }) {
-    const Duration duration = Duration(
-      milliseconds: 250,
-    );
-    Curve curve = Curves.linear;
-
-    pageController.nextPage(
-      duration: duration,
-      curve: curve,
-    );
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     const double buttonHeight = 64;
 
-    final TextStyle textStyle = TextStyleBuilder()
-        .withColor(ColorGuidance.PRIMARY_WITHE)
-        .withFontSize(20)
-        .build();
-
-    final BoxDecoration buttonDecoration = BoxDecoration(
-      color: ColorGuidance.PRIMARY_BLUE.withOpacity(0.5),
-    );
-
     return SafeArea(
       top: false,
       bottom: true,
       child: GestureDetector(
-        onTap: () => goNextStep(
-          pageController: pageController,
-        ),
+        onTap: onTap,
         child: ContainerBuilder()
             .withSize(
               height: buttonHeight,
@@ -57,7 +36,7 @@ class NextButton extends ConsumerWidget {
             .withChild(
               Center(
                 child: Text(
-                  "다음",
+                  text,
                   style: textStyle,
                 ),
               ),

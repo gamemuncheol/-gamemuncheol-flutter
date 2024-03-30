@@ -6,7 +6,7 @@ part of 'go_router.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$goRouterHash() => r'5042bec1a308364c67ba7a24289760dead8547f3';
+String _$goRouterHash() => r'0fc618d268eb8c640d23f271dea5d493a5c9c990';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -40,10 +40,10 @@ class GoRouterFamily extends Family<GoRouter> {
 
   /// See also [goRouter].
   GoRouterProvider call({
-    required RedirectInjectionParam redirectInjectionParam,
+    required RedirectInjectionService redirectInjectionService,
   }) {
     return GoRouterProvider(
-      redirectInjectionParam: redirectInjectionParam,
+      redirectInjectionService: redirectInjectionService,
     );
   }
 
@@ -52,7 +52,7 @@ class GoRouterFamily extends Family<GoRouter> {
     covariant GoRouterProvider provider,
   ) {
     return call(
-      redirectInjectionParam: provider.redirectInjectionParam,
+      redirectInjectionService: provider.redirectInjectionService,
     );
   }
 
@@ -75,11 +75,11 @@ class GoRouterFamily extends Family<GoRouter> {
 class GoRouterProvider extends Provider<GoRouter> {
   /// See also [goRouter].
   GoRouterProvider({
-    required RedirectInjectionParam redirectInjectionParam,
+    required RedirectInjectionService redirectInjectionService,
   }) : this._internal(
           (ref) => goRouter(
             ref as GoRouterRef,
-            redirectInjectionParam: redirectInjectionParam,
+            redirectInjectionService: redirectInjectionService,
           ),
           from: goRouterProvider,
           name: r'goRouterProvider',
@@ -89,7 +89,7 @@ class GoRouterProvider extends Provider<GoRouter> {
                   : _$goRouterHash,
           dependencies: GoRouterFamily._dependencies,
           allTransitiveDependencies: GoRouterFamily._allTransitiveDependencies,
-          redirectInjectionParam: redirectInjectionParam,
+          redirectInjectionService: redirectInjectionService,
         );
 
   GoRouterProvider._internal(
@@ -99,10 +99,10 @@ class GoRouterProvider extends Provider<GoRouter> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.redirectInjectionParam,
+    required this.redirectInjectionService,
   }) : super.internal();
 
-  final RedirectInjectionParam redirectInjectionParam;
+  final RedirectInjectionService redirectInjectionService;
 
   @override
   Override overrideWith(
@@ -117,7 +117,7 @@ class GoRouterProvider extends Provider<GoRouter> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        redirectInjectionParam: redirectInjectionParam,
+        redirectInjectionService: redirectInjectionService,
       ),
     );
   }
@@ -130,21 +130,21 @@ class GoRouterProvider extends Provider<GoRouter> {
   @override
   bool operator ==(Object other) {
     return other is GoRouterProvider &&
-        other.redirectInjectionParam == redirectInjectionParam;
+        other.redirectInjectionService == redirectInjectionService;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, redirectInjectionParam.hashCode);
+    hash = _SystemHash.combine(hash, redirectInjectionService.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin GoRouterRef on ProviderRef<GoRouter> {
-  /// The parameter `redirectInjectionParam` of this provider.
-  RedirectInjectionParam get redirectInjectionParam;
+  /// The parameter `redirectInjectionService` of this provider.
+  RedirectInjectionService get redirectInjectionService;
 }
 
 class _GoRouterProviderElement extends ProviderElement<GoRouter>
@@ -152,8 +152,8 @@ class _GoRouterProviderElement extends ProviderElement<GoRouter>
   _GoRouterProviderElement(super.provider);
 
   @override
-  RedirectInjectionParam get redirectInjectionParam =>
-      (origin as GoRouterProvider).redirectInjectionParam;
+  RedirectInjectionService get redirectInjectionService =>
+      (origin as GoRouterProvider).redirectInjectionService;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

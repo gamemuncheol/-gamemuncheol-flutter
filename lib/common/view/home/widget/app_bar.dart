@@ -1,82 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:gamemuncheol/feature/auth/provider/auth_provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
+
 import 'package:gamemuncheol/common/const/asset_paths.dart';
 import 'package:gamemuncheol/common/const/colors.dart';
-import 'package:gamemuncheol/common/util/screen_utils.dart';
-import 'package:gamemuncheol/feature/feed/view/create_feed_screen/create_feed_screen.dart';
-import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
+import 'package:gamemuncheol/common/util/gap.dart';
+import 'package:gamemuncheol/common/view/home/mixin/home_screen_event.dart';
+import 'package:gamemuncheol/common/util/role_method.dart';
+import 'package:gamemuncheol/feature/auth/view/social_auth_screen/social_auth_screen.dart';
 
-class CustomAppBar extends ConsumerWidget {
-  const CustomAppBar({
-    super.key,
-  });
+class HomeAppBar extends ConsumerWidget with HomeScreenEvent {
+  const HomeAppBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const double leadingWidth = 152;
-    const double horizontalPadding = 16;
+    final double leadingWidth = 152.w;
 
-    return SliverPadding(
-      padding: EdgeInsets.symmetric(
-        horizontal: horizontalPadding.w,
-      ),
-      sliver: SliverAppBar(
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        snap: true,
-        pinned: false,
-        floating: true,
-        backgroundColor: ColorGuidance.PRIMARY_WITHE,
-        leadingWidth: leadingWidth.w,
-        leading: renderLeading(),
-        actions: renderAction(
-          context,
-        ),
+    return SliverAppBar(
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      snap: true,
+      pinned: false,
+      floating: true,
+      backgroundColor: AppColor.PRIMARY_WITHE,
+      leadingWidth: leadingWidth,
+      leading: renderLeading(),
+      actions: renderAction(
+        onSearchIconTap: () => ref.read(excecuteWhenProvider(
+          guest: () => context.push(SocialAuthScreen.PATH),
+          user: () => pushSearchMatchHistoryScreen(context),
+        )),
+        onNotiIconTap: () => ref.read(excecuteWhenProvider(
+          guest: () => context.push(SocialAuthScreen.PATH),
+          user: () async {
+            await ref.read(authNotifierProvider.notifier).signOut();
+          },
+        )),
       ),
     );
   }
 
   Widget renderLeading() {
-    const double space1 = 8;
-
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SvgPicture.asset(
-          AssetPaths.SEARCH_ICON_PATH,
-        ),
-        const Gap(
-          space1,
-        ).withWidth(),
-        SvgPicture.asset(
-          AssetPaths.APP_BAR_LOGO_TEXT_PATH,
-        )
+        SvgPicture.asset(AppAsset.SEARCH_ICON_PATH),
+        const Gap(8).withWidth(),
+        SvgPicture.asset(AppAsset.APP_BAR_LOGO_TEXT_PATH)
       ],
     );
   }
 
-  List<Widget> renderAction(BuildContext context) {
-    const double space1 = 12;
-
+  List<Widget> renderAction({
+    required VoidCallback onSearchIconTap,
+    required VoidCallback onNotiIconTap,
+  }) {
     return [
       GestureDetector(
-        onTap: () {
-          context.pushNamed(
-            CreateFeedScreenHome.ROUTE_NAME,
-          );
-        },
-        child: SvgPicture.asset(
-          AssetPaths.SEARCH_ICON_PATH,
-        ),
+        onTap: onSearchIconTap,
+        child: SvgPicture.asset(AppAsset.SEARCH_ICON_PATH),
       ),
-      const Gap(
-        space1,
-      ).withWidth(),
-      SvgPicture.asset(
-        AssetPaths.NOTIFICATION_NEW_ICON_PATH,
+      const Gap(12).withWidth(),
+      GestureDetector(
+        onTap: onNotiIconTap,
+        child: SvgPicture.asset(AppAsset.NOTIFICATION_NEW_ICON_PATH),
       )
     ];
   }

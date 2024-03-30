@@ -6,8 +6,25 @@ part of 'search_match_history_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$searchMatchHistoryHash() =>
+    r'66c1143982f65e0649027cb5a654a4abbf3ca021';
+
+/// See also [SearchMatchHistory].
+@ProviderFor(SearchMatchHistory)
+final searchMatchHistoryProvider = AutoDisposeAsyncNotifierProvider<
+    SearchMatchHistory, MatchHistory?>.internal(
+  SearchMatchHistory.new,
+  name: r'searchMatchHistoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$searchMatchHistoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$SearchMatchHistory = AutoDisposeAsyncNotifier<MatchHistory?>;
 String _$searchMatchHistoryNotiferHash() =>
-    r'34fdf941208f035c5224f10bfec987d313e25fad';
+    r'fa416ac1da348a814d2a8c8a460b2faf1c84fe58';
 
 /// See also [SearchMatchHistoryNotifer].
 @ProviderFor(SearchMatchHistoryNotifer)

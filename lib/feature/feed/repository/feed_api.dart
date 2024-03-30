@@ -11,17 +11,11 @@ part 'feed_api.g.dart';
 @riverpod
 FeedApi feedApi(FeedApiRef ref) {
   final Dio dio = ref.read(dioProvider);
-
-  return FeedApiImpl(
-    dio,
-    baseUrl: Data.BASE_URL,
-  );
+  return FeedApiImpl(dio, baseUrl: Data.BASE_URL);
 }
 
 abstract class FeedApi {
-  Future<MatchHistory> search({
-    required String gameId,
-  });
+  Future<MatchHistory> search({required String gameId});
 }
 
 @RestApi()
@@ -33,7 +27,5 @@ abstract class FeedApiImpl implements FeedApi {
 
   @override
   @GET("/api/board/searchMatch/{gameId}")
-  Future<MatchHistory> search({
-    @Path() required String gameId,
-  });
+  Future<MatchHistory> search({@Path() required String gameId});
 }
