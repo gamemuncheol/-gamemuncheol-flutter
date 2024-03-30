@@ -1,80 +1,65 @@
+import 'package:flutter_hooks/flutter_hooks.dart';
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 
 import 'package:gamemuncheol/common/const/colors.dart';
 import 'package:gamemuncheol/common/util/app_container.dart';
-import 'package:gamemuncheol/common/util/app_padding.dart';
 import 'package:gamemuncheol/common/util/app_text_style.dart';
-import 'package:gamemuncheol/common/view/home/mixin/tab_bar_event.dart';
+import 'package:gamemuncheol/common/util/gap.dart';
+import 'package:gamemuncheol/common/view/home/mixin/home_screen_event.dart';
 
-class CustomTabBar extends StatefulWidget {
+class HomeTabBar extends HookWidget with HomeScreenEvent {
   final PageController pageController;
   final List<String> tabs;
 
-  const CustomTabBar({
+  const HomeTabBar({
     super.key,
     required this.pageController,
     required this.tabs,
   });
 
   @override
-  State<CustomTabBar> createState() => _CustomTabBarState();
-}
-
-class _CustomTabBarState extends State<CustomTabBar> with CustomTabBarEvent {
-  @override
-  void initState() {
-    super.initState();
-    listenPageChanged();
-  }
-
-  @override
-  int currentIndex = 0;
-
-  @override
   Widget build(BuildContext context) {
-    const double leftPadding = 16;
-    const double rightPadding = 16;
-    const double topPadding = 16;
+    final currentIndex = useState(0);
 
-    const BoxDecoration boxDecoration = BoxDecoration(
-      color: ColorGuidance.PRIMARY_WITHE,
-    );
+    useEffect(() {
+      listenPageChanged(
+          pageController: pageController, currentIndex: currentIndex);
+      return () {};
+    }, []);
+
+    final double topPadding = 16.h;
+    const BoxDecoration boxDecoration =
+        BoxDecoration(color: AppColor.PRIMARY_WITHE);
 
     return ContainerBuilder()
-        .withPadding(
-          left: leftPadding,
-          right: rightPadding,
-          top: topPadding,
-        )
-        .withBoxDecoration(
-          boxDecoration,
-        )
+        .withPadding(top: topPadding)
+        .withBoxDecoration(boxDecoration)
         .withChild(
           Stack(
             children: [
               renderDivider(),
-              PaddingBuilder()
-                  .withPadding(
-                    left: leftPadding,
-                    right: rightPadding,
-                  )
-                  .withChild(
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: widget.tabs
-                          .mapIndexed(
-                            (index, tabName) => renderTab(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: tabs
+                    .mapIndexed((index, tabName) => renderTab(
+                          index: index,
+                          tabName: tabName,
+                          isSelected: currentIndex.value == index,
+                          jumpTap: () {
+                            jumpTab(
+                              pageController: pageController,
                               index: index,
-                              tabName: tabName,
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
+                            );
+                          },
+                        ))
+                    .toList(),
+              ),
+              const Gap(16).withWidth(),
             ],
           ),
         );
@@ -82,19 +67,14 @@ class _CustomTabBarState extends State<CustomTabBar> with CustomTabBarEvent {
 
   Widget renderDivider() {
     const double dividerHeight = 1.3;
-    const BoxDecoration dividerDecoration = BoxDecoration(
-      color: ColorGuidance.NATURAL_03,
-    );
+    const BoxDecoration dividerDecoration =
+        BoxDecoration(color: AppColor.NATURAL_03);
 
     return Align(
       alignment: Alignment.bottomCenter,
       child: ContainerBuilder()
-          .withSize(
-            height: dividerHeight,
-          )
-          .withBoxDecoration(
-            dividerDecoration,
-          )
+          .withSize(height: dividerHeight)
+          .withBoxDecoration(dividerDecoration)
           .build(),
     );
   }
@@ -102,47 +82,40 @@ class _CustomTabBarState extends State<CustomTabBar> with CustomTabBarEvent {
   Widget renderTab({
     required int index,
     required String tabName,
+    required bool isSelected,
+    required VoidCallback jumpTap,
   }) {
-    const double selectedTabUnderlineHeight = 3;
-    const double unSelectedTabUnderlineHeight = 1;
-
-    final bool isSelected = currentIndex == index;
-
-    TextStyle tabTextStyle = TextStyleBuilder()
+    final TextStyle tabTextStyle = TextStyleBuilder()
         .withColor(
-          isSelected ? ColorGuidance.PRIMARY_BLUE : ColorGuidance.NATURAL_04,
+          isSelected ? AppColor.PRIMARY_BLUE : AppColor.NATURAL_04,
         )
         .withFontSize(18)
         .withMedium()
         .build();
 
-    BoxDecoration underlineDecoration = BoxDecoration(
-      color: isSelected ? ColorGuidance.PRIMARY_BLUE : ColorGuidance.NATURAL_03,
+    final double undelineHeight = isSelected ? 3 : 1;
+    final BoxDecoration underlineDecoration = BoxDecoration(
+      color: isSelected ? AppColor.PRIMARY_BLUE : AppColor.NATURAL_03,
     );
 
     return GestureDetector(
-      onTap: () => jump(
-        index: index,
-      ),
-      child: IntrinsicWidth(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              tabName,
-              style: tabTextStyle,
-            ),
-            ContainerBuilder()
-                .withSize(
-                  height: isSelected
-                      ? selectedTabUnderlineHeight
-                      : unSelectedTabUnderlineHeight,
-                )
-                .withBoxDecoration(
-                  underlineDecoration,
-                )
-                .build(),
-          ],
+      onTap: jumpTap,
+      child: Container(
+        color: AppColor.PRIMARY_WITHE,
+        child: IntrinsicWidth(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                tabName,
+                style: tabTextStyle,
+              ),
+              ContainerBuilder()
+                  .withSize(height: undelineHeight)
+                  .withBoxDecoration(underlineDecoration)
+                  .build(),
+            ],
+          ),
         ),
       ),
     );
@@ -161,7 +134,7 @@ class HomeTabBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
           BuildContext context, double shrinkOffset, bool overlapsContent) =>
-      CustomTabBar(
+      HomeTabBar(
         pageController: pageController,
         tabs: tabs,
       );

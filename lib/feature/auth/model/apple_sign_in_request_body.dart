@@ -1,23 +1,19 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'apple_sign_in_request_body.g.dart';
+part 'apple_sign_in_request_body.freezed.dart';
 
-@JsonSerializable()
-class AppleSignInRequestBody {
-  // 애플 계정 이름
-  final String name;
-
-  // 애플에서 인가 받은 토큰
-  final String identityToken;
-
-  AppleSignInRequestBody({
-    required this.name,
-    required this.identityToken,
-  });
+@Freezed(toJson: true)
+class AppleSignInRequestBody with _$AppleSignInRequestBody {
+  factory AppleSignInRequestBody({
+    required String name,
+    required String identityToken,
+  }) = _AppleSignInRequestBody;
 
   factory AppleSignInRequestBody.fromJson(Map<String, dynamic> json) =>
       _$AppleSignInRequestBodyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AppleSignInRequestBodyToJson(this);
+  @override
+  Map<String, dynamic> toJson() =>
+      {"name": name, "identityToken": identityToken};
 }

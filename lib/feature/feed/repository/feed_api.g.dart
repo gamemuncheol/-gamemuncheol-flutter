@@ -80,7 +80,7 @@ class _FeedApiImpl implements FeedApiImpl {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$feedApiHash() => r'a406ed5cbd2ffdd921726ebb646a83cd22cbcac6';
+String _$feedApiHash() => r'7e7e2220d34ca1350bdb7c5afb187de9ec84fedf';
 
 /// See also [feedApi].
 @ProviderFor(feedApi)

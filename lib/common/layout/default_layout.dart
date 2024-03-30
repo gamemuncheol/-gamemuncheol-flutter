@@ -23,7 +23,7 @@ class DefaultLayout extends StatelessWidget {
       onWillPop: onWillPop,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: ColorGuidance.PRIMARY_WITHE,
+        backgroundColor: AppColor.PRIMARY_WITHE,
         body: child,
       ),
     );

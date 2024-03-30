@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-class AssetPaths {
+class AppAsset {
   // 소셜 로그인 화면 배경 동영상
   static const AUTH_BACKGROUND_VIDEO_PATH =
       "assets/videos/auth_background_video.mp4";

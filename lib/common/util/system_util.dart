@@ -2,9 +2,7 @@ import 'package:flutter/services.dart';
 
 mixin SystemUtil {
   void portraitUp() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   void resetSetting() {
@@ -12,7 +10,7 @@ mixin SystemUtil {
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitDown
     ]);
   }
 }

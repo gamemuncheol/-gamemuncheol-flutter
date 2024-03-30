@@ -1,18 +1,15 @@
+import 'package:gamemuncheol/common/model/common_error.dart';
 import 'package:gamemuncheol/feature/auth/model/sign_in_method.dart';
 
-class AuthStateBase {
+sealed class AuthState {
   // 최근 로그인 플랫폼
   final SignInMethod signInMethod;
 
-  AuthStateBase({
-    required this.signInMethod,
-  });
+  AuthState({required this.signInMethod});
 }
 
-// 에러 상태
-class AuthStateError extends AuthStateBase {
-  // 발생 가능한 에러
-  final Exception error;
+class AuthStateError extends AuthState {
+  final ErrorWithMessage error;
 
   AuthStateError({
     required super.signInMethod,
@@ -20,23 +17,14 @@ class AuthStateError extends AuthStateBase {
   });
 }
 
-// 로딩 상태
-class AuthStateLoading extends AuthStateBase {
-  AuthStateLoading({
-    required super.signInMethod,
-  });
+class AuthStateLoading extends AuthState {
+  AuthStateLoading({required super.signInMethod});
 }
 
-// 로그인 상태
-class AuthStateAuthenticated extends AuthStateBase {
-  AuthStateAuthenticated({
-    required super.signInMethod,
-  });
+class Authenticated extends AuthState {
+  Authenticated({required super.signInMethod});
 }
 
-// 로그아웃 상태
-class AuthStateUnAuthenticated extends AuthStateBase {
-  AuthStateUnAuthenticated({
-    required super.signInMethod,
-  });
+class UnAuthenticated extends AuthState {
+  UnAuthenticated({required super.signInMethod});
 }

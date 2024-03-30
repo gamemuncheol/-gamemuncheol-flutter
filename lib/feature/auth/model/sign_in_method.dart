@@ -1,12 +1,17 @@
-// ignore_for_file: constant_identifier_names
+import 'package:isar/isar.dart';
+
+part 'sign_in_method.g.dart';
 
 enum SignInMethod {
-  // 로그인 전
-  NONE,
+  none,
+  apple,
+  google,
+}
 
-  // 애플
-  APPLE,
-  
-  // 구글
-  GOOGLE,
+@collection
+class SignInMethodModel {
+  Id id = Isar.autoIncrement;
+
+  @enumerated
+  late SignInMethod signInMethod;
 }

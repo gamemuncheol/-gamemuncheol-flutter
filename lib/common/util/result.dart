@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:gamemuncheol/common/model/common_error.dart';
 part 'result.freezed.dart';
 
 @freezed
@@ -8,6 +9,6 @@ sealed class Result<T> with _$Result<T> {
   ) = Success<T>;
 
   const factory Result.failure(
-    Exception exc,
+    ErrorWithMessage error,
   ) = Failure<T>;
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:gamemuncheol/common/const/asset_paths.dart';
@@ -6,32 +7,18 @@ import 'package:gamemuncheol/common/const/colors.dart';
 import 'package:gamemuncheol/common/util/app_padding.dart';
 import 'package:gamemuncheol/common/util/app_sized_box.dart';
 import 'package:gamemuncheol/common/util/app_text_style.dart';
-import 'package:gamemuncheol/feature/feed/view/create_feed_screen/mixin/app_bar_event.dart';
 
-class CustomAppBar extends StatefulWidget {
-  final PageController pageController;
-  final int totalPageLength;
+class CreateFeedScreenAppBar extends StatelessWidget {
+  final int currentStep;
+  final Map<String, dynamic>? extra;
 
-  const CustomAppBar({
+  const CreateFeedScreenAppBar({
     super.key,
-    required this.pageController,
-    required this.totalPageLength,
+    required this.currentStep,
+    this.extra,
   });
 
-  @override
-  State<CustomAppBar> createState() => _CustomAppBarState();
-}
-
-class _CustomAppBarState extends State<CustomAppBar>
-    with CustomAppBarEvent {
-  @override
-  void initState() {
-    super.initState();
-    pageListener();
-  }
-
-  @override
-  int currentPage = 0;
+  void goPreStep(BuildContext context) => context.pop();
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +28,11 @@ class _CustomAppBarState extends State<CustomAppBar>
     const double frameHeight = 56;
 
     return SafeArea(
-      
+      bottom: false,
       child: PaddingBuilder()
           .withPadding(
-            left: horizontalPadding,
-            right: horizontalPadding,
-            top: verticalPadding,
-            bottom: verticalPadding,
+            horizontal: horizontalPadding,
+            vertical: verticalPadding,
           )
           .withChild(
             SizedBoxBuilder()
@@ -60,7 +45,7 @@ class _CustomAppBarState extends State<CustomAppBar>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      renderBackButton(),
+                      renderBackButton(context),
                       renderCurrentStep(),
                     ],
                   ),
@@ -69,29 +54,25 @@ class _CustomAppBarState extends State<CustomAppBar>
     );
   }
 
-  Widget renderBackButton() {
+  Widget renderBackButton(BuildContext context) {
     return GestureDetector(
-      onTap: goPreStep,
+      onTap: () => goPreStep(context),
       child: Container(
-        color: ColorGuidance.PRIMARY_WITHE,
+        color: AppColor.PRIMARY_WITHE,
         child: SvgPicture.asset(
-          AssetPaths.CHEVRON_LEFT_ICON_PATH,
+          AppAsset.CHEVRON_LEFT_ICON_PATH,
         ),
       ),
     );
   }
 
   Widget renderCurrentStep() {
-    const double frameWidth = 040;
+    const double frameWidth = 40;
     const double frameHeight = 24;
 
     final TextStyle stepStyle = TextStyleBuilder()
-        .withColor(
-          ColorGuidance.NATURAL_04,
-        )
-        .withFontSize(
-          18,
-        )
+        .withColor(AppColor.NATURAL_04)
+        .withFontSize(18)
         .build();
 
     return SizedBoxBuilder()
@@ -102,7 +83,7 @@ class _CustomAppBarState extends State<CustomAppBar>
         .withChild(
           Center(
             child: Text(
-              "${currentPage + 1}/${widget.totalPageLength}",
+              "${currentStep.toString()}/5",
               style: stepStyle,
             ),
           ),
