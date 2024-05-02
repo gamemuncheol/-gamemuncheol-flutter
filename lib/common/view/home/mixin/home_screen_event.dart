@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:gamemuncheol/feature/feed/view/create_feed_screen/search_match_history_screen.dart';
+import 'package:gamemuncheol/feature/feed/view/create_feed_screen/search_match_screen.dart';
 
 mixin HomeScreenEvent {
   void pushSearchMatchHistoryScreen(BuildContext context) {
-    context.push(SearchMatchHistoryScreen.PATH);
+    context.push(SearchMatchScreen.PATH);
   }
 
   listenPageChanged({

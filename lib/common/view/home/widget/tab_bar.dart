@@ -38,8 +38,8 @@ class HomeTabBar extends HookWidget with HomeScreenEvent {
 
     return ContainerBuilder()
         .withPadding(top: topPadding)
-        .withBoxDecoration(boxDecoration)
-        .withChild(
+        .setBoxDecoration(boxDecoration)
+        .setChild(
           Stack(
             children: [
               renderDivider(),
@@ -59,7 +59,7 @@ class HomeTabBar extends HookWidget with HomeScreenEvent {
                         ))
                     .toList(),
               ),
-              const Gap(16).withWidth(),
+              const Gap(16).setWidth(),
             ],
           ),
         );
@@ -74,7 +74,7 @@ class HomeTabBar extends HookWidget with HomeScreenEvent {
       alignment: Alignment.bottomCenter,
       child: ContainerBuilder()
           .withSize(height: dividerHeight)
-          .withBoxDecoration(dividerDecoration)
+          .setBoxDecoration(dividerDecoration)
           .build(),
     );
   }
@@ -112,7 +112,7 @@ class HomeTabBar extends HookWidget with HomeScreenEvent {
               ),
               ContainerBuilder()
                   .withSize(height: undelineHeight)
-                  .withBoxDecoration(underlineDecoration)
+                  .setBoxDecoration(underlineDecoration)
                   .build(),
             ],
           ),

@@ -16,12 +16,12 @@ import 'package:gamemuncheol/feature/feed/view/create_feed_screen/request_galler
 import 'package:gamemuncheol/feature/feed/view/create_feed_screen/widget/header.dart';
 import 'package:go_router/go_router.dart';
 
-class RequestGalleryAndCameraPermissionScreen extends HookWidget
+class RequestGalleryPermissionScreen extends HookWidget
     with RequestGalleryAndCameraPermissionEvent {
   final bool hasGalleryPermission;
   final bool hasCameraPermission;
 
-  const RequestGalleryAndCameraPermissionScreen({
+  const RequestGalleryPermissionScreen({
     super.key,
     required this.hasGalleryPermission,
     required this.hasCameraPermission,
@@ -30,10 +30,10 @@ class RequestGalleryAndCameraPermissionScreen extends HookWidget
   static const PATH = "/request_gallery_and_camera_permission_screen";
   static const ROUTE_NAME = "RequestGalleryAndCameraPermissionScreen";
 
-  factory RequestGalleryAndCameraPermissionScreen.fromExtraData(
+  factory RequestGalleryPermissionScreen.fromExtraData(
     ExtraData extraData,
   ) {
-    return RequestGalleryAndCameraPermissionScreen(
+    return RequestGalleryPermissionScreen(
       hasGalleryPermission: extraData.data["hasGalleryPermission"],
       hasCameraPermission: extraData.data["hasCameraPermission"],
     );
@@ -52,7 +52,7 @@ class RequestGalleryAndCameraPermissionScreen extends HookWidget
     );
 
     return RequestGalleryAndCameraPermissionScreenScaffold(
-      appBar: renderAppBar(context),
+      stepBar: renderAppBar(context),
       header: renderHeader(),
       galleryPermissionButton: renderGalleryPermissionButton(
         context,
@@ -73,11 +73,11 @@ class RequestGalleryAndCameraPermissionScreen extends HookWidget
 
     return SafeArea(
       child: PaddingBuilder()
-          .withPadding(
+          .setPadding(
             horizontal: horizontalPadding,
             vertical: verticalPadding,
           )
-          .withChild(
+          .setChild(
             SizedBoxBuilder()
                 .withSize(
                   width: frameWidth,
@@ -166,8 +166,8 @@ class RequestGalleryAndCameraPermissionScreen extends HookWidget
             width: buttonWidth,
             height: buttonHeight,
           )
-          .withBoxDecoration(buttonDecoration)
-          .withChild(
+          .setBoxDecoration(buttonDecoration)
+          .setChild(
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

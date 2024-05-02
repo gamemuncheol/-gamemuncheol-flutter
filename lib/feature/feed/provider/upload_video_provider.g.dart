@@ -7,12 +7,12 @@ part of 'upload_video_provider.dart';
 // **************************************************************************
 
 String _$uploadVideoNotiferHash() =>
-    r'c583c6c2ec63ec143d8fd6db65fe2cb62bd96b68';
+    r'df28e0656390953bb1035f4af98fa9c412212bc6';
 
 /// See also [UploadVideoNotifer].
 @ProviderFor(UploadVideoNotifer)
-final uploadVideoNotiferProvider =
-    AutoDisposeNotifierProvider<UploadVideoNotifer, Ds<File>>.internal(
+final uploadVideoNotiferProvider = AutoDisposeNotifierProvider<
+    UploadVideoNotifer, BaseState<VideoUploadState>>.internal(
   UploadVideoNotifer.new,
   name: r'uploadVideoNotiferProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final uploadVideoNotiferProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$UploadVideoNotifer = AutoDisposeNotifier<Ds<File>>;
+typedef _$UploadVideoNotifer = AutoDisposeNotifier<BaseState<VideoUploadState>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -43,7 +43,7 @@ class LogoWithPropaganda extends StatelessWidget {
     return ContainerBuilder()
         .withMargin(left: leftMargin, top: topMargin)
         .withSize(width: frameWidth)
-        .withChild(
+        .setChild(
           SvgPicture.asset(
             fit: BoxFit.fitWidth,
             AppAsset.LOL_MUNCHEOL_UNDERLINE_PATH,
@@ -71,7 +71,7 @@ class LogoWithPropaganda extends StatelessWidget {
           .withMargin(
             top: topMargin,
           )
-          .withChild(
+          .setChild(
             Column(
               children: [
                 Text(
@@ -79,7 +79,7 @@ class LogoWithPropaganda extends StatelessWidget {
                   style: propagandaStyle,
                   textAlign: TextAlign.center,
                 ),
-                const Gap(20).withHeight(),
+                const Gap(20).setHeight(),
                 Text(
                   "3초 가입으로 바로 시작하세요.",
                   style: propagandaStyle2,

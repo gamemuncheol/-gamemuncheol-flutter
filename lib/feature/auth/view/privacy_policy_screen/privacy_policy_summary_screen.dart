@@ -52,7 +52,7 @@ class PrivacyPolicySummaryScreen extends ConsumerWidget
           height: dividerWidth,
           width: dividerHeight,
         )
-        .withBoxDecoration(dividerDecoration)
+        .setBoxDecoration(dividerDecoration)
         .build();
   }
 

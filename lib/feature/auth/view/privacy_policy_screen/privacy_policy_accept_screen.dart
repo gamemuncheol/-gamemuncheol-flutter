@@ -64,7 +64,7 @@ class PrivacyPolicyAcceptScreen extends ConsumerWidget
           width: dividerWidth,
           height: dividerHeight,
         )
-        .withBoxDecoration(dividerDecoration)
+        .setBoxDecoration(dividerDecoration)
         .build();
   }
 
@@ -81,8 +81,8 @@ class PrivacyPolicyAcceptScreen extends ConsumerWidget
         final String description = terms.keys.toList()[index];
 
         return PaddingBuilder()
-            .withPadding(vertical: singleSheetVerticalPadding)
-            .withChild(
+            .setPadding(vertical: singleSheetVerticalPadding)
+            .setChild(
               isNeccesary
                   ? Term.singleWithNeccesary(description: description)
                   : Term.singleWithUnnecessary(description: description),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import 'package:gamemuncheol/common/const/colors.dart';
-import 'package:gamemuncheol/common/util/app_text_style.dart';
+import 'package:gamemuncheol/common/theme/app_theme.dart';
 import 'package:gamemuncheol/common/util/gap.dart';
 
 class CreateFeedScreenHeader extends StatelessWidget {
@@ -20,37 +19,21 @@ class CreateFeedScreenHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        renderTitle(title: title),
-        const Gap(16).withHeight(),
-        renderDescription(description: description),
+        renderTitle(context),
+        const Gap(16).setHeight(),
+        renderDescription(context),
       ],
     );
   }
 
-  Widget renderTitle({
-    required String title,
-  }) {
-    final TextStyle titleStyle =
-        TextStyleBuilder().withFontSize(26).withMedium().build();
-
-    return Text(
-      title,
-      style: titleStyle,
-    );
+  Widget renderTitle(BuildContext context) {
+    final TextStyle titleStyle = context.textStyleTheme.title1M;
+    return Text(title, style: titleStyle);
   }
 
-  Widget renderDescription({
-    required String description,
-  }) {
-    final TextStyle descriptionStyle = TextStyleBuilder()
-        .withColor(AppColor.FONT_GREY_03)
-        .withFontSize(16)
-        .withRegular()
-        .build();
-
-    return Text(
-      description,
-      style: descriptionStyle,
-    );
+  Widget renderDescription(BuildContext context) {
+    final TextStyle descriptionStyle = context.textStyleTheme.body4R
+        .copyWith(color: context.colorTheme.natural06);
+    return Text(description, style: descriptionStyle);
   }
 }

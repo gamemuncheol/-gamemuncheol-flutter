@@ -7,7 +7,7 @@ part of 'privacy_policy_provider.dart';
 // **************************************************************************
 
 String _$privacyPolicyNotifierHash() =>
-    r'1777321b92e71215fb684915e49dc0045c14b369';
+    r'7c1c1606f2c47791b6f91cddbe990a7c87040869';
 
 /// See also [PrivacyPolicyNotifier].
 @ProviderFor(PrivacyPolicyNotifier)

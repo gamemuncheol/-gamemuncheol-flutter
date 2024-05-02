@@ -1,3 +1,4 @@
+import 'package:gamemuncheol/common/model/data_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:gamemuncheol/feature/user/model/user.dart';
@@ -9,23 +10,27 @@ part 'user_provider.g.dart';
 @Riverpod(keepAlive: true)
 class UserNotifier extends _$UserNotifier {
   @override
-  Future<User?> build() async {
-    final UserRepository userRepository = ref.read(userRepositoryProvider);
-    final CommonResponse<bool> isAgree = await userRepository.isAgree();
+  BaseState<User?> build() => BaseState.init();
 
+  Future<void> init() async {
+    final UserRepository userRepository = ref.read(userRepositoryProvider);
+    state = Loading();
+
+    final CommonResponse<bool> isAgree = await userRepository.isAgree();
     if (isAgree.data!) {
       final CommonResponse<User> user = await userRepository.me();
-      return user.data!;
+      state = Data(user.data!);
+      return;
     }
 
-    return null;
+    state = Data(null);
   }
 
   Future<void> agree() async {
-    state = const AsyncValue.loading();
     final UserRepository userRepository = ref.read(userRepositoryProvider);
+    state = Loading();
 
     final CommonResponse<User> user = await userRepository.agree();
-    state = AsyncValue.data(user.data!);
+    state = Data(user.data!);
   }
 }

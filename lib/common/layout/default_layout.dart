@@ -1,8 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-
-import 'package:gamemuncheol/common/const/colors.dart';
+import 'package:gamemuncheol/common/theme/app_theme.dart';
 
 class DefaultLayout extends StatelessWidget {
   // 뒤로가기 시 수행할 로직
@@ -22,8 +21,8 @@ class DefaultLayout extends StatelessWidget {
     return WillPopScope(
       onWillPop: onWillPop,
       child: Scaffold(
+        backgroundColor: context.colorTheme.background,
         resizeToAvoidBottomInset: false,
-        backgroundColor: AppColor.PRIMARY_WITHE,
         body: child,
       ),
     );

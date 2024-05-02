@@ -15,6 +15,16 @@ class SizedBoxBuilder {
     return this;
   }
 
+  SizedBoxBuilder setWidth(double width) {
+    _width = width;
+    return this;
+  }
+
+  SizedBoxBuilder setHeigh(double height) {
+    _height = height;
+    return this;
+  }
+
   SizedBox withChild(Widget child) {
     _child = child;
     return SizedBox(

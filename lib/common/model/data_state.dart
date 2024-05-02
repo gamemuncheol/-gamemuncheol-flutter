@@ -6,65 +6,89 @@ abstract class StateWithLoadingText {
   StateWithLoadingText({this.loadingText});
 }
 
-class Ds<T> extends StateWithLoadingText {
+class BaseState<T> extends StateWithLoadingText {
   T? valueOrNull;
   ErrorWithMessage? error;
-  DataState state;
 
-  Ds({
-    required this.state,
+  BaseState({
     this.error,
     this.valueOrNull,
     super.loadingText,
   });
 
-  T get value => valueOrNull!;
-  String get loadingInfo => loadingText!;
+  T get asData => valueOrNull!;
 
-  R onState<R>({
-    required R Function() initial,
-    required R Function(String? loadingText) loading,
-    required R Function(ErrorWithMessage error) error,
-    required R Function(T data) loaded,
+  bool get isInitial => this is Initial;
+  bool get isLoading => this is Loading;
+  bool get isError => this is Error;
+  bool get isData => this is Data;
+
+  factory BaseState.init() => Initial();
+  factory BaseState.withCache(BaseState<T> newState,
+      {required BaseState<T> preState}) {
+    newState.valueOrNull = preState.valueOrNull;
+    return newState;
+  }
+
+  R when<R>({
+    R Function()? initial,
+    R Function(String? loadingText)? loadingWithText,
+    R Function()? loading,
+    R Function(ErrorWithMessage error)? error,
+    R Function(T data)? data,
+    R Function()? orElse,
   }) {
-    if (state.isInitial) {
+    if (isInitial && initial != null) {
       return initial();
-    } else if (state.isLoading) {
-      return loading(loadingText);
-    } else if (state.isError) {
+    } else if (isLoading && loading != null) {
+      return loading();
+    } else if (isLoading && loadingWithText != null) {
+      return loadingWithText(loadingText);
+    } else if (isError && error != null) {
       return error(this.error!);
+    } else if (isData && data != null) {
+      return data(valueOrNull as T);
     } else {
-      return loaded(valueOrNull as T);
+      return orElse!();
+    }
+  }
+
+  R whenWithCache<R>({
+    R Function()? initial,
+    R Function(String? loadingText, T? valueOrNull)? loadingWithText,
+    R Function(T? valueOrNull)? loading,
+    R Function(ErrorWithMessage error, T? valueOrNull)? error,
+    R Function(T data)? data,
+    R Function()? orElse,
+  }) {
+    if (isInitial && initial != null) {
+      return initial();
+    } else if (isLoading && loading != null) {
+      return loading(valueOrNull);
+    } else if (isLoading && loadingWithText != null) {
+      return loadingWithText(loadingText, valueOrNull);
+    } else if (isError && error != null) {
+      return error(this.error!, valueOrNull);
+    } else if (isData && data != null) {
+      return data(valueOrNull as T);
+    } else {
+      return orElse!();
     }
   }
 }
 
-class Initial<T> extends Ds<T> {
-  Initial() : super(state: DataState.initial);
+class Initial<T> extends BaseState<T> {
+  Initial() : super();
 }
 
-class Loading<T> extends Ds<T> {
-  Loading(String? loadingText)
-      : super(state: DataState.loading, loadingText: loadingText);
+class Loading<T> extends BaseState<T> {
+  Loading({super.loadingText}) : super();
 }
 
-class Error<T> extends Ds<T> {
-  Error(ErrorWithMessage error) : super(state: DataState.error, error: error);
+class Data<T> extends BaseState<T> {
+  Data(T valueOrNull) : super(valueOrNull: valueOrNull);
 }
 
-class Loaded<T> extends Ds<T> {
-  Loaded(T valueOrNull)
-      : super(state: DataState.loaded, valueOrNull: valueOrNull);
-}
-
-enum DataState {
-  initial,
-  loading,
-  loaded,
-  error;
-
-  bool get isInitial => this == DataState.initial;
-  bool get isLoading => this == DataState.loading;
-  bool get isError => this == DataState.error;
-  bool get isLoaded => this == DataState.loaded;
+class Error<T> extends BaseState<T> {
+  Error(ErrorWithMessage error) : super(error: error);
 }

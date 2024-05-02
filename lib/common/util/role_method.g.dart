@@ -6,7 +6,7 @@ part of 'role_method.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$excecuteWhenHash() => r'245ac0a73c32f6ef305fd1d85e98716086ce3890';
+String _$excecuteWhenHash() => r'851a887a623cec4db6c1d61a54e02312cb048162';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -40,8 +40,8 @@ class ExcecuteWhenFamily extends Family<void> {
 
   /// See also [excecuteWhen].
   ExcecuteWhenProvider call({
-    required dynamic Function() user,
-    required dynamic Function() guest,
+    required Function user,
+    required Function guest,
   }) {
     return ExcecuteWhenProvider(
       user: user,
@@ -78,8 +78,8 @@ class ExcecuteWhenFamily extends Family<void> {
 class ExcecuteWhenProvider extends AutoDisposeProvider<void> {
   /// See also [excecuteWhen].
   ExcecuteWhenProvider({
-    required dynamic Function() user,
-    required dynamic Function() guest,
+    required Function user,
+    required Function guest,
   }) : this._internal(
           (ref) => excecuteWhen(
             ref as ExcecuteWhenRef,
@@ -110,8 +110,8 @@ class ExcecuteWhenProvider extends AutoDisposeProvider<void> {
     required this.guest,
   }) : super.internal();
 
-  final dynamic Function() user;
-  final dynamic Function() guest;
+  final Function user;
+  final Function guest;
 
   @override
   Override overrideWith(
@@ -156,10 +156,10 @@ class ExcecuteWhenProvider extends AutoDisposeProvider<void> {
 
 mixin ExcecuteWhenRef on AutoDisposeProviderRef<void> {
   /// The parameter `user` of this provider.
-  dynamic Function() get user;
+  Function get user;
 
   /// The parameter `guest` of this provider.
-  dynamic Function() get guest;
+  Function get guest;
 }
 
 class _ExcecuteWhenProviderElement extends AutoDisposeProviderElement<void>
@@ -167,9 +167,9 @@ class _ExcecuteWhenProviderElement extends AutoDisposeProviderElement<void>
   _ExcecuteWhenProviderElement(super.provider);
 
   @override
-  dynamic Function() get user => (origin as ExcecuteWhenProvider).user;
+  Function get user => (origin as ExcecuteWhenProvider).user;
   @override
-  dynamic Function() get guest => (origin as ExcecuteWhenProvider).guest;
+  Function get guest => (origin as ExcecuteWhenProvider).guest;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

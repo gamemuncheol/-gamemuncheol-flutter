@@ -65,7 +65,7 @@ class SocialAuthScreen extends HookConsumerWidget
     return Column(
       children: [
         SocialAuthButton.apple(onTap: signInWithApple),
-        const Gap(26).withHeight(),
+        const Gap(26).setHeight(),
         SocialAuthButton.google(onTap: signInWithGoogle),
       ],
     );

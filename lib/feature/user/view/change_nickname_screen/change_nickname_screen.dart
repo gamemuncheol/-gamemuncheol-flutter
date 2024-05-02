@@ -91,17 +91,11 @@ class ChangeNicknameScreen extends HookConsumerWidget
 
     return Consumer(
       builder: (context, ref, child) {
-        return ref.watch(changeNicknamNotifierProvider).onState(
+        return ref.watch(changeNicknamNotifierProvider).when(
           error: (error) {
             return Text(error.message, style: errorStyle);
           },
-          initial: () {
-            return const SizedBox();
-          },
-          loading: (loadingText) {
-            return const SizedBox();
-          },
-          loaded: (data) {
+          orElse: () {
             return const SizedBox();
           },
         );
@@ -125,8 +119,8 @@ class ChangeNicknameScreen extends HookConsumerWidget
       onTap: onTap,
       child: ContainerBuilder()
           .withSize(height: buttonHeight)
-          .withBoxDecoration(buttoneDecoration)
-          .withChild(
+          .setBoxDecoration(buttoneDecoration)
+          .setChild(
             Center(
               child: Text(
                 "완료",

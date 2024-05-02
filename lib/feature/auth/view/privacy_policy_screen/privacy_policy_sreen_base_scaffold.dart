@@ -20,11 +20,11 @@ abstract class PrivacyPolicyScreenBaseScaffold extends StatelessWidget {
       children: [
         Expanded(
           child: PaddingBuilder()
-              .withPadding(
+              .setPadding(
                 top: topPadding,
                 horizontal: horizontalPadding,
               )
-              .withChild(renderScaffold()),
+              .setChild(renderScaffold()),
         ),
         SafeArea(top: false, child: nextButton),
       ],

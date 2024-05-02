@@ -58,9 +58,6 @@ class PrivacyPolicyNotifier extends _$PrivacyPolicyNotifier {
       }
     }
 
-    print(state.state);
-    print(state.singleAcceptCount);
-
     return true;
   }
 
