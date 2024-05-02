@@ -49,7 +49,7 @@ class HomeAppBar extends ConsumerWidget with HomeScreenEvent {
       mainAxisSize: MainAxisSize.min,
       children: [
         SvgPicture.asset(AppAsset.SEARCH_ICON_PATH),
-        const Gap(8).withWidth(),
+        const Gap(8).setWidth(),
         SvgPicture.asset(AppAsset.APP_BAR_LOGO_TEXT_PATH)
       ],
     );
@@ -64,7 +64,7 @@ class HomeAppBar extends ConsumerWidget with HomeScreenEvent {
         onTap: onSearchIconTap,
         child: SvgPicture.asset(AppAsset.SEARCH_ICON_PATH),
       ),
-      const Gap(12).withWidth(),
+      const Gap(12).setWidth(),
       GestureDetector(
         onTap: onNotiIconTap,
         child: SvgPicture.asset(AppAsset.NOTIFICATION_NEW_ICON_PATH),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gamemuncheol/common/const/colors.dart';
 import 'package:gamemuncheol/common/util/app_text_style.dart';
 
-class SnackBarUtils {
+class SnackBarUtil {
   static snackBar(
     BuildContext context, {
     required String text,

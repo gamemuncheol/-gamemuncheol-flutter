@@ -33,17 +33,17 @@ class ChangeNicknameScreenScaffold extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             PaddingBuilder()
-                .withPadding(horizontal: horizontalPadding)
-                .withChild(
+                .setPadding(horizontal: horizontalPadding)
+                .setChild(
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SafeArea(bottom: false, child: SizedBox()),
-                      const Gap(56).withHeight(),
+                      const Gap(56).setHeight(),
                       title,
-                      const Gap(120).withHeight(),
+                      const Gap(120).setHeight(),
                       textField,
-                      const Gap(16).withHeight(),
+                      const Gap(16).setHeight(),
                       errorText,
                     ],
                   ),

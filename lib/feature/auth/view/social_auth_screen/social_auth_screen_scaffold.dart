@@ -26,11 +26,11 @@ class SocialAuthScreenScaffold extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Gap(148).withHeight(),
+              const Gap(148).setHeight(),
               logoWithPropaganda,
-              const Gap(148).withHeight(),
+              const Gap(148).setHeight(),
               socialLoginButtons,
-              const Gap(74).withHeight(),
+              const Gap(74).setHeight(),
             ],
           )
         ],

@@ -3,30 +3,35 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gamemuncheol/common/router/extra_data.dart';
-import 'package:gamemuncheol/common/util/snack_bar_util.dart';
+import 'package:gamemuncheol/common/util/dialog_uitl.dart';
 import 'package:gamemuncheol/feature/feed/provider/upload_video_provider.dart';
+import 'package:gamemuncheol/feature/feed/view/create_feed_screen/enter_feed_form_screen.dart';
+import 'package:gamemuncheol/feature/feed/view/create_feed_screen/enter_youtube_url_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:gamemuncheol/common/permission/permission_handler.dart';
-import 'package:gamemuncheol/feature/feed/view/create_feed_screen/request_gallery_and_camera_permission_screen.dart.dart';
+import 'package:gamemuncheol/feature/feed/view/create_feed_screen/request_gallery_and_camera_permission_screen.dart';
 
 mixin UploadVideoScreenEvent {
-  void listenState(
-    BuildContext context,
-    WidgetRef ref,
-  ) {
+  void onLeadingTap(BuildContext context) {
+    context.pop();
+  }
+
+  void listenError(BuildContext context, WidgetRef ref) {
     ref.listen(uploadVideoNotiferProvider, (previous, next) {
-      if (next.state.isError && next.error!.message.isNotEmpty) {
-        SnackBarUtils.snackBar(context, text: next.error!.message);
-      } else if (next.state.isLoaded) {
-        SnackBarUtils.snackBar(context, text: "업로드 성공!");
+      if (next.isError && next.erMessage.isNotEmpty) {
+        DialogUtil.show(
+          context,
+          title: "업로드 실패",
+          description: next.erMessage,
+          onSignleButtonTap: () => context.pop(),
+        );
       }
     });
   }
 
   Future<ExtraData?> checkPermission() async {
-    // 안드로이드는 권한이 필요 없음
     bool hasGalleryPermission = Platform.isAndroid
         ? true
         : await PermissionHandlerHelper.checkPermission(Permission.photos);
@@ -46,35 +51,42 @@ mixin UploadVideoScreenEvent {
     return null;
   }
 
-  void selectVideo(BuildContext context, WidgetRef ref) async {
-    final ExtraData? extraData = await checkPermission();
-    final bool selectable = extraData == null;
+  void enterYoutubeUrl(BuildContext context) {
+    context.push(EnterYoutubeUrlScreen.PATH);
+  }
 
-    if (selectable) {
-      await ref.read(uploadVideoNotiferProvider.notifier).uploadVideo();
-    } else {
-      if (context.mounted) {
-        context.pushNamed(
-          RequestGalleryAndCameraPermissionScreen.ROUTE_NAME,
+  Future<void> selectVideo(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    await checkPermission().then((extraData) async {
+      final bool selectable = extraData == null;
+
+      if (selectable) {
+        await ref
+            .read(uploadVideoNotiferProvider.notifier)
+            .uploadVideo()
+            .then((value) {
+          if (value) {
+            context.push(EnterFeedFormScreen.PATH);
+          }
+        });
+      } else {
+        context.push(
+          RequestGalleryPermissionScreen.PATH,
           extra: extraData,
         );
       }
-    }
+    });
   }
 
-  void useGallery({
-    required ValueNotifier<bool> fromGallery,
-  }) {
+  void useGallery({required ValueNotifier<bool> fromGallery}) {
     fromGallery.value = true;
   }
 
-  void useUrl({
-    required ValueNotifier<bool> fromGallery,
-  }) {
+  void useYoutubeUrl({required ValueNotifier<bool> fromGallery}) {
     fromGallery.value = false;
   }
-
-  void enterUrl() {}
 
   void goNextStep() {}
 }

@@ -10,16 +10,15 @@ part 'change_nickname_provider.g.dart';
 @riverpod
 class ChangeNicknamNotifier extends _$ChangeNicknamNotifier {
   @override
-  Ds<CommonResponse> build() => Ds(state: DataState.initial);
+  BaseState<CommonResponse> build() => BaseState();
 
   Future<void> changeNickname(String nickname) async {
-    state = Loading("닉네임 변경 중..");
-
+    state = Loading(loadingText: "닉네임 변경 중..");
     final Result<CommonResponse> resp =
         await ref.read(userRepositoryProvider).changeNickname(nickname);
 
     resp.when(
-      success: (response) => state = Loaded(response),
+      success: (response) => state = Data(response),
       failure: (error) => state = Error(error),
     );
   }

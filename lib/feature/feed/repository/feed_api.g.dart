@@ -19,20 +19,21 @@ class _FeedApiImpl implements FeedApiImpl {
   String? baseUrl;
 
   @override
-  Future<MatchHistory> search({required String gameId}) async {
+  Future<CommonResponse<MatchHistory>> search(String gameId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<MatchHistory>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CommonResponse<MatchHistory>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/api/board/searchMatch/${gameId}',
+              '/api/board/search-match/${gameId}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -41,7 +42,10 @@ class _FeedApiImpl implements FeedApiImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = MatchHistory.fromJson(_result.data!);
+    final value = CommonResponse<MatchHistory>.fromJson(
+      _result.data!,
+      (json) => MatchHistory.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 

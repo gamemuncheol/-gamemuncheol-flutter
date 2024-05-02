@@ -5,11 +5,11 @@ class AppAsset {
   static const AUTH_BACKGROUND_VIDEO_PATH =
       "assets/videos/auth_background_video.mp4";
 
-  // 애플 로그인 로고
-  static const APPLE_LOGO_PATH = "assets/images/Apple.svg";
+  // 애플 로그인 아이콘
+  static const APPLE_AUTH_ICON_PATH = "assets/images/Apple.svg";
 
-  // 구글 로그인 로고
-  static const GOOGLE_LOGO_PATH = "assets/images/Google.svg";
+  // 구글 로그인 아이콘
+  static const GOOGLE_AUTH_ICON_PATH = "assets/images/Google.svg";
 
   // 롤 문철 로고
   static const LOL_MUNCHEOL_PATH = "assets/images/LolMunCheol.png";
@@ -56,4 +56,13 @@ class AppAsset {
 
   // 전적 검색 방법 예시 사진
   static const MATCH__INFO_IMAGE_PATH = "assets/images/match_info_image.png";
+
+  // 피드 폼 제목 아이콘
+  static const FORM_TITLE_ICON = "assets/images/title_icon.svg";
+
+  // 피드 폼 내용 아이콘
+  static const FORM_DESCRIPTION_ICON = "assets/images/content_icon.svg";
+
+  // 다이얼로그 종 모양 아이콘
+  static const DIALOG_ICON = "assets/images/dialog_icon.png";
 }

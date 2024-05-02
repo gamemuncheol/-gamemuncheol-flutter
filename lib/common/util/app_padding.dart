@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PaddingBuilder {
   EdgeInsets? _padding;
   late final Widget _child;
 
-  PaddingBuilder withPadding({
+  PaddingBuilder setPadding({
     double? left,
     double? right,
     double? top,
@@ -22,11 +23,17 @@ class PaddingBuilder {
     return this;
   }
 
-  Padding withChild(Widget child) {
+  Padding setChild(Widget child) {
     _child = child;
 
     return Padding(
-      padding: _padding ?? const EdgeInsets.all(0),
+      padding: _padding?.copyWith(
+            left: _padding?.left.w,
+            right: _padding?.right.w,
+            top: _padding?.top.h,
+            bottom: _padding?.bottom.h,
+          ) ??
+          const EdgeInsets.all(0),
       child: _child,
     );
   }

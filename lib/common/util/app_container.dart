@@ -14,12 +14,14 @@ class ContainerBuilder {
     double? right,
     double? top,
     double? bottom,
+    double? horizontal,
+    double? vertical,
   }) {
     _padding = EdgeInsets.only(
-      left: left ?? 0,
-      right: right ?? 0,
-      top: top ?? 0,
-      bottom: bottom ?? 0,
+      left: left ?? (horizontal == null ? 0 : horizontal / 2),
+      right: right ?? (horizontal == null ? 0 : horizontal / 2),
+      top: top ?? (vertical == null ? 0 : vertical / 2),
+      bottom: bottom ?? (vertical == null ? 0 : vertical / 2),
     );
     return this;
   }
@@ -29,14 +31,26 @@ class ContainerBuilder {
     double? right,
     double? top,
     double? bottom,
+    double? horizontal,
+    double? vertical,
   }) {
     _margin = EdgeInsets.only(
-      left: left ?? 0,
-      right: right ?? 0,
-      top: top ?? 0,
-      bottom: bottom ?? 0,
+      left: left ?? (horizontal == null ? 0 : horizontal / 2),
+      right: right ?? (horizontal == null ? 0 : horizontal / 2),
+      top: top ?? (vertical == null ? 0 : vertical / 2),
+      bottom: bottom ?? (vertical == null ? 0 : vertical / 2),
     );
 
+    return this;
+  }
+
+  ContainerBuilder setWidth(double width) {
+    _width = width;
+    return this;
+  }
+
+  ContainerBuilder setHeigh(double height) {
+    _height = height;
     return this;
   }
 
@@ -49,12 +63,12 @@ class ContainerBuilder {
     return this;
   }
 
-  ContainerBuilder withBoxDecoration(BoxDecoration boxDecoration) {
+  ContainerBuilder setBoxDecoration(BoxDecoration boxDecoration) {
     _boxDecoration = boxDecoration;
     return this;
   }
 
-  Container withChild(Widget child) {
+  Container setChild(Widget child) {
     _child = child;
     return Container(
       padding: _padding?.copyWith(

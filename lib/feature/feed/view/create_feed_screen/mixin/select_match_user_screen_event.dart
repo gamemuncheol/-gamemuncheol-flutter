@@ -1,53 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:gamemuncheol/common/router/extra_data.dart';
 import 'package:gamemuncheol/feature/feed/model/match_user.dart';
+import 'package:gamemuncheol/feature/feed/provider/match_provider.dart';
 import 'package:gamemuncheol/feature/feed/view/create_feed_screen/upload_video_screen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-mixin SelectMatchUserScreenEvent {
-  void goNextStep(
-    BuildContext context, {
-    required List<MatchUser> selectedMatchUsers,
-  }) {
-    final ExtraData extra = GoRouterState.of(context).extra! as ExtraData;
-
-    context.pushNamed(
-      UploadVideoScreen.ROUTE_NAME,
-      extra: extra.copyWith("selectedMatchUsers", selectedMatchUsers),
-    );
+mixin SelectStakeHolderScreenEvent {
+  void onLeadingTap(BuildContext context) {
+    context.pop();
   }
 
-  void fromMyTeam({
-    required ValueNotifier<bool> myTeamNotifier,
-  }) {
-    myTeamNotifier.value = true;
+  void onTap(BuildContext context) {
+    context.pushNamed(UploadVideoScreen.ROUTE_NAME);
   }
 
-  void fromEnemy({
-    required ValueNotifier<bool> myTeamNotifier,
-  }) {
-    myTeamNotifier.value = false;
+  void selectTeam({required ValueNotifier<bool> inMyTeam}) {
+    inMyTeam.value = true;
   }
 
-  void selectMatchUser({
-    required ValueNotifier<List<MatchUser>> matchUsersNotifier,
-    required MatchUser selectedMatchUser,
-  }) {
-    List<MatchUser> updatedList = List.from(matchUsersNotifier.value);
-
-    updatedList.add(selectedMatchUser);
-
-    matchUsersNotifier.value = updatedList;
+  void selectEnemy({required ValueNotifier<bool> inMyTeam}) {
+    inMyTeam.value = false;
   }
 
-  void unSelectMatchUser({
-    required ValueNotifier<List<MatchUser>> matchUsersNotifier,
-    required MatchUser selectedMatchUser,
-  }) {
-    List<MatchUser> updatedList = List.from(matchUsersNotifier.value);
+  void selectStakeHolder(WidgetRef ref, {required MatchUser stakeHolder}) {
+    ref
+        .read(matchNotiferProvider.notifier)
+        .selectStakeHolder(stakeHolder: stakeHolder);
+  }
 
-    updatedList.removeWhere((matchUser) => matchUser == selectedMatchUser);
-
-    matchUsersNotifier.value = updatedList;
+  void exceptStakeHolder(WidgetRef ref, {required MatchUser stakeHolder}) {
+    ref
+        .read(matchNotiferProvider.notifier)
+        .exceptStakeHolder(stakeHolder: stakeHolder);
   }
 }

@@ -19,7 +19,7 @@ mixin RequestGalleryAndCameraPermissionEvent {
   }
 
   void showSnackBark(BuildContext context) {
-    SnackBarUtils.snackBar(
+    SnackBarUtil.snackBar(
       context,
       text: "권한을 허용해 주세요.",
     );

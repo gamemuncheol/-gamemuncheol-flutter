@@ -27,7 +27,7 @@ class AuthNotifier extends _$AuthNotifier {
         await ref.read(secureStorageProvider).read(key: Data.ACCESS_TOKEN_KEY);
 
     if (accessToken != null) {
-      ref.read(userNotifierProvider);
+      await ref.read(userNotifierProvider.notifier).init();
       state = Authenticated(signInMethod: signInMethodModel.signInMethod);
       return;
     }
@@ -99,7 +99,7 @@ class AuthNotifier extends _$AuthNotifier {
 
     return true;
   }
-
+  
   // OAuth 구글 로그인
   Future<bool> signInWithGoogle({required String token}) async {
     final String accessToken = token.split("/").first;

@@ -29,6 +29,7 @@ class CustomInterceptor extends Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
+    debugPrint("[메소드: ${options.method}]");
     debugPrint("[베이스: ${options.baseUrl}]");
     debugPrint("[쿼리 스트링: ${options.path}]");
     debugPrint("[쿼리 파람: ${options.queryParameters}]");

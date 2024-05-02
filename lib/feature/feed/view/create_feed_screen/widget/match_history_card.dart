@@ -1,10 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gap/gap.dart';
-import 'package:gamemuncheol/common/const/colors.dart';
+
+import 'package:gamemuncheol/common/theme/app_theme.dart';
+import 'package:gamemuncheol/common/util/app_sized_box.dart';
 import 'package:gamemuncheol/common/util/app_container.dart';
-import 'package:gamemuncheol/common/util/app_text_style.dart';
 import 'package:gamemuncheol/common/util/gap.dart';
 import 'package:gamemuncheol/common/util/time_formatter.dart';
 import 'package:gamemuncheol/feature/feed/model/match_user.dart';
@@ -24,10 +25,10 @@ class MatchHistoryCard extends ConsumerWidget {
     return Row(
       children: [
         renderThumnail(),
-        const Gap(16).withWidth(),
-        Expanded(child: renderMatchInfo()),
-        if (gameCreation != null) const Gap(16).withWidth(),
-        if (gameCreation != null) renderMatchResult(),
+        const Gap(16).setWidth(),
+        Expanded(child: renderMatchInfo(context)),
+        if (gameCreation != null) const Gap(16).setWidth(),
+        if (gameCreation != null) renderMatchResult(context),
       ],
     );
   }
@@ -35,38 +36,35 @@ class MatchHistoryCard extends ConsumerWidget {
   Widget renderThumnail() {
     const double thumbNailRadius = 24;
 
-    return ContainerBuilder()
-        .withSize(
-          width: thumbNailRadius * 2,
-          height: thumbNailRadius * 2,
-        )
+    return SizedBoxBuilder()
+        .withSize(width: thumbNailRadius * 2, height: thumbNailRadius * 2)
         .withChild(
           ClipOval(
-            child: CachedNetworkImage(imageUrl: matchUser.championThumbnail),
+            child: CachedNetworkImage(
+              imageUrl: matchUser.championThumbnail,
+              fit: BoxFit.cover,
+            ),
           ),
         );
   }
 
-  Widget renderMatchInfo() {
-    const double space1 = 4;
+  Widget renderMatchInfo(BuildContext context) {
+    const int maxNicknameLength = 6;
 
-    const int maxLength = 6;
-    final String nickname = matchUser.nickname.split("#").first.trim();
-    final bool exceed = nickname.length > maxLength;
-    final String displayedNickName =
-        exceed ? '${nickname.substring(0, maxLength)}...' : nickname;
+    final String fullNickname = matchUser.nickname.split("#").first.trim();
+    final bool exceed = fullNickname.length > maxNicknameLength;
+
+    final String displayedNickName = exceed
+        ? '${fullNickname.substring(0, maxNicknameLength)}...'
+        : fullNickname;
 
     final String displayedChampion =
         matchUser.championThumbnail.split("/").last.split(".").first;
 
-    final TextStyle creationStyle = TextStyleBuilder()
-        .withColor(AppColor.NATURAL_05)
-        .withFontSize(13)
-        .withRegular()
-        .build();
+    final TextStyle creationStyle = context.textStyleTheme.cap1
+        .copyWith(color: context.colorTheme.natural05);
 
-    final TextStyle nicknameStyle =
-        TextStyleBuilder().withFontSize(14).withRegular().build();
+    final TextStyle nicknameStyle = context.textStyleTheme.body5R;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,13 +74,10 @@ class MatchHistoryCard extends ConsumerWidget {
             TimeFormatter.formatDateTime(gameCreation!),
             style: creationStyle,
           ),
-        if (gameCreation != null) const Gap(space1).withHeight(),
+        if (gameCreation != null) const Gap(4).setHeight(),
         Row(
           children: [
-            Text(
-              displayedNickName,
-              style: nicknameStyle,
-            ),
+            Text(displayedNickName, style: nicknameStyle),
             const Text(" / "),
             Expanded(
               child: Text(
@@ -97,36 +92,32 @@ class MatchHistoryCard extends ConsumerWidget {
     );
   }
 
-  Widget renderMatchResult() {
+  Widget renderMatchResult(BuildContext context) {
     final bool isWinner = matchUser.win;
 
     final BoxDecoration boxDecoration = BoxDecoration(
-        color:
-            isWinner ? AppColor.PRIMARY_BLUE : AppColor.PRIMARY_WITHE,
-        borderRadius: BorderRadius.circular(64),
-        border: Border.all(
+      color: isWinner
+          ? context.colorTheme.primaryBlue
+          : context.colorTheme.background,
+      borderRadius: BorderRadius.circular(64),
+      border: Border.all(
           color: isWinner
-              ? AppColor.PRIMARY_BLUE
-              : AppColor.PRIMARY_GREEN,
-        ));
+              ? context.colorTheme.primaryBlue
+              : context.colorTheme.primaryGreen),
+    );
 
-    final TextStyle resultStyle = TextStyleBuilder()
-        .withColor(
-          isWinner ? AppColor.PRIMARY_WITHE : AppColor.PRIMARY_GREEN,
-        )
-        .withFontSize(14)
-        .withRegular()
-        .build();
+    final TextStyle resultStyle = context.textStyleTheme.body5M.copyWith(
+      color: isWinner
+          ? context.colorTheme.onPrimaryBlue
+          : context.colorTheme.primaryGreen,
+    );
 
     const double frameWidth = 58;
     const double frameHeight = 28;
     return ContainerBuilder()
-        .withSize(
-          width: frameWidth,
-          height: frameHeight,
-        )
-        .withBoxDecoration(boxDecoration)
-        .withChild(
+        .withSize(width: frameWidth, height: frameHeight)
+        .setBoxDecoration(boxDecoration)
+        .setChild(
           Center(
             child: Text(
               isWinner ? "승리" : "패배",

@@ -109,7 +109,7 @@ class Term extends HookConsumerWidget with PrivacyPolicyAcceptScreenEvent {
         Row(
           children: [
             renderCheckBox(isAccepted: isAccepted),
-            const Gap(12).withWidth(),
+            const Gap(12).setWidth(),
             Text(
               "모두 동의",
               style: termTextStyle,
@@ -128,11 +128,11 @@ class Term extends HookConsumerWidget with PrivacyPolicyAcceptScreenEvent {
 
     return Column(
       children: [
-        const Gap(11).withHeight(),
+        const Gap(11).setHeight(),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Gap(42).withHeight(),
+            const Gap(42).setHeight(),
             Text(
               description,
               style: descriptionTextStyle,
@@ -158,7 +158,7 @@ class Term extends HookConsumerWidget with PrivacyPolicyAcceptScreenEvent {
 
     return Row(
       children: [
-        const Gap(12).withHeight(),
+        const Gap(12).setHeight(),
         Expanded(
           child: Text(
             description,

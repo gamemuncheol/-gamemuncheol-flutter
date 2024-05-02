@@ -1,10 +1,11 @@
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide Headers;
+import 'package:gamemuncheol/common/model/common_response.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:gamemuncheol/common/const/data.dart';
 import 'package:gamemuncheol/common/dio/dio.dart';
 import 'package:gamemuncheol/feature/feed/model/match_history.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'feed_api.g.dart';
 
@@ -15,7 +16,7 @@ FeedApi feedApi(FeedApiRef ref) {
 }
 
 abstract class FeedApi {
-  Future<MatchHistory> search({required String gameId});
+  Future<CommonResponse<MatchHistory>> search(String gameId);
 }
 
 @RestApi()
@@ -26,6 +27,7 @@ abstract class FeedApiImpl implements FeedApi {
   }) = _FeedApiImpl;
 
   @override
-  @GET("/api/board/searchMatch/{gameId}")
-  Future<MatchHistory> search({@Path() required String gameId});
+  @Headers({"accessToken": "true"})
+  @GET("/api/board/search-match/{gameId}")
+  Future<CommonResponse<MatchHistory>> search(@Path() String gameId);
 }

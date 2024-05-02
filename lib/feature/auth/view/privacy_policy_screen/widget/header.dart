@@ -64,7 +64,7 @@ class DocsHeader extends StatelessWidget {
           title,
           style: titleStyle,
         ),
-        const Gap(12).withHeight(),
+        const Gap(12).setHeight(),
         Text(
           description,
           style: descriptionStyle,

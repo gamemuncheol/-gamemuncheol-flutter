@@ -33,7 +33,7 @@ class PrivacyPolicyAcceptScreenScaffold
       children: [
         SafeArea(child: sheetHeader),
         accpetAllButton,
-        const Gap(21).withHeight(),
+        const Gap(21).setHeight(),
         divider,
         Expanded(child: singleTermList),
       ],

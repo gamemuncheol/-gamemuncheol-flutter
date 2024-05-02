@@ -28,7 +28,7 @@ class SocialAuthButton extends ConsumerWidget {
   factory SocialAuthButton.apple({required VoidCallback onTap}) {
     return SocialAuthButton(
       onTap: onTap,
-      imagePath: AppAsset.APPLE_LOGO_PATH,
+      imagePath: AppAsset.APPLE_AUTH_ICON_PATH,
       label: "Apple로 계속하기",
       buttonColor: AppColor.NATURAL_06,
       labelColor: AppColor.PRIMARY_WITHE,
@@ -38,7 +38,7 @@ class SocialAuthButton extends ConsumerWidget {
   factory SocialAuthButton.google({required VoidCallback onTap}) {
     return SocialAuthButton(
       onTap: onTap,
-      imagePath: AppAsset.GOOGLE_LOGO_PATH,
+      imagePath: AppAsset.GOOGLE_AUTH_ICON_PATH,
       label: "Google로 계속하기",
       buttonColor: AppColor.PRIMARY_WITHE,
       labelColor: AppColor.FONT_GREY_04,
@@ -62,13 +62,13 @@ class SocialAuthButton extends ConsumerWidget {
             width: buttonWidth,
             height: buttonHegith,
           )
-          .withBoxDecoration(buttonDecoration)
-          .withChild(
+          .setBoxDecoration(buttonDecoration)
+          .setChild(
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 renderPlatformLogo(),
-                const Gap(12).withWidth(),
+                const Gap(12).setWidth(),
                 renderText(),
               ],
             ),
