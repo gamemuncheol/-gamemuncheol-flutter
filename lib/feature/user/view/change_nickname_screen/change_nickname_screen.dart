@@ -2,98 +2,104 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gamemuncheol/feature/user/mixin/register_nickname_screen_event.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gamemuncheol/common/const/assets.dart';
+import 'package:gamemuncheol/common/presentation/view/base_screen.dart';
+import 'package:gamemuncheol/common/presentation/widget/custom_text_form_filed.dart';
+import 'package:gamemuncheol/common/presentation/widget/square_button.dart';
+import 'package:gamemuncheol/feature/user/event.dart/change_nickname_screen_event.dart';
 import 'package:gamemuncheol/feature/user/provider/change_nickname_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:gamemuncheol/common/const/colors.dart';
-import 'package:gamemuncheol/common/util/app_container.dart';
-import 'package:gamemuncheol/common/util/app_sized_box.dart';
-import 'package:gamemuncheol/common/util/app_text_style.dart';
-import 'package:gamemuncheol/feature/user/view/change_nickname_screen/change_nickname_screen_scaffold.dart';
+import 'package:gamemuncheol/feature/user/view/change_nickname_screen/change_nickname_screen_layout.dart';
 
-class ChangeNicknameScreen extends HookConsumerWidget
-    with ChangeNicknameScreenEvent {
-  const ChangeNicknameScreen({
-    super.key,
-  });
+class ChangeNickNameScreen extends BaseScreen with ChangeNicknameScreenEvent {
+  ChangeNickNameScreen({super.key});
 
-  static const String PATH = "/register_nickname_screen";
-  static const String ROUTE_NAME = "RegisterNickNameScreen";
+  static const String name = "ChangeNickNameScreen";
+  static const String path = "/change_nickname_screen";
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  get provider => changeNickNameNotifierProvider;
+
+  @override
+  AppBar? buildAppBar() {
+    final double leadingWidth = 44.w;
+    final double leadingPadding = 16.w;
+
+    return AppBar(
+      elevation: 0,
+      backgroundColor: colorTheme.background,
+      leadingWidth: leadingWidth,
+      leading: GestureDetector(
+        onTap: onLeadingTap,
+        child: Padding(
+          padding: EdgeInsets.only(left: leadingPadding),
+          child: SvgPicture.asset(AppAsset.chevronLeftBlack),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget buildScreen(BuildContext context, WidgetRef ref) {
     final TextEditingController textEditingController =
         useTextEditingController();
 
-    return ChangeNicknameScreenScaffold(
-      title: renderTitle(),
-      textField: renderTextField(textEditingController: textEditingController),
-      errorText: renderErrorText(),
-      nextButton: renderNextButton(
+    return ChangeNickNameScreenLayout(
+      title: buildTitle(),
+      textField: buildTextField(nicknameController: textEditingController),
+      errorText: buildErrorText(),
+      nextButton: buildNextButton(
         onTap: () async {
-          await changeNickname(ref,
-              nickname: textEditingController.text.trim());
+          final String nickname = textEditingController.text.trim();
+          await changeNickName(ref, nickname: nickname);
         },
       ),
     );
   }
 
-  Widget renderTitle() {
-    TextStyle titleStyle =
-        TextStyleBuilder().withFontSize(26).withBold().build();
+  Widget buildTitle() {
+    const String title = "롤문철에서 사용하실 닉네\n임을 입력해 주세요.";
+    final TextStyle titleStyle = textStyleTheme.title1M;
 
     return Text(
-      "롤문철에서 사용하실 닉네\n임을 입력해 주세요.",
+      title,
       style: titleStyle,
     );
   }
 
-  Widget renderTextField({
-    required TextEditingController textEditingController,
+  Widget buildTextField({
+    required TextEditingController nicknameController,
   }) {
-    const double frameHeight = 50;
+    const int maxLines = 1;
+    const int maxLength = 16;
+    const String hintText = "닉네임을 입력해주세요.";
 
-    const UnderlineInputBorder textFieldDefaultBorder = UnderlineInputBorder(
-      borderSide: BorderSide(color: AppColor.NATURAL_03),
+    return CustomTextFormField(
+      textEditingController: nicknameController,
+      isUnderLineTextFormField: true,
+      maxLength: maxLength,
+      maxLines: maxLines,
+      hintText: hintText,
     );
-
-    TextStyle hintStyle = TextStyleBuilder()
-        .withColor(AppColor.NATURAL_04)
-        .withFontSize(18)
-        .withMedium()
-        .build();
-
-    return SizedBoxBuilder()
-        .withSize(
-          height: frameHeight,
-        )
-        .withChild(
-          TextField(
-            controller: textEditingController,
-            decoration: InputDecoration(
-              hintText: "닉네임을 입력해주세요.",
-              hintStyle: hintStyle,
-              errorBorder: textFieldDefaultBorder,
-              focusedBorder: textFieldDefaultBorder,
-              enabledBorder: textFieldDefaultBorder,
-            ),
-          ),
-        );
   }
 
-  Widget renderErrorText() {
-    TextStyle errorStyle = TextStyleBuilder()
-        .withColor(AppColor.ERROR_RED)
-        .withFontSize(14)
-        .withRegular()
-        .build();
+  Widget buildErrorText() {
+    final TextStyle errorStyle =
+        textStyleTheme.body5R.copyWith(color: colorTheme.errorRed);
 
     return Consumer(
       builder: (context, ref, child) {
-        return ref.watch(changeNicknamNotifierProvider).when(
-          error: (error) {
-            return Text(error.message, style: errorStyle);
+        final bState = ref.watch(changeNickNameNotifierProvider);
+
+        return bState.whenBState(
+          error: (message) {
+            return Text(
+              message,
+              style: errorStyle,
+            );
           },
           orElse: () {
             return const SizedBox();
@@ -103,31 +109,18 @@ class ChangeNicknameScreen extends HookConsumerWidget
     );
   }
 
-  Widget renderNextButton({required Future<void> Function() onTap}) {
-    const double buttonHeight = 64;
+  Widget buildNextButton({required Future<void> Function() onTap}) {
+    final labelStyle =
+        textStyleTheme.body3R.copyWith(color: colorTheme.onPrimaryBlue);
+    final buttonDecoration = BoxDecoration(color: colorTheme.primaryBlue);
 
-    final TextStyle labelStyle = TextStyleBuilder()
-        .withColor(AppColor.PRIMARY_WITHE)
-        .withRegular()
-        .build();
+    const String lable = "완료";
 
-    const BoxDecoration buttoneDecoration = BoxDecoration(
-      color: AppColor.PRIMARY_BLUE,
-    );
-
-    return GestureDetector(
+    return SquareButton(
       onTap: onTap,
-      child: ContainerBuilder()
-          .withSize(height: buttonHeight)
-          .setBoxDecoration(buttoneDecoration)
-          .setChild(
-            Center(
-              child: Text(
-                "완료",
-                style: labelStyle,
-              ),
-            ),
-          ),
+      label: lable,
+      labelStyle: labelStyle,
+      buttonDecoration: buttonDecoration,
     );
   }
 }

@@ -13,7 +13,9 @@ class IsarSource {
   Future<Isar> getIsar() async {
     final dir = await getApplicationDocumentsDirectory();
     return Isar.open(
-      [SignInMethodModelSchema],
+      [
+        SignInMethodModelSchema,
+      ],
       directory: dir.path,
       inspector: true,
     );

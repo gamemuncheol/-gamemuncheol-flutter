@@ -9,18 +9,20 @@ class CustomColorTheme extends ThemeExtension<CustomColorTheme> {
   final Color natural05;
   final Color natural06;
 
-  final Color errorRed = AppColor.ERROR_RED;
+  final Color errorRed = AppColor.errorRed;
 
   final Color primaryBlue;
   final Color onPrimaryBlue;
   final Color primaryGreen;
   final Color onPrimaryGreen;
-  final Color primaryBlack = AppColor.PRIMARY_BLACK;
-  final Color onPrimaryBlack = AppColor.PRIMARY_WITHE;
-  final Color primaryWhite = AppColor.PRIMARY_WITHE;
-  final Color onpPrimaryWhite = AppColor.PRIMARY_BLACK;
+  final Color primaryBlack = AppColor.primaryBlack;
+  final Color onPrimaryBlack = AppColor.primaryWhite;
+  final Color primaryWhite = AppColor.primaryWhite;
+  final Color onPrimaryWhite = AppColor.primaryBlack;
 
   final Color background;
+  final Color transParent = AppColor.transParent;
+  final Color black = AppColor.black;
 
   CustomColorTheme({
     required this.natural02,

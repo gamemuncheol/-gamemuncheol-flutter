@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:gamemuncheol/common/const/colors.dart';
 import 'package:gamemuncheol/common/theme/dark_theme.dart';
-
 import 'package:gamemuncheol/common/theme/light_theme.dart';
 
 enum ThemeEnum {
@@ -17,7 +17,7 @@ extension ThemeGenerator on ThemeEnum {
           useMaterial3: false,
           dialogBackgroundColor: Colors.transparent,
           textSelectionTheme:
-              const TextSelectionThemeData(cursorColor: AppColor.PRIMARY_BLUE),
+              const TextSelectionThemeData(cursorColor: AppColor.primaryBlue),
         ).copyWith(
           extensions: [
             LightTheme.instance.textTheme,
@@ -27,8 +27,9 @@ extension ThemeGenerator on ThemeEnum {
       case ThemeEnum.dark:
         return ThemeData(
           useMaterial3: false,
+          dialogBackgroundColor: Colors.transparent,
           textSelectionTheme:
-              const TextSelectionThemeData(cursorColor: AppColor.PRIMARY_BLUE),
+              const TextSelectionThemeData(cursorColor: AppColor.primaryBlue),
         ).copyWith(
           extensions: [
             DarkTheme.instance.textTheme,
@@ -36,7 +37,12 @@ extension ThemeGenerator on ThemeEnum {
           ],
         );
       default:
-        return ThemeData().copyWith(
+        return ThemeData(
+          useMaterial3: false,
+          dialogBackgroundColor: Colors.transparent,
+          textSelectionTheme:
+              const TextSelectionThemeData(cursorColor: AppColor.primaryBlue),
+        ).copyWith(
           extensions: [
             LightTheme.instance.textTheme,
             LightTheme.instance.colorTheme,

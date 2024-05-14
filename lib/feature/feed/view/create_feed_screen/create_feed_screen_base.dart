@@ -1,40 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:gamemuncheol/common/layout/default_layout.dart';
-import 'package:gamemuncheol/common/util/app_padding.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-abstract class CreateFeedScreenBase extends StatelessWidget {
-  final Widget stepBar;
-  final Widget? bottomButton;
+import 'package:gamemuncheol/common/presentation/layout/default_layout.dart';
 
-  const CreateFeedScreenBase({
-    required this.stepBar,
-    this.bottomButton,
-    super.key,
-  });
+abstract class CreateFeedScreenBaseScaffold extends StatelessWidget {
+  CreateFeedScreenBaseScaffold({super.key});
 
-  Widget renderScaffold();
+  final double horizontalPadding = 16.w;
+
+  Widget buildStepBar();
+  Widget? buildBottomButton();
+  Widget buildScaffold(BuildContext context);
 
   @override
   Widget build(BuildContext context) {
-    const double horizontalPadding = 32;
-
     return DefaultLayout(
       child: Column(
         children: [
           Expanded(
-            child: PaddingBuilder()
-                .setPadding(horizontal: horizontalPadding)
-                .setChild(
-                  Column(
-                    children: [
-                      SafeArea(top: true, bottom: false, child: stepBar),
-                      Expanded(child: renderScaffold()),
-                    ],
-                  ),
-                ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              child: Column(
+                children: [
+                  SafeArea(bottom: false, child: buildStepBar()),
+                  Expanded(child: buildScaffold(context)),
+                ],
+              ),
+            ),
           ),
-          if (bottomButton != null)
-            SafeArea(top: false, bottom: true, child: bottomButton!),
+          if (buildBottomButton() != null)
+            SafeArea(top: false, child: buildBottomButton()!),
         ],
       ),
     );

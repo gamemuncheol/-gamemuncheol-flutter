@@ -3,32 +3,32 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class MyChromeSafariBrowser extends ChromeSafariBrowser {
-  final Future<void> Function() onClosedCallBack;
+  final void Function() onClosedCallBack;
   MyChromeSafariBrowser({required this.onClosedCallBack});
 
   @override
-  void onClosed() async => await onClosedCallBack();
+  void onClosed() async => onClosedCallBack();
 }
 
 ChromeSafariBrowser useChromeSafariBrowser({
-  required Future<void> Function() onClosedCallBack,
+  required void Function() onClosed,
 }) {
-  return use(_ChromeSafariBrowser(onClosedCallBack: onClosedCallBack));
+  return use(_ChromeSafariBrowser(onClosed: onClosed));
 }
 
 class _ChromeSafariBrowser extends Hook<ChromeSafariBrowser> {
-  final Future<void> Function() onClosedCallBack;
-  const _ChromeSafariBrowser({required this.onClosedCallBack});
+  final void Function() onClosed;
+  const _ChromeSafariBrowser({required this.onClosed});
 
   @override
   ChromeSafariBrowserState createState() =>
-      ChromeSafariBrowserState(onClosedCallBack: onClosedCallBack);
+      ChromeSafariBrowserState(onClosedCallBack: onClosed);
 }
 
 class ChromeSafariBrowserState
     extends HookState<ChromeSafariBrowser, _ChromeSafariBrowser> {
-  final Future<void> Function() onClosedCallBack;
-  late ChromeSafariBrowser chromeSafariBrowser;
+  final void Function() onClosedCallBack;
+  late final ChromeSafariBrowser chromeSafariBrowser;
 
   ChromeSafariBrowserState({required this.onClosedCallBack});
 

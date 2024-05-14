@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gamemuncheol/feature/auth/view/privacy_policy_screen/screen/privacy_policy_home_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -7,7 +8,6 @@ import 'package:gamemuncheol/common/router/redirect_state.dart';
 import 'package:gamemuncheol/feature/auth/state/auth_state.dart';
 import 'package:gamemuncheol/feature/auth/provider/auth_provider.dart';
 import 'package:gamemuncheol/feature/auth/view/social_auth_screen/social_auth_screen.dart';
-import 'package:gamemuncheol/feature/auth/view/privacy_policy_screen/privacy_policy_home_screen.dart';
 
 part 'redirect_injection_service.g.dart';
 
@@ -54,7 +54,7 @@ class RedirectInjectionService extends Equatable {
     final String matchedLocation = goRouterState.matchedLocation;
 
     // 이미 로그인 한 유저는 다시 로그인할 필요가 없음!
-    if (matchedLocation == SocialAuthScreen.PATH &&
+    if (matchedLocation == SocialAuthScreen.path &&
         redirectState == RedirectState.authenticated) {
       return PrivacyPolicyHomeScreen.PATH;
     }

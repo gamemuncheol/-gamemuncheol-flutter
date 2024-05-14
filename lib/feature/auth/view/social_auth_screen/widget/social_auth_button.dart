@@ -1,93 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:gamemuncheol/common/service/theme_service.dart';
+import 'package:gap/gap.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:gamemuncheol/common/const/asset_paths.dart';
+import 'package:gamemuncheol/common/const/assets.dart';
 import 'package:gamemuncheol/common/const/colors.dart';
-import 'package:gamemuncheol/common/util/app_container.dart';
-import 'package:gamemuncheol/common/util/app_text_style.dart';
-import 'package:gamemuncheol/common/util/gap.dart';
-import 'package:gap/gap.dart';
 
-class SocialAuthButton extends ConsumerWidget {
-  final String imagePath;
+class SocialAuthButton extends ConsumerWidget with ThemeServiceProvider {
+  final VoidCallback onTap;
+  final String logoPath;
   final String label;
   final Color labelColor;
-  final Color buttonColor;
-  final VoidCallback onTap;
+  final Color backgroundColor;
 
   const SocialAuthButton({
     super.key,
-    required this.imagePath,
-    required this.label,
-    required this.buttonColor,
-    required this.labelColor,
     required this.onTap,
+    required this.logoPath,
+    required this.label,
+    required this.labelColor,
+    required this.backgroundColor,
   });
 
   factory SocialAuthButton.apple({required VoidCallback onTap}) {
+    const String logPath = AppAsset.appleLogo;
+    const String lable = "Apple로 계속하기";
+    const Color lableColor = AppColor.primaryWhite;
+    const Color backgroundColor = AppColor.natural06;
+
     return SocialAuthButton(
       onTap: onTap,
-      imagePath: AppAsset.APPLE_AUTH_ICON_PATH,
-      label: "Apple로 계속하기",
-      buttonColor: AppColor.NATURAL_06,
-      labelColor: AppColor.PRIMARY_WITHE,
+      logoPath: logPath,
+      label: lable,
+      labelColor: lableColor,
+      backgroundColor: backgroundColor,
     );
   }
 
   factory SocialAuthButton.google({required VoidCallback onTap}) {
+    const String logPath = AppAsset.googleLogo;
+    const String lable = "Google로 계속하기";
+    const Color lableColor = AppColor.natural06;
+    const Color backgroundColor = AppColor.white;
+
     return SocialAuthButton(
       onTap: onTap,
-      imagePath: AppAsset.GOOGLE_AUTH_ICON_PATH,
-      label: "Google로 계속하기",
-      buttonColor: AppColor.PRIMARY_WITHE,
-      labelColor: AppColor.FONT_GREY_04,
+      logoPath: logPath,
+      label: lable,
+      labelColor: lableColor,
+      backgroundColor: backgroundColor,
     );
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const double buttonWidth = 358;
-    const double buttonHegith = 50;
+    final double buttonWidth = 358.w;
+    final double buttonHegith = 50.h;
 
+    final labelStyle = textStyleTheme.body3M.copyWith(color: labelColor);
     final BoxDecoration buttonDecoration = BoxDecoration(
-      color: buttonColor,
+      color: backgroundColor,
       borderRadius: BorderRadius.circular(54),
     );
 
     return GestureDetector(
       onTap: onTap,
-      child: ContainerBuilder()
-          .withSize(
-            width: buttonWidth,
-            height: buttonHegith,
-          )
-          .setBoxDecoration(buttonDecoration)
-          .setChild(
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                renderPlatformLogo(),
-                const Gap(12).setWidth(),
-                renderText(),
-              ],
+      child: Container(
+        width: buttonWidth,
+        height: buttonHegith,
+        decoration: buttonDecoration,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(logoPath),
+            Gap(12.w),
+            Text(
+              label,
+              style: labelStyle,
             ),
-          ),
-    );
-  }
-
-  Widget renderPlatformLogo() => SvgPicture.asset(imagePath);
-
-  Widget renderText() {
-    final TextStyle labelStyle = TextStyleBuilder()
-        .withColor(labelColor)
-        .withFontSize(18)
-        .withMedium()
-        .build();
-
-    return Text(
-      label,
-      style: labelStyle,
+          ],
+        ),
+      ),
     );
   }
 }

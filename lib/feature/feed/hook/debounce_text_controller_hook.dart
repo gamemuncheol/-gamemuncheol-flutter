@@ -6,7 +6,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:rxdart/rxdart.dart';
 
 TextEditingController useDebouncedTextController(
-    void Function(String query) onDebounce) {
+  void Function(String query) onDebounce,
+) {
   final textController = useTextEditingController();
 
   useEffect(() {

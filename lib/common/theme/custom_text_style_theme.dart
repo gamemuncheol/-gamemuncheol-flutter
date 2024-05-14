@@ -7,6 +7,8 @@ class CustomTextStyleTheme extends ThemeExtension<CustomTextStyleTheme> {
   final double height = 1;
   final double letterSpacing = -0.50;
 
+  CustomTextStyleTheme({required this.defaultColor});
+
   late final TextStyle baseTextStyle = TextStyle(
     color: defaultColor,
     letterSpacing: letterSpacing,
@@ -54,8 +56,6 @@ class CustomTextStyleTheme extends ThemeExtension<CustomTextStyleTheme> {
 
   late final TextStyle cap1 = baseTextStyleRegular.copyWith(fontSize: 13.sp);
   late final TextStyle cap2 = baseTextStyleRegular.copyWith(fontSize: 12.sp);
-
-  CustomTextStyleTheme({required this.defaultColor});
 
   @override
   CustomTextStyleTheme copyWith() {

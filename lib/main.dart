@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:gamemuncheol/common/di/locator.dart';
+import 'package:gamemuncheol/common/service/theme_service.dart';
+import 'package:gamemuncheol/common/util/system_util.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +17,7 @@ import 'package:gamemuncheol/common/theme/theme_manger.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "app_config.env");
-  final IsarSource isarSource = IsarSource();
+  setupLocator();
 
   final Brightness brightness = MediaQueryData.fromView(
     WidgetsBinding.instance.platformDispatcher.views.first,
@@ -22,22 +26,28 @@ void main() async {
   final ThemeEnum initialTheme =
       brightness == Brightness.dark ? ThemeEnum.dark : ThemeEnum.light;
 
+  final IsarSource isarSource = IsarSource();
+
   runApp(
     ProviderScope(
       overrides: [
         isarProvider.overrideWithValue(await isarSource.getIsar()),
-        themeProvider.overrideWith((ref) => ThemeManagerImpl(initialTheme))
+        themeProvider.overrideWith((ref) => ThemeManagerImpl(initialTheme)),
       ],
       child: const MyApp(),
     ),
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerWidget with SystemUtil {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    setDefaultSystemUiMode();
+    setWhiteThemeSystemUiMode();
+    DeviceOrientation.portraitUp;
+
     const double deviceWidth = 390;
     const double deviceHeight = 844;
 
@@ -50,10 +60,16 @@ class MyApp extends ConsumerWidget {
 
     return ScreenUtilInit(
       designSize: const Size(deviceWidth, deviceHeight),
-      builder: (context, child) => MaterialApp.router(
-        theme: theme.currentTheme,
-        routerConfig: router,
-      ),
+      builder: (context, child) {
+        return MaterialApp.router(
+          routerConfig: router,
+          theme: theme.currentTheme,
+          builder: (context, child) {
+            ThemeService.init(context);
+            return child!;
+          },
+        );
+      },
     );
   }
 }

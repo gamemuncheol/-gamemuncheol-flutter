@@ -12,7 +12,7 @@ part 'user_api.g.dart';
 @riverpod
 UserApi userApi(UserApiRef ref) {
   final Dio dio = ref.read(dioProvider);
-  return UserApiImpl(dio, baseUrl: Data.BASE_URL);
+  return UserApiImpl(dio, baseUrl: AppData.BASE_URL);
 }
 
 abstract class UserApi {

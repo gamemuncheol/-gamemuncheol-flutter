@@ -2,72 +2,68 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gamemuncheol/common/presentation/view/base_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:video_player/video_player.dart';
-import 'package:gap/gap.dart';
+
+import 'package:gamemuncheol/common/const/assets.dart';
+import 'package:gamemuncheol/common/util/system_util.dart';
 
 import 'package:gamemuncheol/feature/auth/model/sign_in_method.dart';
-import 'package:gamemuncheol/feature/auth/view/social_auth_screen/mixin/social_auth_screen_event.dart';
-import 'package:gamemuncheol/common/util/gap.dart';
-import 'package:gamemuncheol/feature/auth/view/social_auth_screen/social_auth_screen_scaffold.dart';
-import 'package:gamemuncheol/common/const/asset_paths.dart';
-import 'package:gamemuncheol/common/util/system_util.dart';
+import 'package:gamemuncheol/feature/auth/view/social_auth_screen/widget/main_title.dart';
 import 'package:gamemuncheol/feature/auth/view/social_auth_screen/widget/social_auth_button.dart';
+import 'package:gamemuncheol/feature/auth/view/social_auth_screen/social_auth_screen_layout.dart';
+import 'package:gamemuncheol/feature/auth/view/social_auth_screen/event/social_auth_screen_event.dart';
 import 'package:gamemuncheol/feature/auth/view/social_auth_screen/hook/use_video_player_controller.dart';
-import 'package:gamemuncheol/feature/auth/view/social_auth_screen/widget/lol_muncheol_logo.dart';
 
-class SocialAuthScreen extends HookConsumerWidget
+class SocialAuthScreen extends BaseScreen
     with SystemUtil, SocialAuthScreenEvent {
-  const SocialAuthScreen({super.key});
+  SocialAuthScreen({super.key});
 
-  static const PATH = "/social_auth_screen";
-  static const ROUTE_NAME = "SocialAuthScreen";
+  static const path = "/auth";
+  static const name = "SocialAuthScreen";
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final VideoPlayerController videoPlayerController =
-        useVideoPlayerController(
-      assetPath: AppAsset.AUTH_BACKGROUND_VIDEO_PATH,
-    );
+  Widget buildScreen(BuildContext context, WidgetRef ref) {
+    final videoPlayerController =
+        useVideoPlayerController(assetPath: AppAsset.authBackgroundVideo);
 
     useEffect(() {
       portraitUp();
-      return resetSetting;
+      return () {};
     }, []);
 
-    return SocialAuthScreenScaffold(
-      backgroundVideo: renderBackgroundVideo(videoPlayerController),
-      logoWithPropaganda: renderLogoWithPropaganda(),
-      socialLoginButtons: renderSocialLoginButtons(
+    return SocialAuthScreenLayout(
+      backgroundVideo: buildBackgroundVideo(videoPlayerController),
+      mainTitle: buildMainTitle(),
+      appleSignInButton: buildAppleSignInButton(
         signInWithApple: () {
-          signInWhen(context, ref, signInMethod: SignInMethod.apple);
+          signInWithOAuth(signInMethod: SignInMethod.apple);
         },
+      ),
+      googleSignInButton: buildGoogleSignInButton(
         signInWithGoogle: () {
-          signInWhen(context, ref, signInMethod: SignInMethod.google);
+          signInWithOAuth(signInMethod: SignInMethod.google);
         },
       ),
     );
   }
 
-  Widget renderBackgroundVideo(VideoPlayerController videoPlayerController) {
+  Widget buildBackgroundVideo(VideoPlayerController videoPlayerController) {
     return AspectRatio(
       aspectRatio: videoPlayerController.value.aspectRatio,
       child: VideoPlayer(videoPlayerController),
     );
   }
 
-  Widget renderLogoWithPropaganda() => const LogoWithPropaganda();
+  Widget buildMainTitle() => const MainTitle();
 
-  Widget renderSocialLoginButtons({
-    required VoidCallback signInWithApple,
-    required VoidCallback signInWithGoogle,
-  }) {
-    return Column(
-      children: [
-        SocialAuthButton.apple(onTap: signInWithApple),
-        const Gap(26).setHeight(),
-        SocialAuthButton.google(onTap: signInWithGoogle),
-      ],
-    );
+  Widget buildAppleSignInButton({required VoidCallback signInWithApple}) {
+    return SocialAuthButton.apple(onTap: signInWithApple);
+  }
+
+  Widget buildGoogleSignInButton({required VoidCallback signInWithGoogle}) {
+    return SocialAuthButton.google(onTap: signInWithGoogle);
   }
 }

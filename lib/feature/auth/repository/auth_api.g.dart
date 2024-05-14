@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: unused_element, unused_field
+
 part of 'auth_api.dart';
 
 // **************************************************************************
@@ -17,38 +19,6 @@ class _AuthApiImpl implements AuthApiImpl {
   final Dio _dio;
 
   String? baseUrl;
-
-  @override
-  Future<CommonResponse<TokenResponse>> signInWithApple(
-      AppleSignInRequestBody appleSignInRequestBody) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(appleSignInRequestBody.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CommonResponse<TokenResponse>>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/open-api/apple/sign-up',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = CommonResponse<TokenResponse>.fromJson(
-      _result.data!,
-      (json) => TokenResponse.fromJson(json as Map<String, dynamic>),
-    );
-    return value;
-  }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
@@ -85,7 +55,7 @@ class _AuthApiImpl implements AuthApiImpl {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authApiHash() => r'88a4e800c7e2bc6f86e272d0b8cf120925ddf042';
+String _$authApiHash() => r'c1fd4d8e845eb64e27b06c58e38260f1c8d98e69';
 
 /// See also [authApi].
 @ProviderFor(authApi)
