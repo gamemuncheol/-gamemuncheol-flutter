@@ -6,15 +6,6 @@ class SizedBoxBuilder {
   double? _height;
   Widget? _child;
 
-  SizedBoxBuilder withSize({
-    double? width,
-    double? height,
-  }) {
-    _width = width;
-    _height = height;
-    return this;
-  }
-
   SizedBoxBuilder setWidth(double width) {
     _width = width;
     return this;
@@ -25,19 +16,36 @@ class SizedBoxBuilder {
     return this;
   }
 
-  SizedBox withChild(Widget child) {
+  SizedBox setChild(Widget child, {bool useScreenUitl = true}) {
     _child = child;
+
+    if (useScreenUitl) {
+      return SizedBox(
+        width: _width?.w,
+        height: _height?.h,
+        child: _child,
+      );
+    }
+
     return SizedBox(
-      width: _width?.w,
-      height: _height?.h,
+      width: _width,
+      height: _height,
       child: _child,
     );
   }
 
-  SizedBox build() {
+  SizedBox build({bool useScreenUitl = true}) {
+    if (useScreenUitl) {
+      return SizedBox(
+        width: _width?.w,
+        height: _height?.h,
+        child: _child,
+      );
+    }
+
     return SizedBox(
-      width: _width?.w,
-      height: _height?.h,
+      width: _width,
+      height: _height,
       child: _child,
     );
   }

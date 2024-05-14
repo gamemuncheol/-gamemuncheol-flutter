@@ -1,45 +1,80 @@
-import 'package:gamemuncheol/common/model/data_state.dart';
-import 'package:gamemuncheol/feature/feed/model/match_history.dart';
+import 'package:gamemuncheol/common/model/base_state.dart';
+import 'package:gamemuncheol/feature/feed/model/match.dart';
 import 'package:gamemuncheol/feature/feed/model/match_user.dart';
 
-class MatchState {
-  final MatchHistory? match;
-  final MatchUser? myself;
-  final List<MatchUser>? stakeHolders;
+mixin MatchState on StateMapper<MatchState> {
+  @override
+  get pState => this;
 
-  MatchState({
-    this.match,
-    this.myself,
-    this.stakeHolders,
-  });
+  bool get isMatchSearched => this is MatchSearched;
+  bool get isMatchSelected => this is MatchSelected;
+  bool get isStakeHolderSelected => this is StakeHolderSelected;
 
-  bool get isMatchSearched => match != null;
-  bool get isMatchSelected => isMatchSearched && myself != null;
-  bool get isMatchStakeHolderSelected =>
-      isMatchSelected && stakeHolders != null && stakeHolders!.isNotEmpty;
+  Match get match;
+  MatchUser get myself;
+  List<MatchUser> get stakeHolders;
 
-  MatchHistory get getMatch => match!;
-  MatchUser get getMySelf => myself!;
-  List<MatchUser> get getStakeHolders => stakeHolders!;
+  R whenPState<R>({
+    R Function(Match match)? matchSearched,
+    R Function(Match match, MatchUser myself)? matchSelected,
+    R Function(Match match, MatchUser myself, List<MatchUser> stakeHolders)?
+        stakeHolderSelected,
+    R Function()? orElse,
+  }) {
+    if (isMatchSearched && matchSearched != null) {
+      return matchSearched(match);
+    } else if (isMatchSearched && matchSelected != null) {
+      return matchSelected(match, myself);
+    } else if (isStakeHolderSelected && stakeHolderSelected != null) {
+      return stakeHolderSelected(match, myself, stakeHolders);
+    } else {
+      return orElse!();
+    }
+  }
 }
 
-class MatchSearched extends Data<MatchState> {
-  MatchSearched({required MatchHistory match})
-      : super(MatchState(match: match));
+class MatchSearched extends StateMapper<MatchState> with MatchState {
+  @override
+  final Match match;
+
+  @override
+  MatchUser get myself => throw UnimplementedError();
+
+  @override
+  List<MatchUser> get stakeHolders => throw UnimplementedError();
+
+  MatchSearched({required this.match});
 }
 
-class MatchSelected extends Data<MatchState> {
+class MatchSelected extends StateMapper<MatchState> with MatchState {
+  @override
+  final Match match;
+
+  @override
+  final MatchUser myself;
+
+  @override
+  List<MatchUser> get stakeHolders => throw UnimplementedError();
+
   MatchSelected({
-    required MatchHistory match,
-    required MatchUser myself,
-  }) : super(MatchState(match: match, myself: myself));
+    required this.match,
+    required this.myself,
+  });
 }
 
-class MatchStakeHolderSelected extends Data<MatchState> {
-  MatchStakeHolderSelected({
-    required MatchHistory match,
-    required MatchUser myself,
-    required List<MatchUser> stakeHolders,
-  }) : super(MatchState(
-            match: match, myself: myself, stakeHolders: stakeHolders));
+class StakeHolderSelected extends StateMapper<MatchState> with MatchState {
+  @override
+  final Match match;
+
+  @override
+  final MatchUser myself;
+
+  @override
+  final List<MatchUser> stakeHolders;
+
+  StakeHolderSelected({
+    required this.match,
+    required this.myself,
+    required this.stakeHolders,
+  });
 }

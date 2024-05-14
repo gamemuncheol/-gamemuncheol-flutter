@@ -2,54 +2,46 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
+import 'package:gamemuncheol/common/presentation/view/base_screen.dart';
+import 'package:gamemuncheol/common/presentation/widget/loading_indicator.dart';
+import 'package:gamemuncheol/feature/auth/model/token_response.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:gamemuncheol/feature/auth/model/sign_in_method.dart';
-import 'package:gamemuncheol/feature/auth/view/social_auth_screen/oauth_webview_screen_scaffold.dart';
+import 'package:gamemuncheol/feature/auth/view/social_auth_screen/oauth_webview_screen_layout.dart';
 import 'package:gamemuncheol/feature/auth/view/social_auth_screen/hook/use_chrome_safari_browser.dart';
-import 'package:gamemuncheol/feature/auth/view/social_auth_screen/mixin/oauth_webview_screen_event.dart';
+import 'package:gamemuncheol/feature/auth/view/social_auth_screen/event/oauth_webview_screen_event.dart';
 
-class OauthWebviewScreen extends HookConsumerWidget
-    with OauthWebviewScreenEvent {
+class OauthWebviewScreen extends BaseScreen with OauthWebviewScreenEvent {
   final SignInMethod signInMethod;
 
-  const OauthWebviewScreen({
-    super.key,
-    required this.signInMethod,
-  });
+  OauthWebviewScreen({super.key, required this.signInMethod});
+
+  static const path = "/oauth";
+  static const name = "OauthWebviewScreen";
+
+  factory OauthWebviewScreen.apple() =>
+      OauthWebviewScreen(signInMethod: SignInMethod.apple);
 
   factory OauthWebviewScreen.google() =>
-      const OauthWebviewScreen(signInMethod: SignInMethod.google);
-
-  static const PATH = "/oauth_webview_screen";
-  static const ROUTE_NAME = "OauthWebviewScreen";
+      OauthWebviewScreen(signInMethod: SignInMethod.google);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final ValueNotifier<String?> token = useValueNotifier(null);
-    final ChromeSafariBrowser chromeSafariBrowser = useChromeSafariBrowser(
-      onClosedCallBack: () => signInWhenToken(
-        context,
-        ref,
-        token: token,
-        signInMethod: signInMethod,
-      ).then((success) {
-        context.pop(success);
-      }),
+  Widget buildScreen(BuildContext context, WidgetRef ref) {
+    final ValueNotifier<TokenResponse?> token = useValueNotifier(null);
+    final chromeSafariBrowser = useChromeSafariBrowser(
+      onClosed: () =>
+          signInWithOAuth(ref, token: token, signInMethod: signInMethod),
     );
 
     useEffect(() {
-      listenUniLinks(
-        ref,
-        token: token,
-        chromeSafariBrowser: chromeSafariBrowser,
-      );
-      startOauth(chromeSafariBrowser: chromeSafariBrowser);
+      listenUniLinks(token: token, browser: chromeSafariBrowser);
+      startOauth(signInMethod: signInMethod, browser: chromeSafariBrowser);
       return () {};
     }, []);
 
-    return const OAuthWebviewScreenScaffold();
+    return const OAuthWebviewScreenLayout(
+      indicator: LoadingIndicator(),
+    );
   }
 }

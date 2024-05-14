@@ -9,7 +9,11 @@ class ContainerBuilder {
   BoxDecoration? _boxDecoration;
   Widget? _child;
 
-  ContainerBuilder withPadding({
+  ContainerBuilder indexMethod() {
+    return this;
+  }
+
+  ContainerBuilder setPadding({
     double? left,
     double? right,
     double? top,
@@ -26,7 +30,7 @@ class ContainerBuilder {
     return this;
   }
 
-  ContainerBuilder withMargin({
+  ContainerBuilder setMargin({
     double? left,
     double? right,
     double? top,
@@ -68,44 +72,87 @@ class ContainerBuilder {
     return this;
   }
 
-  Container setChild(Widget child) {
+  Container setChild(Widget child, {bool useScreenUtil = true}) {
     _child = child;
+
+    if (useScreenUtil) {
+      return Container(
+        padding: _padding?.copyWith(
+          left: _padding?.left.w,
+          right: _padding?.right.w,
+          top: _padding?.top.h,
+          bottom: _padding?.bottom.h,
+        ),
+        margin: _margin?.copyWith(
+          left: _margin?.left.w,
+          right: _margin?.right.w,
+          top: _margin?.top.h,
+          bottom: _margin?.bottom.h,
+        ),
+        width: _width?.w,
+        height: _height?.h,
+        decoration: _boxDecoration,
+        child: _child,
+      );
+    }
+
     return Container(
       padding: _padding?.copyWith(
-        left: _padding?.left.w,
-        right: _padding?.right.w,
-        top: _padding?.top.h,
-        bottom: _padding?.bottom.h,
+        left: _padding?.left,
+        right: _padding?.right,
+        top: _padding?.top,
+        bottom: _padding?.bottom,
       ),
       margin: _margin?.copyWith(
-        left: _margin?.left.w,
-        right: _margin?.right.w,
-        top: _margin?.top.h,
-        bottom: _margin?.bottom.h,
+        left: _margin?.left,
+        right: _margin?.right,
+        top: _margin?.top,
+        bottom: _margin?.bottom,
       ),
-      width: _width?.w,
-      height: _height?.h,
+      width: _width,
+      height: _height,
       decoration: _boxDecoration,
       child: _child,
     );
   }
 
-  Container build() {
+  Container build({bool useScreenUtil = true}) {
+    if (useScreenUtil) {
+      return Container(
+        padding: _padding?.copyWith(
+          left: _padding?.left.w,
+          right: _padding?.right.w,
+          top: _padding?.top.h,
+          bottom: _padding?.bottom.h,
+        ),
+        margin: _margin?.copyWith(
+          left: _margin?.left.w,
+          right: _margin?.right.w,
+          top: _margin?.top.h,
+          bottom: _margin?.bottom.h,
+        ),
+        width: _width?.w,
+        height: _height?.h,
+        decoration: _boxDecoration,
+        child: _child,
+      );
+    }
+
     return Container(
       padding: _padding?.copyWith(
-        left: _padding?.left.w,
-        right: _padding?.right.w,
-        top: _padding?.top.h,
-        bottom: _padding?.bottom.h,
+        left: _padding?.left,
+        right: _padding?.right,
+        top: _padding?.top,
+        bottom: _padding?.bottom,
       ),
       margin: _margin?.copyWith(
-        left: _margin?.left.w,
-        right: _margin?.right.w,
-        top: _margin?.top.h,
-        bottom: _margin?.bottom.h,
+        left: _margin?.left,
+        right: _margin?.right,
+        top: _margin?.top,
+        bottom: _margin?.bottom,
       ),
-      width: _width?.w,
-      height: _height?.h,
+      width: _width,
+      height: _height,
       decoration: _boxDecoration,
       child: _child,
     );

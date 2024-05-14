@@ -8,52 +8,52 @@ part 'privacy_policy_provider.g.dart';
 class PrivacyPolicyNotifier extends _$PrivacyPolicyNotifier {
   @override
   PrivacyPolicyState build() =>
-      PrivacyPolicyState(state: PrivacyPolicyStates.initial);
+      PrivacyPolicyState(status: PrivacyPolicyStatus.initial);
 
   // 모든 항목 동의
   void acceptAll() {
-    state = PrivacyPolicyState(state: PrivacyPolicyStates.allAccepted);
+    state = PrivacyPolicyState(status: PrivacyPolicyStatus.allAccepted);
   }
 
   // 모든 항목 동의 취소
   void rejectALl() {
-    state = PrivacyPolicyState(state: PrivacyPolicyStates.allRejected);
+    state = PrivacyPolicyState(status: PrivacyPolicyStatus.allRejected);
   }
 
   // 개별 항목 동의
-  bool accept({required bool isUnnecessaryTerm}) {
+  bool accept({required bool isUnNeccesary}) {
     // 필수 항목을 동의한 경우
-    if (!isUnnecessaryTerm) {
+    if (!isUnNeccesary) {
       // 이미 선택 항목 동의가 되어있는 경우
-      if (state.state == PrivacyPolicyStates.withUnnecessary) {
+      if (state.status == PrivacyPolicyStatus.withUnnecessary) {
         state = PrivacyPolicyState(
-          singleAcceptCount: state.singleAcceptCount + 1,
+          totalCount: state.totalCount + 1,
           unnecessaryAcceptCount: state.unnecessaryAcceptCount,
-          state: PrivacyPolicyStates.withUnnecessary,
+          status: PrivacyPolicyStatus.withUnnecessary,
         );
         // 필수 항목만 동의 되어있는 경우
       } else {
         state = PrivacyPolicyState(
-          singleAcceptCount: state.singleAcceptCount + 1,
-          state: PrivacyPolicyStates.necessary,
+          totalCount: state.totalCount + 1,
+          status: PrivacyPolicyStatus.necessaryOnly,
         );
       }
       // 선택 항목을 동의한 경우
     } else {
       // 이미 선택 항목 동의가 되어있는 경우
-      if (state.state == PrivacyPolicyStates.withUnnecessary) {
+      if (state.status == PrivacyPolicyStatus.withUnnecessary) {
         state = PrivacyPolicyState(
-          singleAcceptCount: state.singleAcceptCount + 1,
+          totalCount: state.totalCount + 1,
           unnecessaryAcceptCount: state.unnecessaryAcceptCount + 1,
-          state: PrivacyPolicyStates.withUnnecessary,
+          status: PrivacyPolicyStatus.withUnnecessary,
         );
 
         // 필수 항목만 동의 되어있는 경우
       } else {
         state = PrivacyPolicyState(
-          singleAcceptCount: state.singleAcceptCount + 1,
+          totalCount: state.totalCount + 1,
           unnecessaryAcceptCount: state.unnecessaryAcceptCount + 1,
-          state: PrivacyPolicyStates.withUnnecessary,
+          status: PrivacyPolicyStatus.withUnnecessary,
         );
       }
     }
@@ -62,37 +62,35 @@ class PrivacyPolicyNotifier extends _$PrivacyPolicyNotifier {
   }
 
   // 개별 항목 동의 취소
-  bool reject({
-    bool? isUnnecessaryTerm,
-  }) {
+  bool reject({required bool isUnnecessaryTerm}) {
     // 필수 항목 동의를 취소한 경우
-    if (isUnnecessaryTerm == null) {
+    if (!isUnnecessaryTerm) {
       // 이미 선택 항목 동의가 되어있는 경우
-      if (state.state == PrivacyPolicyStates.withUnnecessary) {
+      if (state.status == PrivacyPolicyStatus.withUnnecessary) {
         state = PrivacyPolicyState(
-          singleAcceptCount: state.singleAcceptCount - 1,
+          totalCount: state.totalCount - 1,
           unnecessaryAcceptCount: state.unnecessaryAcceptCount,
-          state: PrivacyPolicyStates.withUnnecessary,
+          status: PrivacyPolicyStatus.withUnnecessary,
         );
         // 필수 항목만 동의 되어있는 경우
       } else {
         state = PrivacyPolicyState(
-          singleAcceptCount: state.singleAcceptCount - 1,
-          state: PrivacyPolicyStates.necessary,
+          totalCount: state.totalCount - 1,
+          status: PrivacyPolicyStatus.necessaryOnly,
         );
       }
       // 선택 항목 동의를 취소한 경우
     } else {
       if (state.unnecessaryAcceptCount == 1) {
         state = PrivacyPolicyState(
-          singleAcceptCount: state.singleAcceptCount - 1,
-          state: PrivacyPolicyStates.necessary,
+          totalCount: state.totalCount - 1,
+          status: PrivacyPolicyStatus.necessaryOnly,
         );
       } else {
         state = PrivacyPolicyState(
-          singleAcceptCount: state.singleAcceptCount - 1,
+          totalCount: state.totalCount - 1,
           unnecessaryAcceptCount: state.unnecessaryAcceptCount - 1,
-          state: PrivacyPolicyStates.withUnnecessary,
+          status: PrivacyPolicyStatus.withUnnecessary,
         );
       }
     }

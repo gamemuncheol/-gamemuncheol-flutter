@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:gamemuncheol/common/widget/pagination_list_view.dart';
+import 'package:gamemuncheol/common/presentation/widget/pagination_list_view.dart';
 
 class HomeFeedScreen extends StatelessWidget {
   const HomeFeedScreen({

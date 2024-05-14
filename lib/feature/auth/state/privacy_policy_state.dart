@@ -1,19 +1,19 @@
 class PrivacyPolicyState {
-  final PrivacyPolicyStates state;
-  final int singleAcceptCount;
+  final PrivacyPolicyStatus status;
+  final int totalCount;
   final int unnecessaryAcceptCount;
 
   PrivacyPolicyState({
-    required this.state,
-    this.singleAcceptCount = 0,
+    required this.status,
+    this.totalCount = 0,
     this.unnecessaryAcceptCount = 0,
   });
 }
 
-enum PrivacyPolicyStates {
+enum PrivacyPolicyStatus {
   initial,
   allAccepted,
   allRejected,
-  necessary,
+  necessaryOnly,
   withUnnecessary,
 }

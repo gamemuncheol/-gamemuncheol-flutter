@@ -2,7 +2,7 @@
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class Data {
+class AppData {
   static final String ACCESS_TOKEN_KEY = dotenv.env["ACCESS_TOKEN_KEY"]!;
   static final String REFRESH_TOKEN_KEY = dotenv.env["REFRESH_TOKEN_KEY"]!;
 

@@ -3,21 +3,21 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gamemuncheol/common/const/asset_paths.dart';
+import 'package:gamemuncheol/common/const/assets.dart';
 
 import 'package:gamemuncheol/common/const/colors.dart';
-import 'package:gamemuncheol/common/router/extra_data.dart';
+import 'package:gamemuncheol/common/model/extra_data.dart';
 import 'package:gamemuncheol/common/util/app_container.dart';
 import 'package:gamemuncheol/common/util/app_padding.dart';
 import 'package:gamemuncheol/common/util/app_sized_box.dart';
 import 'package:gamemuncheol/common/util/app_text_style.dart';
-import 'package:gamemuncheol/feature/feed/view/create_feed_screen/mixin/request_gallery_and_camera_permission_screen_event.dart';
+import 'package:gamemuncheol/feature/feed/view/create_feed_screen/event/manage_permission_screen_event.dart';
 import 'package:gamemuncheol/feature/feed/view/create_feed_screen/request_gallery_and_camera_permission_screen_scaffold.dart';
-import 'package:gamemuncheol/feature/feed/view/create_feed_screen/widget/header.dart';
+import 'package:gamemuncheol/feature/feed/view/create_feed_screen/widget/feed_header.dart';
 import 'package:go_router/go_router.dart';
 
 class RequestGalleryPermissionScreen extends HookWidget
-    with RequestGalleryAndCameraPermissionEvent {
+    with ManagePermissionScreenEvent {
   final bool hasGalleryPermission;
   final bool hasCameraPermission;
 
@@ -30,9 +30,7 @@ class RequestGalleryPermissionScreen extends HookWidget
   static const PATH = "/request_gallery_and_camera_permission_screen";
   static const ROUTE_NAME = "RequestGalleryAndCameraPermissionScreen";
 
-  factory RequestGalleryPermissionScreen.fromExtraData(
-    ExtraData extraData,
-  ) {
+  factory RequestGalleryPermissionScreen.fromExtraData(ExtraData extraData) {
     return RequestGalleryPermissionScreen(
       hasGalleryPermission: extraData.data["hasGalleryPermission"],
       hasCameraPermission: extraData.data["hasCameraPermission"],
@@ -79,17 +77,15 @@ class RequestGalleryPermissionScreen extends HookWidget
           )
           .setChild(
             SizedBoxBuilder()
-                .withSize(
-                  width: frameWidth,
-                  height: frameHeight,
-                )
-                .withChild(
+                .setWidth(frameWidth)
+                .setHeigh(frameHeight)
+                .setChild(
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
                         onTap: () => goPreStep(context),
-                        child: SvgPicture.asset(AppAsset.CANCLE_ICON_PATH),
+                        child: SvgPicture.asset(AppAsset.closeBlack),
                       )
                     ],
                   ),
@@ -99,7 +95,7 @@ class RequestGalleryPermissionScreen extends HookWidget
   }
 
   Widget renderHeader() {
-    return const CreateFeedScreenHeader(
+    return const FeedScreenHeader(
       title: "카메라와 앨범에 접근 할\n수 있도록 허용해 주세요.",
     );
   }
@@ -142,16 +138,16 @@ class RequestGalleryPermissionScreen extends HookWidget
     required VoidCallback onTap,
   }) {
     final BoxDecoration buttonDecoration = BoxDecoration(
-      color: AppColor.PRIMARY_WITHE,
+      color: AppColor.primaryWhite,
       borderRadius: BorderRadius.circular(64),
       border: Border.all(
-        color: selected ? AppColor.PRIMARY_BLUE : AppColor.NATURAL_04,
+        color: selected ? AppColor.primaryBlue : AppColor.natural04,
       ),
     );
 
     TextStyle textStyle = TextStyleBuilder()
         .withColor(
-          selected ? AppColor.PRIMARY_BLUE : AppColor.NATURAL_04,
+          selected ? AppColor.primaryBlue : AppColor.natural04,
         )
         .withBold()
         .build();

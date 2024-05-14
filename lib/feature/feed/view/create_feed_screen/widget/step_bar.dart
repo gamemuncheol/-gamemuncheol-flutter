@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gamemuncheol/common/const/asset_paths.dart';
+import 'package:gamemuncheol/common/const/assets.dart';
 import 'package:gamemuncheol/common/theme/app_theme.dart';
-import 'package:gamemuncheol/common/widget/one_leading_one_action_app_bar.dart';
+import 'package:gamemuncheol/common/presentation/widget/one_leading_one_action_app_bar.dart';
 
 class FeedStepBar extends StatelessWidget {
   final VoidCallback onLeadingTap;
-  final int currentStep;
+  final int? currentStep;
+  final String? title;
+  final Widget? action;
 
   const FeedStepBar({
     super.key,
     required this.onLeadingTap,
-    required this.currentStep,
+    this.currentStep,
+    this.title,
+    this.action,
   });
 
   factory FeedStepBar.step1({required VoidCallback onLeadingTap}) {
@@ -31,6 +35,17 @@ class FeedStepBar extends StatelessWidget {
     return FeedStepBar(onLeadingTap: onLeadingTap, currentStep: 5);
   }
 
+  factory FeedStepBar.fullArgument({
+    required VoidCallback onLeadingTap,
+    required Widget action,
+    required String title,
+  }) {
+    return FeedStepBar(
+        onLeadingTap: onLeadingTap, action: action, title: title);
+  }
+
+  final int totalStep = 5;
+
   @override
   Widget build(BuildContext context) {
     final TextStyle stepStyle = context.textStyleTheme.body3R
@@ -38,8 +53,11 @@ class FeedStepBar extends StatelessWidget {
 
     return OneLeadingOneActionAppBar(
       onLeadingTap: onLeadingTap,
-      leading: SvgPicture.asset(AppAsset.CHEVRON_LEFT_ICON_PATH),
-      actions: Center(child: Text("$currentStep/5", style: stepStyle)),
+      leading: SvgPicture.asset(AppAsset.chevronLeftBlack),
+      title: title,
+      action: Center(
+        child: action ?? Text("$currentStep/$totalStep", style: stepStyle),
+      ),
     );
   }
 }

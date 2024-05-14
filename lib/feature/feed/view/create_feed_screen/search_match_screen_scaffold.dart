@@ -4,22 +4,25 @@ import 'package:gap/gap.dart';
 import 'package:gamemuncheol/feature/feed/view/create_feed_screen/create_feed_screen_base.dart';
 import 'package:gamemuncheol/common/util/gap.dart';
 
-class SearchMatchScreenScaffold extends CreateFeedScreenBase {
+class SearchMatchScreenScaffold extends CreateFeedScreenBaseScaffold {
+  final Widget stepBar;
+  final Widget bottomButton;
+
   final Widget header;
   final Widget searchBar;
-  final Widget match;
+  final Widget searchResult;
 
-  const SearchMatchScreenScaffold({
+  SearchMatchScreenScaffold({
     super.key,
-    required super.stepBar,
-    required super.bottomButton,
+    required this.stepBar,
+    required this.bottomButton,
     required this.header,
     required this.searchBar,
-    required this.match,
+    required this.searchResult,
   });
 
   @override
-  Widget renderScaffold() {
+  Widget buildScaffold(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,8 +31,18 @@ class SearchMatchScreenScaffold extends CreateFeedScreenBase {
         const Gap(70).setHeight(),
         searchBar,
         const Gap(32).setHeight(),
-        Expanded(child: match),
+        Expanded(child: searchResult),
       ],
     );
+  }
+
+  @override
+  Widget buildStepBar() {
+    return stepBar;
+  }
+
+  @override
+  Widget? buildBottomButton() {
+    return bottomButton;
   }
 }

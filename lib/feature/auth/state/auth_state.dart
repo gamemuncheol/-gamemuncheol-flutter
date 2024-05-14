@@ -1,30 +1,24 @@
-import 'package:gamemuncheol/common/model/common_error.dart';
+import 'package:gamemuncheol/common/model/base_state.dart';
+
 import 'package:gamemuncheol/feature/auth/model/sign_in_method.dart';
 
-sealed class AuthState {
-  // 최근 로그인 플랫폼
+mixin AuthState on StateMapper<AuthState> {
+  SignInMethod get signInMethod;
+
+  @override
+  AuthState get pState => this;
+}
+
+class Authenticated extends StateMapper<AuthState> with AuthState {
+  @override
   final SignInMethod signInMethod;
 
-  AuthState({required this.signInMethod});
+  Authenticated({required this.signInMethod});
 }
 
-class AuthStateError extends AuthState {
-  final ErrorWithMessage error;
+class UnAuthenticated extends StateMapper<AuthState> with AuthState {
+  @override
+  final SignInMethod signInMethod;
 
-  AuthStateError({
-    required super.signInMethod,
-    required this.error,
-  });
-}
-
-class AuthStateLoading extends AuthState {
-  AuthStateLoading({required super.signInMethod});
-}
-
-class Authenticated extends AuthState {
-  Authenticated({required super.signInMethod});
-}
-
-class UnAuthenticated extends AuthState {
-  UnAuthenticated({required super.signInMethod});
+  UnAuthenticated({required this.signInMethod});
 }

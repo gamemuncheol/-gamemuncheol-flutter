@@ -14,22 +14,20 @@ class LightTheme extends ApplicationTheme {
 
   @override
   ThemeExtension<ThemeExtension> get textTheme {
-    return CustomTextStyleTheme(defaultColor: AppColor.PRIMARY_BLACK);
+    return CustomTextStyleTheme(defaultColor: AppColor.primaryBlack);
   }
 
   @override
-  ThemeExtension get colorTheme {
-    return CustomColorTheme(
-      natural02: AppColor.NATURAL_02,
-      natural03: AppColor.NATURAL_03,
-      natural04: AppColor.NATURAL_04,
-      natural05: AppColor.NATURAL_05,
-      natural06: AppColor.NATURAL_06,
-      primaryBlue: AppColor.PRIMARY_BLUE,
-      onPrimaryBlue: AppColor.PRIMARY_WITHE,
-      primaryGreen: AppColor.PRIMARY_GREEN,
-      onPrimaryGreen: AppColor.PRIMARY_WITHE,
-      background: AppColor.PRIMARY_WITHE,
-    );
-  }
+  ThemeExtension get colorTheme => CustomColorTheme(
+        natural02: AppColor.natural02,
+        natural03: AppColor.natural03,
+        natural04: AppColor.natural04,
+        natural05: AppColor.natural05,
+        natural06: AppColor.natural06,
+        primaryBlue: AppColor.primaryBlue,
+        onPrimaryBlue: AppColor.primaryWhite,
+        primaryGreen: AppColor.primaryGreen,
+        onPrimaryGreen: AppColor.primaryWhite,
+        background: AppColor.primaryWhite,
+      );
 }

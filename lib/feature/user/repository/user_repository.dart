@@ -1,8 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:gamemuncheol/common/util/result.dart';
+import 'package:gamemuncheol/common/model/result.dart';
 import 'package:gamemuncheol/feature/user/model/user.dart';
-import 'package:gamemuncheol/common/model/common_error.dart';
+import 'package:gamemuncheol/common/model/base_error.dart';
 import 'package:gamemuncheol/common/model/common_response.dart';
 import 'package:gamemuncheol/feature/user/repository/user_api.dart';
 
@@ -37,10 +37,8 @@ class UserRepositoryImpl implements UserRepository {
       if (resp.success) {
         return Success(resp);
       }
-    } catch (e) {
-      return Failure(UnKnown());
-    }
-
+    } catch (e) {}
+    
     return Failure(UnKnown());
   }
 

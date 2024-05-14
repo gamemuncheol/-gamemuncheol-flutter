@@ -13,20 +13,20 @@ class DarkTheme extends ApplicationTheme {
 
   @override
   ThemeExtension<ThemeExtension> get textTheme {
-    return CustomTextStyleTheme(defaultColor: AppColor.PRIMARY_WITHE);
+    return CustomTextStyleTheme(defaultColor: AppColor.primaryWhite);
   }
 
   @override
   ThemeExtension get colorTheme => CustomColorTheme(
-        natural02: AppColor.NATURAL_06,
-        natural03: AppColor.NATURAL_05,
-        natural04: AppColor.NATURAL_04,
-        natural05: AppColor.NATURAL_03,
-        natural06: AppColor.NATURAL_02,
-        primaryBlue: AppColor.PRIMARY_BLUE,
-        onPrimaryBlue: AppColor.PRIMARY_WITHE,
-        primaryGreen: AppColor.PRIMARY_GREEN,
-        onPrimaryGreen: AppColor.PRIMARY_WITHE,
-        background: AppColor.PRIMARY_BLACK,
+        natural02: AppColor.natural06,
+        natural03: AppColor.natural05,
+        natural04: AppColor.natural04,
+        natural05: AppColor.natural03,
+        natural06: AppColor.natural02,
+        primaryBlue: AppColor.primaryBlue,
+        onPrimaryBlue: AppColor.primaryWhite,
+        primaryGreen: AppColor.primaryGreen,
+        onPrimaryGreen: AppColor.primaryWhite,
+        background: AppColor.primaryBlack,
       );
 }

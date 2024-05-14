@@ -1,45 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gamemuncheol/common/theme/app_theme.dart';
+import 'package:gamemuncheol/common/model/base_state.dart';
+import 'package:gamemuncheol/common/presentation/widget/loading_indicator.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:gamemuncheol/common/util/gap.dart';
-import 'package:gamemuncheol/common/model/data_state.dart';
 import 'package:gamemuncheol/common/util/app_padding.dart';
-import 'package:gamemuncheol/common/const/asset_paths.dart';
-import 'package:gamemuncheol/feature/feed/model/match_history.dart';
+import 'package:gamemuncheol/common/const/assets.dart';
+import 'package:gamemuncheol/feature/feed/model/match.dart';
 import 'package:gamemuncheol/feature/feed/model/match_user.dart';
 import 'package:gamemuncheol/feature/feed/provider/match_provider.dart';
 import 'package:gamemuncheol/feature/feed/state/match_state.dart';
-import 'package:gamemuncheol/feature/feed/view/create_feed_screen/mixin/search_match_screen_event.dart';
-import 'package:gamemuncheol/feature/feed/view/create_feed_screen/widget/match_history_card.dart';
+import 'package:gamemuncheol/feature/feed/view/create_feed_screen/widget/match_card.dart';
 
-class MatchSearchResult extends ConsumerWidget with SearchMatchScreenEvent {
-  const MatchSearchResult({super.key});
+class MatchSearchResult extends ConsumerWidget {
+  final Function(WidgetRef ref, {required MatchUser myself}) selectMySelf;
+  const MatchSearchResult({super.key, required this.selectMySelf});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final double bottomPadding = 24.h;
-    final BaseState<MatchState> state = ref.watch(matchNotiferProvider);
+    final StateMapper<MatchState> state = ref.watch(matchNotiferProvider);
 
-    return state.when(
-      initial: () {
-        return const SizedBox();
-      },
-      loading: () {
-        return Center(
-          child: CircularProgressIndicator(
-            color: context.colorTheme.primaryBlue,
-          ),
-        );
-      },
-      error: (error) {
-        return Center(child: Text(error.message));
-      },
-      data: (matchState) {
-        final MatchHistory match = matchState.getMatch;
+    return state.whenBState(
+      initial: () => const SizedBox(),
+      loading: () => const LoadingIndicator(),
+      error: (message) => Center(child: Text(message)),
+      pState: (matchState) {
+        final Match match = matchState.match;
 
         return ListView.builder(
           shrinkWrap: true,
@@ -52,9 +42,8 @@ class MatchSearchResult extends ConsumerWidget with SearchMatchScreenEvent {
                 matchState.isMatchSelected && matchUser == matchState.myself;
 
             return PaddingBuilder()
-                .setPadding(
-                  bottom: bottomPadding,
-                )
+                .indexMethod()
+                .setPadding(bottom: bottomPadding)
                 .setChild(
                   GestureDetector(
                     onTap: () => selectMySelf(ref, myself: matchUser),
@@ -67,7 +56,7 @@ class MatchSearchResult extends ConsumerWidget with SearchMatchScreenEvent {
                         ),
                         const Gap(16).setWidth(),
                         Expanded(
-                          child: MatchHistoryCard(
+                          child: MatchCard(
                             matchUser: matchUser,
                             gameCreation: match.gameCreation,
                           ),

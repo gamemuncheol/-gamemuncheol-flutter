@@ -19,14 +19,14 @@ class _FeedApiImpl implements FeedApiImpl {
   String? baseUrl;
 
   @override
-  Future<CommonResponse<MatchHistory>> search(String gameId) async {
+  Future<CommonResponse<Match>> search(String gameId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CommonResponse<MatchHistory>>(Options(
+        _setStreamType<CommonResponse<Match>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -42,11 +42,43 @@ class _FeedApiImpl implements FeedApiImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CommonResponse<MatchHistory>.fromJson(
+    final value = CommonResponse<Match>.fromJson(
       _result.data!,
-      (json) => MatchHistory.fromJson(json as Map<String, dynamic>),
+      (json) => Match.fromJson(json as Map<String, dynamic>),
     );
     return value;
+  }
+
+  @override
+  Future<HttpResponse<List<int>>> downloadThumbImage(String youtubeId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{
+      r'customURL': 'https://img.youtube.com/vi'
+    };
+    _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<List<dynamic>>(_setStreamType<HttpResponse<List<int>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+      responseType: ResponseType.bytes,
+    )
+            .compose(
+              _dio.options,
+              '/${youtubeId}/0.jpg',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data!.cast<int>();
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
@@ -84,7 +116,7 @@ class _FeedApiImpl implements FeedApiImpl {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$feedApiHash() => r'7e7e2220d34ca1350bdb7c5afb187de9ec84fedf';
+String _$feedApiHash() => r'eefaef74172a746796d9d896cb0389eaac7602e1';
 
 /// See also [feedApi].
 @ProviderFor(feedApi)

@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:gamemuncheol/common/service/secure_storage/secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:gamemuncheol/common/const/data.dart';
-import 'package:gamemuncheol/common/secure_storage/secure_storage.dart';
 import 'package:gamemuncheol/feature/auth/model/token_response.dart';
 
 part 'dio.g.dart';
@@ -36,10 +36,15 @@ class CustomInterceptor extends Interceptor {
     debugPrint("[바디: ${options.data}]");
     debugPrint("[헤더: ${options.headers}]");
 
+    if (options.headers["customURL"] != null) {
+      options = options.copyWith(baseUrl: options.headers["customURL"]);
+      options.headers.remove("accessToken");
+    }
+
     if (options.headers["accessToken"] == "true") {
       options.headers.remove("accessToken");
       final String? accessToken =
-          await storage.read(key: Data.ACCESS_TOKEN_KEY);
+          await storage.read(key: AppData.ACCESS_TOKEN_KEY);
 
       options.headers.addAll({"Authorization": "Bearer $accessToken"});
     }
@@ -55,7 +60,7 @@ class CustomInterceptor extends Interceptor {
     debugPrint("[에러: ${err.response!.statusCode}]");
 
     final String? refreshToken =
-        await storage.read(key: Data.REFRESH_TOKEN_KEY);
+        await storage.read(key: AppData.REFRESH_TOKEN_KEY);
 
     if (refreshToken == null) {
       return handler.reject(err);
@@ -77,7 +82,7 @@ class CustomInterceptor extends Interceptor {
         final RequestOptions options = err.requestOptions;
 
         options.headers.addAll({"Authorization": "Bearer $newAccessToken"});
-        await storage.write(key: Data.ACCESS_TOKEN_KEY, value: newAccessToken);
+        await storage.write(key: AppData.ACCESS_TOKEN_KEY, value: newAccessToken);
 
         final newResp = await dio.fetch(options);
 

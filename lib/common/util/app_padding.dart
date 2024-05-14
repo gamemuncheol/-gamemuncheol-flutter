@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PaddingBuilder {
-  EdgeInsets? _padding;
+  EdgeInsets _padding = const EdgeInsets.all(0);
   late final Widget _child;
+
+  PaddingBuilder indexMethod() {
+    return this;
+  }
 
   PaddingBuilder setPadding({
     double? left,
@@ -27,13 +31,12 @@ class PaddingBuilder {
     _child = child;
 
     return Padding(
-      padding: _padding?.copyWith(
-            left: _padding?.left.w,
-            right: _padding?.right.w,
-            top: _padding?.top.h,
-            bottom: _padding?.bottom.h,
-          ) ??
-          const EdgeInsets.all(0),
+      padding: _padding.copyWith(
+        left: _padding.left.w,
+        right: _padding.right.w,
+        top: _padding.top.h,
+        bottom: _padding.bottom.h,
+      ),
       child: _child,
     );
   }

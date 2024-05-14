@@ -14,7 +14,7 @@ AuthDao authDao(AuthDaoRef ref) {
 
 abstract class AuthDao {
   Future<SignInMethodModel> readLastSignInMethod();
-  Future<void> createSignInHistory(SignInMethodModel signInMethodDataModel);
+  Future<void> recordSignInHistory(SignInMethodModel signInMethodDataModel);
 }
 
 class AuthDaoImpl implements AuthDao {
@@ -36,7 +36,7 @@ class AuthDaoImpl implements AuthDao {
   }
 
   @override
-  Future<void> createSignInHistory(
+  Future<void> recordSignInHistory(
     SignInMethodModel signInMethodDataModel,
   ) async {
     await _isar.writeTxn(() async {

@@ -1,16 +1,29 @@
 import 'package:flutter/services.dart';
+import 'package:gamemuncheol/common/const/colors.dart';
 
 mixin SystemUtil {
-  void portraitUp() {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  void setDefaultSystemUiMode() {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [
+        SystemUiOverlay.top,
+        SystemUiOverlay.bottom,
+      ],
+    );
   }
 
-  void resetSetting() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown
-    ]);
+  void setWhiteThemeSystemUiMode() {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: AppColor.transParent,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: AppColor.transParent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
+    );
+  }
+
+  void portraitUp() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 }

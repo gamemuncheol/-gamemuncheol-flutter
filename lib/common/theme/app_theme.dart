@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:gamemuncheol/common/theme/custom_color_theme.dart';
 import 'package:gamemuncheol/common/theme/custom_text_style_theme.dart';
 
 abstract class ApplicationTheme {
-  late ThemeExtension colorTheme;
-  late ThemeExtension textTheme;
+  late final ThemeExtension colorTheme;
+  late final ThemeExtension textTheme;
 }
 
 extension ThemeDataShortcut on BuildContext {

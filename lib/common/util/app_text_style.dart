@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gamemuncheol/common/const/colors.dart';
 
 class TextStyleBuilder {
-  Color _color = AppColor.PRIMARY_BLACK;
+  Color _color = AppColor.primaryBlack;
   double _fontSize = 16;
   FontWeight _fontWeight = FontWeight.w500;
   final double _height = 1;
