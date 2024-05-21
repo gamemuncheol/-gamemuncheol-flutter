@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:gamemuncheol/common/theme/app_theme.dart';
-import 'package:gamemuncheol/common/theme/custom_color_theme.dart';
-import 'package:gamemuncheol/common/theme/custom_text_style_theme.dart';
+import 'package:gamemuncheol/config/theme/custom_color_theme.dart';
+import 'package:gamemuncheol/config/theme/custom_text_style_theme.dart';
+import 'package:gamemuncheol/common/extension/theme_data_short_cut.dart';
 
 abstract class ThemeService {
   ThemeService._();

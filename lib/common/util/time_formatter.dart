@@ -1,4 +1,6 @@
 class TimeFormatter {
+  TimeFormatter._();
+
   static String formatDateTime(String utcDateTimeString) {
     DateTime dateTime = DateTime.parse(utcDateTimeString);
 
@@ -6,8 +8,6 @@ class TimeFormatter {
     String month = dateTime.month.toString().padLeft(2, "0");
     String day = dateTime.day.toString().padLeft(2, "0");
 
-    String formattedDate = "$year. $month. $day";
-
-    return formattedDate;
+    return "$year. $month. $day";
   }
 }

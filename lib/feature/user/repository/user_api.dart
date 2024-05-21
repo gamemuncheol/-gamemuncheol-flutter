@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:gamemuncheol/feature/user/model/user.dart';
+import 'package:gamemuncheol/common/dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:gamemuncheol/common/dio/dio.dart';
 import 'package:gamemuncheol/common/const/data.dart';
 import 'package:gamemuncheol/common/model/common_response.dart';
 

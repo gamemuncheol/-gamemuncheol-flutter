@@ -33,7 +33,7 @@ class _FeedApiImpl implements FeedApiImpl {
     )
             .compose(
               _dio.options,
-              '/api/board/search-match/${gameId}',
+              '/api/riot/search-match/${gameId}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -79,6 +79,76 @@ class _FeedApiImpl implements FeedApiImpl {
     final value = _result.data!.cast<int>();
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
+  }
+
+  @override
+  Future<String> uploadVideo(File videoFile) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'videoFile',
+      MultipartFile.fromFileSync(
+        videoFile.path,
+        filename: videoFile.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+        .compose(
+          _dio.options,
+          '/api/post/video-upload',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+    final value = _result.data!;
+    return value;
+  }
+
+  @override
+  Future<String> uploadThumbImage(File thumbImageFile) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'file',
+      MultipartFile.fromFileSync(
+        thumbImageFile.path,
+        filename: thumbImageFile.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+        .compose(
+          _dio.options,
+          '/api/post/thumbnail-upload',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+    final value = _result.data!;
+    return value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

@@ -10,7 +10,9 @@ part 'isar.g.dart';
 Isar isar(IsarRef ref) => throw UnimplementedError();
 
 class IsarSource {
-  Future<Isar> getIsar() async {
+  IsarSource._();
+
+  static Future<Isar> getIsar() async {
     final dir = await getApplicationDocumentsDirectory();
     return Isar.open(
       [

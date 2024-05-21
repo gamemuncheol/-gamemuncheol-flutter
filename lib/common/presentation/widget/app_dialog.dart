@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
-import 'package:gamemuncheol/common/util/gap.dart';
-import 'package:gamemuncheol/common/theme/app_theme.dart';
 import 'package:gamemuncheol/common/const/assets.dart';
-import 'package:gamemuncheol/common/util/app_container.dart';
+import 'package:gamemuncheol/common/service/theme_service.dart';
 
-class AppDialog extends StatelessWidget {
+class AppDialog extends StatelessWidget with ThemeServiceProvider {
   final String title;
   final String description;
-  final bool useSingleButton;
   final VoidCallback onSignleButtonTap;
 
   const AppDialog({
@@ -17,7 +15,6 @@ class AppDialog extends StatelessWidget {
     required this.title,
     required this.description,
     required this.onSignleButtonTap,
-    this.useSingleButton = true,
   });
 
   factory AppDialog.singleButton({
@@ -34,47 +31,53 @@ class AppDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double frameWidth = 262;
-    const double frameHeight = 330;
-    const BoxDecoration frameDeoration =
-        BoxDecoration(color: Colors.transparent);
+    final double frameWidth = 262.w;
+    final double frameHeight = 330.h;
+    final frameDeoration = BoxDecoration(color: colorTheme.transParent);
 
-    const double dialogHeight = 280;
-    final BoxDecoration dialogDeoration = BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
-        color: context.colorTheme.natural02);
+    final double dialogHeight = 280.h;
+    final dialogDeoration = BoxDecoration(
+        borderRadius: BorderRadius.circular(28), color: colorTheme.natural02);
 
-    const double imageHeight = 130;
+    double imageHeight = 130.h;
 
     return Stack(
       children: [
-        ContainerBuilder()
-            .setWidth(frameWidth)
-            .setHeigh(frameHeight)
-            .setBoxDecoration(frameDeoration)
-            .build(),
+        Container(
+          width: frameWidth,
+          height: frameHeight,
+          decoration: frameDeoration,
+        ),
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Gap(30).setHeight(),
-            ContainerBuilder()
-                .setHeigh(dialogHeight)
-                .setBoxDecoration(dialogDeoration)
-                .setChild(renderContent(context)),
+            Gap(30.h),
+            Container(
+              height: dialogHeight,
+              decoration: dialogDeoration,
+              child: buildContent(
+                title: title,
+                description: description,
+              ),
+            )
           ],
         ),
-        ContainerBuilder()
-            .setWidth(frameWidth)
-            .setHeigh(imageHeight)
-            .setChild(Image.asset(AppAsset.DIALOG_ICON)),
+        SizedBox(
+          width: frameWidth,
+          height: imageHeight,
+          child: Image.asset(AppAsset.DIALOG_ICON),
+        ),
       ],
     );
   }
 
-  Widget renderContent(BuildContext context) {
-    final TextStyle titleStyle = context.textStyleTheme.title4B;
-    final TextStyle descriptionStyle = context.textStyleTheme.body5R
-        .copyWith(color: context.colorTheme.natural06);
+  Widget buildContent({
+    required String title,
+    required String description,
+  }) {
+    final TextStyle titleStyle = textStyleTheme.title4B;
+    final TextStyle descriptionStyle =
+        textStyleTheme.body5R.copyWith(color: colorTheme.natural06);
 
     return Column(
       children: [
@@ -84,40 +87,47 @@ class AppDialog extends StatelessWidget {
           style: titleStyle,
           textAlign: TextAlign.center,
         ),
-        const Gap(18).setHeight(),
+        Gap(18.h),
         Text(
           description,
           style: descriptionStyle,
           textAlign: TextAlign.center,
         ),
-        const Gap(22).setHeight(),
-        buildSingleButton(context),
-        const Gap(26).setHeight(),
+        Gap(22.h),
+        buildSingleButton(),
+        Gap(26.h),
       ],
     );
   }
 
-  Widget buildSingleButton(BuildContext context) {
-    const double buttonWidth = 230;
-    const double buttonHeight = 44;
+  Widget buildSingleButton() {
+    final double buttonWidth = 230.w;
+    final double buttonHeight = 44.h;
 
-    const double buttonMargin = 32;
+    final double horizontalMargin = 32.w;
 
-    final TextStyle labelStyle = context.textStyleTheme.body4M
-        .copyWith(color: context.colorTheme.onPrimaryBlue);
+    const String label = "확인";
+    final TextStyle labelStyle =
+        textStyleTheme.body4M.copyWith(color: colorTheme.onPrimaryBlue);
 
-    final BoxDecoration dialogDeoration = BoxDecoration(
+    final buttonDeoration = BoxDecoration(
       borderRadius: BorderRadius.circular(28),
-      color: context.colorTheme.primaryBlue,
+      color: colorTheme.primaryBlue,
     );
     return GestureDetector(
       onTap: onSignleButtonTap,
-      child: ContainerBuilder()
-          .setMargin(horizontal: buttonMargin)
-          .setWidth(buttonWidth)
-          .setHeigh(buttonHeight)
-          .setBoxDecoration(dialogDeoration)
-          .setChild(Center(child: Text("확인", style: labelStyle))),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: horizontalMargin),
+        width: buttonWidth,
+        height: buttonHeight,
+        decoration: buttonDeoration,
+        child: Center(
+          child: Text(
+            label,
+            style: labelStyle,
+          ),
+        ),
+      ),
     );
   }
 }

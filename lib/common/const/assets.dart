@@ -12,46 +12,6 @@ class AppAsset {
   // video
   static const authBackgroundVideo = "$videoPath/auth_background_video.mp4";
 
-  // 롤 문철 로고
-  static const lolMuncheolLogo = "assets/images/LolMunCheol.png";
-
-  // 롤 문철 로고 장식
-  static const lolMuncheolUnderlinePath =
-      "assets/images/LolMuncheol_underline.svg";
-
-  // 개인정보처리방침 빈 항목
-  static const CHECKBOX_BLANK_VER_PATH = "assets/images/checkbox_blank_ver.svg";
-
-  // 개인정보처리방침 체크한 항목
-  static const CHECKBOX_FILLED_VER_PATH =
-      "assets/images/checkbox_filled_ver.svg";
-
-  // 앱바 아이콘
-  static const APP_BAR_ICON_PATH = "assets/images/app_bar_icon.svg";
-
-  // 앱바 아이콘 옆에 텍스트
-  static const APP_BAR_LOGO_TEXT_PATH = "assets/images/app_bar_text.svg";
-
-  // 검색 아이콘
-  static const SEARCH_ICON_PATH = "assets/images/search_icon.svg";
-
-  // 새 알림 아이콘
-  static const NOTIFICATION_NEW_ICON_PATH =
-      "assets/images/notification_new_icon.svg";
-
-  // 기본 알림 아이콘
-  static const NOTIFICATION_BASIC_ICON_PATH =
-      "assets/images/notification_basic_icon.svg";
-
-  // 전적 검색 방법 주의사항
-  static const MATCH__INFO_TEXT_PATH = "assets/images/match_info_text.svg";
-
-  // 전적 검색 방법 예시 사진
-  static const MATCH__INFO_IMAGE_PATH = "assets/images/match_info_image.png";
-
-  // 다이얼로그 종 모양 아이콘
-  static const DIALOG_ICON = "assets/images/dialog_icon.png";
-
   // arrow
   static const chevronRightBlack = "$arrowPath/28w_chevron_right.svg";
   static const chevronLeftBlack = "$arrowPath/28b_chevron_left.svg";
@@ -74,4 +34,29 @@ class AppAsset {
 
   static const youtubeOn = "$communicationPath/youtube_on.svg"; // 유튜브 아이콘
   static const youtubeOff = "$communicationPath/youtube_off.svg"; // 유튜브 아이콘
+
+  static const lolMuncheolLogo = "$communicationPath/LolMunCheol.png";
+  static const lolMuncheolUnderlinePath =
+      "$communicationPath/LolMuncheol_underline.svg";
+
+  static const CHECKBOX_BLANK =
+      "$communicationPath/checkbox_blank_ver.svg";
+  static const CHECKBOX_FILLED =
+      "$communicationPath/checkbox_filled_ver.svg";
+
+  static const APP_BAR_ICON_PATH = "$communicationPath/app_bar_icon.svg";
+  static const APP_BAR_LOGO_TEXT_PATH = "$communicationPath/app_bar_text.svg";
+
+  static const NOTIFICATION_NEW_ICON_PATH =
+      "$communicationPath/notification_new_icon.svg";
+  static const NOTIFICATION_BASIC_ICON_PATH =
+      "$communicationPath/notification_basic_icon.svg";
+
+  static const MATCH__INFO_TEXT_PATH = "$communicationPath/match_info_text.svg";
+  static const MATCH__INFO_IMAGE_PATH =
+      "$communicationPath/match_info_image.png";
+
+  static const DIALOG_ICON = "$communicationPath/dialog_icon.png";
+
+  static const SEARCH_ICON_PATH = "$communicationPath/search_icon.svg";
 }

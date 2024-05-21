@@ -65,6 +65,7 @@ dependencies:
   video_thumbnail: ^0.5.3
   youtube_player_flutter: ^9.0.1
   get_it: ^7.6.7
+  easy_debounce: ^2.0.3
   
 
 

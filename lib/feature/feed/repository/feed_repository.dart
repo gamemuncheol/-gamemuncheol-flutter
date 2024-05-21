@@ -27,20 +27,19 @@ FeedRepository feedRepository(FeedRepositoryRef ref) {
 
 abstract class FeedRepository {
   Future<Result<Match>> search(String gameId);
-  Future<Result<File>> uploadVideo();
+  Future<Result<File>> selectVideo();
   Future<Result<Uint8List>> getByteThumbImage(File videoFile);
   Future<Result<Uint8List>> changeThumbNail();
   Future<Result<HttpResponse<List<int>>>> downloadThumbImage(String youtubeId);
+  Future<Result<String>> uploadVideo(File videoFile);
+  Future<Result<String>> uploadThumbImage(File thumbImageFile);
 }
 
 class FeedRepositoryImpl implements FeedRepository {
   final FeedApi feedApi;
   final ImagePickerService imagePickerService;
 
-  FeedRepositoryImpl({
-    required this.feedApi,
-    required this.imagePickerService,
-  });
+  FeedRepositoryImpl({required this.feedApi, required this.imagePickerService});
 
   @override
   Future<Result<Match>> search(String gameId) async {
@@ -48,25 +47,36 @@ class FeedRepositoryImpl implements FeedRepository {
       final CommonResponse<Match> matchHistory = await feedApi.search(gameId);
       return Success(matchHistory.data!);
     } catch (e) {
-      return Failure(NoSuchMatch());
+      return Failure(
+        NoSuchMatch(),
+      );
     }
   }
 
   @override
-  Future<Result<File>> uploadVideo() async {
+  Future<Result<File>> selectVideo() async {
     try {
+      // mega
+      int maxByte = 500;
+
       final MediaModel? mediaModel =
-          await imagePickerService.pickVideoFromGallery(maxByte: 500);
+          await imagePickerService.pickVideoFromGallery(maxByte: maxByte);
 
       if (mediaModel == null) {
-        return Failure(VideoNotSelected());
+        return Failure(
+          VideoNotSelected(),
+        );
       } else if (mediaModel.file == null) {
-        return Failure(ByteOverFlow());
+        return Failure(
+          ByteOverFlow(),
+        );
       }
 
       return Success(mediaModel.file!);
     } catch (e) {
-      return Failure(UnSupportedFile());
+      return Failure(
+        UnSupportedFile(),
+      );
     }
   }
 
@@ -77,13 +87,17 @@ class FeedRepositoryImpl implements FeedRepository {
           await imagePickerService.pickImageFromGallery(maxByte: null);
 
       if (mediaModel == null) {
-        return Failure(ThumbImageNotSelected());
+        return Failure(
+          ThumbImageNotSelected(),
+        );
       }
 
       final Uint8List bytes = mediaModel.file!.readAsBytesSync();
       return Success(bytes);
     } catch (e) {
-      return Failure(UnSupportedFile());
+      return Failure(
+        UnSupportedFile(),
+      );
     }
   }
 
@@ -94,12 +108,16 @@ class FeedRepositoryImpl implements FeedRepository {
           await VideoThumbnail.thumbnailData(video: videoFile.path);
 
       if (uint8List == null) {
-        return Failure(ThumbImageInitializeFailed());
+        return Failure(
+          ThumbImageInitializeFailed(),
+        );
       }
 
       return Success(uint8List);
     } catch (e) {
-      return Failure(ThumbImageInitializeFailed());
+      return Failure(
+        ThumbImageInitializeFailed(),
+      );
     }
   }
 
@@ -112,7 +130,29 @@ class FeedRepositoryImpl implements FeedRepository {
 
       return Success(thumbImageFile);
     } catch (e) {
-      return Failure(NoSuchYoutubeUrl());
+      return Failure(
+        NoSuchYoutubeUrl(),
+      );
+    }
+  }
+
+  @override
+  Future<Result<String>> uploadVideo(File videoFile) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result<String>> uploadThumbImage(File thumbImageFile) async {
+    try {
+      final String thumbImageUrl =
+          await feedApi.uploadThumbImage(thumbImageFile);
+
+      return Success(thumbImageUrl);
+    } catch (e) {
+      print( e);
+      return Failure(
+        UnSupportedFile(),
+      );
     }
   }
 }

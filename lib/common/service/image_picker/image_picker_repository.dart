@@ -5,7 +5,8 @@ part 'image_picker_repository.g.dart';
 
 @riverpod
 ImagePickerRepository imagePickerRepository(ImagePickerRepositoryRef ref) {
-  return ImagePickerRepositoryImpl();
+  final ImagePicker imagePicker = ImagePicker();
+  return ImagePickerRepositoryImpl(imagePicker: imagePicker);
 }
 
 abstract class ImagePickerRepository {
@@ -14,13 +15,18 @@ abstract class ImagePickerRepository {
 }
 
 class ImagePickerRepositoryImpl implements ImagePickerRepository {
+  final ImagePicker _imagePicker;
+
+  ImagePickerRepositoryImpl({required ImagePicker imagePicker})
+      : _imagePicker = imagePicker;
+
   @override
   Future<XFile?> pickImageFromGallery() {
-    return ImagePicker().pickImage(source: ImageSource.gallery);
+    return _imagePicker.pickImage(source: ImageSource.gallery);
   }
 
   @override
   Future<XFile?> pickVideoFromGallery() {
-    return ImagePicker().pickVideo(source: ImageSource.gallery);
+    return _imagePicker.pickVideo(source: ImageSource.gallery);
   }
 }

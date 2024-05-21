@@ -1,8 +1,8 @@
+import 'package:gamemuncheol/common/isar/isar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:isar/isar.dart';
 
 import 'package:gamemuncheol/feature/auth/model/sign_in_method.dart';
-import 'package:gamemuncheol/common/isar/isar.dart';
 
 part 'auth_dao.g.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gamemuncheol/common/theme/app_theme.dart';
+
 import 'package:gamemuncheol/common/service/theme_service.dart';
 
 typedef CounterBuilder = Widget? Function(
@@ -18,7 +18,6 @@ class CustomTextFormField extends StatelessWidget with ThemeServiceProvider {
   final TextStyle? errorStyle;
   final TextStyle? textStyle;
   final TextStyle? hintStyle;
-
   final GlobalKey? fieldKey;
   final String? hintText;
   final int? maxLength;
@@ -43,10 +42,10 @@ class CustomTextFormField extends StatelessWidget with ThemeServiceProvider {
   @override
   Widget build(BuildContext context) {
     final defaultErrorStyle =
-        context.textStyleTheme.body5R.copyWith(color: colorTheme.errorRed);
+        textStyleTheme.body5R.copyWith(color: colorTheme.errorRed);
 
     final defaultHintStyle =
-        context.textStyleTheme.body4M.copyWith(color: colorTheme.natural03);
+        textStyleTheme.body4M.copyWith(color: colorTheme.natural03);
 
     final defaultEnableBorderSide = BorderSide(color: colorTheme.natural02);
     final defaultFocusedBorderSide = BorderSide(color: colorTheme.primaryBlue);

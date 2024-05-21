@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:gamemuncheol/common/presentation/widget/app_dialog.dart';
+import 'package:gamemuncheol/common/di/locator.dart';
 
 mixin DialogService {
-  Future<void> showSingleButtonDialog(
-    BuildContext context, {
-    required String title,
-    required String description,
-    required VoidCallback onSignleButtonTap,
-  }) async {
-    showDialog(
-      context: context,
+  Future<void> show({required Widget content}) async {
+    await showDialog(
+      context: locator.navKey.context,
       builder: (context) {
+        const double elevation = 0;
+
         return AlertDialog(
-          elevation: 0,
           alignment: Alignment.center,
-          content: AppDialog.singleButton(
-            title: title,
-            description: description,
-            onSignleButtonTap: onSignleButtonTap,
-          ),
+          elevation: elevation,
+          content: content,
         );
       },
     );

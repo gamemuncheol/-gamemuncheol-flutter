@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
+// 상수 대문자 통일
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppData {

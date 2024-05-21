@@ -55,9 +55,17 @@ class CustomInterceptor extends Interceptor {
   }
 
   @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    debugPrint("[응답: ${response.data}]");
+    return super.onResponse(response, handler);
+  }
+
+  @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     const String refreshPath = "member/renew";
-    debugPrint("[에러: ${err.response!.statusCode}]");
+    debugPrint("[에러 코드: ${err.response!.statusCode}]");
+    debugPrint("[에러 헤더: ${err.response!.headers}]");
+    debugPrint("[에러 바디: ${err.response!.data}]");
 
     final String? refreshToken =
         await storage.read(key: AppData.REFRESH_TOKEN_KEY);
@@ -82,7 +90,8 @@ class CustomInterceptor extends Interceptor {
         final RequestOptions options = err.requestOptions;
 
         options.headers.addAll({"Authorization": "Bearer $newAccessToken"});
-        await storage.write(key: AppData.ACCESS_TOKEN_KEY, value: newAccessToken);
+        await storage.write(
+            key: AppData.ACCESS_TOKEN_KEY, value: newAccessToken);
 
         final newResp = await dio.fetch(options);
 

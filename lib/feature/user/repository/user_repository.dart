@@ -15,13 +15,9 @@ UserRepository userRepository(UserRepositoryRef ref) {
 }
 
 abstract class UserRepository {
-  // 닉네임 변경
   Future<Result<CommonResponse>> changeNickname(String nickname);
-  // 개인정보처리방침 동의 여부 확인
   Future<CommonResponse<bool>> isAgree();
-  // 개인정보처리방침 동의
   Future<CommonResponse<User>> agree();
-  // 유저 미
   Future<CommonResponse<User>> me();
 }
 
@@ -38,8 +34,10 @@ class UserRepositoryImpl implements UserRepository {
         return Success(resp);
       }
     } catch (e) {}
-    
-    return Failure(UnKnown());
+
+    return Failure(
+      UnKnown(),
+    );
   }
 
   @override

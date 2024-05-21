@@ -5,10 +5,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gamemuncheol/common/const/assets.dart';
-import 'package:gamemuncheol/common/presentation/view/base_screen.dart';
+import 'package:gamemuncheol/common/presentation/layout/base_screen.dart';
 import 'package:gamemuncheol/common/presentation/widget/custom_text_form_filed.dart';
 import 'package:gamemuncheol/common/presentation/widget/square_button.dart';
-import 'package:gamemuncheol/feature/user/event.dart/change_nickname_screen_event.dart';
+import 'package:gamemuncheol/feature/user/event/change_nickname_screen_event.dart';
 import 'package:gamemuncheol/feature/user/provider/change_nickname_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -17,14 +17,14 @@ import 'package:gamemuncheol/feature/user/view/change_nickname_screen/change_nic
 class ChangeNickNameScreen extends BaseScreen with ChangeNicknameScreenEvent {
   ChangeNickNameScreen({super.key});
 
-  static const String name = "ChangeNickNameScreen";
-  static const String path = "/change_nickname_screen";
+  static const String NAME = "ChangeNickNameScreen";
+  static const String PATH = "/change_nickname_screen";
 
   @override
   get provider => changeNickNameNotifierProvider;
 
   @override
-  AppBar? buildAppBar() {
+  PreferredSizeWidget? buildAppBar(ref) {
     final double leadingWidth = 44.w;
     final double leadingPadding = 16.w;
 
