@@ -8,8 +8,8 @@ part of 'feed_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _FeedApiImpl implements FeedApiImpl {
-  _FeedApiImpl(
+class _FeedApiImplProxy implements FeedApiImplProxy {
+  _FeedApiImplProxy(
     this._dio, {
     this.baseUrl,
   });
@@ -33,7 +33,7 @@ class _FeedApiImpl implements FeedApiImpl {
     )
             .compose(
               _dio.options,
-              '/api/board/search-match/${gameId}',
+              '/api/riot/search-match/${gameId}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -50,7 +50,7 @@ class _FeedApiImpl implements FeedApiImpl {
   }
 
   @override
-  Future<HttpResponse<List<int>>> downloadThumbImage(String youtubeId) async {
+  Future<HttpResponse<List<int>>> getYoutubeThumbImage(String youtubeId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
@@ -79,6 +79,112 @@ class _FeedApiImpl implements FeedApiImpl {
     final value = _result.data!.cast<int>();
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
+  }
+
+  @override
+  Future<String> uploadVideo(File videoFile) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'videoFile',
+      MultipartFile.fromFileSync(
+        videoFile.path,
+        filename: videoFile.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+        .compose(
+          _dio.options,
+          '/api/post/video-upload',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+    final value = _result.data!;
+    return value;
+  }
+
+  @override
+  Future<String> uploadThumbImage(File thumbImageFile) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'file',
+      MultipartFile.fromFileSync(
+        thumbImageFile.path,
+        filename: thumbImageFile.path.split(Platform.pathSeparator).last,
+        contentType: MediaType.parse('image/jpg'),
+      ),
+    ));
+    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+        .compose(
+          _dio.options,
+          '/api/post/thumbnail-upload',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+    final value = _result.data!;
+    return value;
+  }
+
+  @override
+  Future<CommonResponse<Feed>> post(FeedForm feedForm) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{
+      r'accessToken': 'true',
+      r'Content-Type': 'application/json',
+    };
+    _headers.removeWhere((k, v) => v == null);
+    final _data = feedForm;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CommonResponse<Feed>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'application/json',
+    )
+            .compose(
+              _dio.options,
+              '/api/post',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = CommonResponse<Feed>.fromJson(
+      _result.data!,
+      (json) => Feed.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
@@ -116,7 +222,7 @@ class _FeedApiImpl implements FeedApiImpl {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$feedApiHash() => r'eefaef74172a746796d9d896cb0389eaac7602e1';
+String _$feedApiHash() => r'1ee2163160224e198ac1e8e728ab1b9c280f2448';
 
 /// See also [feedApi].
 @ProviderFor(feedApi)

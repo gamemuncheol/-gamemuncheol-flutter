@@ -19,19 +19,19 @@ mixin _$Result<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(T data) success,
-    required TResult Function(BaseError error) failure,
+    required TResult Function(CustomError error) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(T data)? success,
-    TResult? Function(BaseError error)? failure,
+    TResult? Function(CustomError error)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(T data)? success,
-    TResult Function(BaseError error)? failure,
+    TResult Function(CustomError error)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -139,7 +139,7 @@ class _$SuccessImpl<T> implements Success<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(T data) success,
-    required TResult Function(BaseError error) failure,
+    required TResult Function(CustomError error) failure,
   }) {
     return success(data);
   }
@@ -148,7 +148,7 @@ class _$SuccessImpl<T> implements Success<T> {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(T data)? success,
-    TResult? Function(BaseError error)? failure,
+    TResult? Function(CustomError error)? failure,
   }) {
     return success?.call(data);
   }
@@ -157,7 +157,7 @@ class _$SuccessImpl<T> implements Success<T> {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(T data)? success,
-    TResult Function(BaseError error)? failure,
+    TResult Function(CustomError error)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -213,7 +213,7 @@ abstract class _$$FailureImplCopyWith<T, $Res> {
           _$FailureImpl<T> value, $Res Function(_$FailureImpl<T>) then) =
       __$$FailureImplCopyWithImpl<T, $Res>;
   @useResult
-  $Res call({BaseError error});
+  $Res call({CustomError error});
 }
 
 /// @nodoc
@@ -233,7 +233,7 @@ class __$$FailureImplCopyWithImpl<T, $Res>
       null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as BaseError,
+              as CustomError,
     ));
   }
 }
@@ -244,7 +244,7 @@ class _$FailureImpl<T> implements Failure<T> {
   const _$FailureImpl(this.error);
 
   @override
-  final BaseError error;
+  final CustomError error;
 
   @override
   String toString() {
@@ -272,7 +272,7 @@ class _$FailureImpl<T> implements Failure<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(T data) success,
-    required TResult Function(BaseError error) failure,
+    required TResult Function(CustomError error) failure,
   }) {
     return failure(error);
   }
@@ -281,7 +281,7 @@ class _$FailureImpl<T> implements Failure<T> {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(T data)? success,
-    TResult? Function(BaseError error)? failure,
+    TResult? Function(CustomError error)? failure,
   }) {
     return failure?.call(error);
   }
@@ -290,7 +290,7 @@ class _$FailureImpl<T> implements Failure<T> {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(T data)? success,
-    TResult Function(BaseError error)? failure,
+    TResult Function(CustomError error)? failure,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -332,9 +332,9 @@ class _$FailureImpl<T> implements Failure<T> {
 }
 
 abstract class Failure<T> implements Result<T> {
-  const factory Failure(final BaseError error) = _$FailureImpl<T>;
+  const factory Failure(final CustomError error) = _$FailureImpl<T>;
 
-  BaseError get error;
+  CustomError get error;
   @JsonKey(ignore: true)
   _$$FailureImplCopyWith<T, _$FailureImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;

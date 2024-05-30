@@ -3,18 +3,18 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gamemuncheol/common/service/theme_service.dart';
 import 'package:gap/gap.dart';
 
 import 'package:gamemuncheol/common/model/base_state.dart';
-import 'package:gamemuncheol/common/presentation/widget/loading_indicator.dart';
+import 'package:gamemuncheol/common/util/theme_util.dart';
+import 'package:gamemuncheol/common/presentation/component/loading_indicator.dart';
 
-class BlurLayout<T extends StateMapper> extends StatelessWidget
-    with ThemeServiceProvider {
+class BlurLayoutV1<T extends StateMapper> extends StatelessWidget
+    with ThemeProvider {
   final Widget screen;
   final dynamic provider;
 
-  const BlurLayout({
+  const BlurLayoutV1({
     super.key,
     required this.screen,
     required this.provider,
