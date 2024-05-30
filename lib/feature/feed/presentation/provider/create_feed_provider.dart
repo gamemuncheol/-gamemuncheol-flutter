@@ -1,34 +1,47 @@
-import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:gamemuncheol/common/model/result.dart';
-import 'package:gamemuncheol/feature/feed/repository/feed_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:gamemuncheol/common/model/base_state.dart';
-import 'package:gamemuncheol/common/model/common_response.dart';
+import 'package:gamemuncheol/feature/feed/model/feed.dart';
+import 'package:gamemuncheol/feature/feed/service/feed_service.dart';
 
 part 'create_feed_provider.g.dart';
 
 @riverpod
 class CreateFeedNotifier extends _$CreateFeedNotifier {
   @override
-  StateMapper<SingleDataState<CommonResponse>> build() => StateMapper.init();
+  StateMapper<SingleDataState<Feed>> build() => StateMapper.init();
 
-  Future<void> uploadVideo() async {}
-  Future<void> uploadThumbImage(File thumbImageFile) async {
-    final Result<String> thumbImageUrl =
-        await ref.read(feedRepositoryProvider).uploadThumbImage(thumbImageFile);
+  Future<bool> post({
+    required String videoUrl,
+    required Uint8List thumbImageFile,
+    required String title,
+    required String content,
+    required List<int> matchUserIds,
+    required List<String> tags,
+  }) async {
+    state = LoadingState(
+      message: "피드 업로드 중..",
+    );
 
-    thumbImageUrl.when(
-      success: (thumbImageUrl) {
-        print(thumbImageUrl);
-        state = StateMapper.init();
+    final feed = await ref.read(feedServiceProvider).post(
+        videoUrl: videoUrl,
+        thumbImageFile: thumbImageFile,
+        title: title,
+        content: content,
+        matchUserIds: matchUserIds,
+        tags: tags);
+
+    return feed.when(
+      success: (feed) {
+        state = SingleDataState(data: feed);
+        return true;
       },
       failure: (error) {
-
+        state = ErrorState(error);
+        return false;
       },
     );
   }
-
-  Future<void> uploadFeed() async {}
 }

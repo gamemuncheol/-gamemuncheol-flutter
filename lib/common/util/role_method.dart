@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:gamemuncheol/feature/user/model/user.dart';
 import 'package:gamemuncheol/common/model/base_state.dart';
-import 'package:gamemuncheol/feature/auth/state/auth_state.dart';
-import 'package:gamemuncheol/feature/auth/provider/auth_provider.dart';
-import 'package:gamemuncheol/feature/user/provider/user_provider.dart';
+import 'package:gamemuncheol/feature/auth/presentation/provider/auth_provider.dart';
+import 'package:gamemuncheol/feature/auth/presentation/state/auth_state.dart';
+import 'package:gamemuncheol/feature/member/model/member.dart';
+import 'package:gamemuncheol/feature/member/presentation/provider/member_provider.dart';
 
 part 'role_method.g.dart';
 
@@ -18,15 +17,15 @@ void excecuteWhen(
   final bool authenticated = ref.read(authNotifierProvider) is Authenticated;
 
   if (authenticated) {
-    final StateMapper<SingleDataState<User?>> bState =
-        ref.read(userNotifierProvider);
+    final StateMapper<SingleDataState<Member?>> bState =
+        ref.read(memberNotifierProvider);
 
+    // 개인정보처리방침 동의 유저
     if (bState.pState.data != null) {
-      debugPrint("개인정보처리방침 동의 유저");
       user();
       return;
     }
   }
-  debugPrint("개인정보처리방침 미동의 유저");
+  // 개인정보처리방침 미동의 유저
   guest();
 }

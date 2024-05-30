@@ -8,9 +8,13 @@ abstract class StateMapper<T> {
   factory StateMapper.init() => InitState();
 
   StateMapper<T> withCache(StateMapper<T> newState) {
-    newState.pState = this.pState;
-    newState.hasCache = true;
+    if (this.isPState || this.hasCache) {
+      newState.pState = this.pState;
+      newState.hasCache = true;
+    }
+
     return newState;
+    //
   }
 
   bool get isPState => this is T;
@@ -48,7 +52,7 @@ abstract class StateMapper<T> {
 class InitState<T> extends StateMapper<T> {}
 
 class ErrorState<T> extends StateMapper<T> {
-  final BaseError error;
+  final CustomError error;
   ErrorState(this.error);
 }
 

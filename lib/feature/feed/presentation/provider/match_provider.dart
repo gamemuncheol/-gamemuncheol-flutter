@@ -3,9 +3,8 @@ import 'package:gamemuncheol/common/model/result.dart';
 import 'package:gamemuncheol/feature/feed/model/match.dart';
 import 'package:gamemuncheol/feature/feed/model/match_user.dart';
 import 'package:gamemuncheol/feature/feed/presentation/state/match_state.dart';
+import 'package:gamemuncheol/feature/feed/service/feed_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'package:gamemuncheol/feature/feed/repository/feed_repository.dart';
 
 part 'match_provider.g.dart';
 
@@ -16,9 +15,9 @@ class MatchNotifer extends _$MatchNotifer {
 
   Future<void> search(String gameId) async {
     state = LoadingState();
-    final FeedRepository feedRepository = ref.read(feedRepositoryProvider);
+    final feedService = ref.read(feedServiceProvider);
 
-    Result<Match> matchHistory = await feedRepository.search(gameId);
+    Result<Match> matchHistory = await feedService.search(gameId);
 
     matchHistory.when(
       success: (match) => state = MatchSearched(match: match),
@@ -27,44 +26,24 @@ class MatchNotifer extends _$MatchNotifer {
   }
 
   void selectMySelf(MatchUser myself) {
-    state = MatchSelected(match: state.pState.match, myself: myself);
+    state = MatchSelected(
+      match: state.pState.match,
+      myself: myself,
+    );
   }
 
   void selectStakeHolder(MatchUser stakeHolder) {
-    final MatchState pState = state.pState;
-    final bool hasList = pState.isStakeHolderSelected;
-
-    final List<MatchUser> stakeHolders = hasList ? pState.stakeHolders : [];
-    stakeHolders.add(stakeHolder);
-
     state = StakeHolderSelected(
-      match: pState.match,
-      myself: pState.myself,
-      stakeHolders: stakeHolders,
+      match: state.pState.match,
+      myself: state.pState.myself,
+      stakeHolder: stakeHolder,
     );
   }
 
   void exceptStakeHolder(MatchUser stakeHolder) {
-    final MatchState pState = state.pState;
-
-    final List<MatchUser> stakeHolders = pState.stakeHolders;
-    stakeHolders.remove(stakeHolder);
-
-    final bool hasList = pState.stakeHolders.isNotEmpty;
-
-    if (hasList) {
-      state = StakeHolderSelected(
-        match: pState.match,
-        myself: pState.myself,
-        stakeHolders: stakeHolders,
-      );
-
-      return;
-    }
-
     state = MatchSelected(
-      match: pState.match,
-      myself: pState.myself,
+      match: state.pState.match,
+      myself: state.pState.myself,
     );
   }
 }

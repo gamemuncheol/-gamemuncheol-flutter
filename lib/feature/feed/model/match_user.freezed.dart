@@ -20,8 +20,9 @@ MatchUser _$MatchUserFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MatchUser {
-  String get puuid => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
+  String get championName => throw _privateConstructorUsedError;
   String get championThumbnail => throw _privateConstructorUsedError;
   bool get win => throw _privateConstructorUsedError;
 
@@ -37,7 +38,11 @@ abstract class $MatchUserCopyWith<$Res> {
       _$MatchUserCopyWithImpl<$Res, MatchUser>;
   @useResult
   $Res call(
-      {String puuid, String nickname, String championThumbnail, bool win});
+      {int id,
+      String nickname,
+      String championName,
+      String championThumbnail,
+      bool win});
 }
 
 /// @nodoc
@@ -53,19 +58,24 @@ class _$MatchUserCopyWithImpl<$Res, $Val extends MatchUser>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? puuid = null,
+    Object? id = null,
     Object? nickname = null,
+    Object? championName = null,
     Object? championThumbnail = null,
     Object? win = null,
   }) {
     return _then(_value.copyWith(
-      puuid: null == puuid
-          ? _value.puuid
-          : puuid // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       nickname: null == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
+      championName: null == championName
+          ? _value.championName
+          : championName // ignore: cast_nullable_to_non_nullable
               as String,
       championThumbnail: null == championThumbnail
           ? _value.championThumbnail
@@ -88,7 +98,11 @@ abstract class _$$MatchUserImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String puuid, String nickname, String championThumbnail, bool win});
+      {int id,
+      String nickname,
+      String championName,
+      String championThumbnail,
+      bool win});
 }
 
 /// @nodoc
@@ -102,19 +116,24 @@ class __$$MatchUserImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? puuid = null,
+    Object? id = null,
     Object? nickname = null,
+    Object? championName = null,
     Object? championThumbnail = null,
     Object? win = null,
   }) {
     return _then(_$MatchUserImpl(
-      puuid: null == puuid
-          ? _value.puuid
-          : puuid // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       nickname: null == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
+      championName: null == championName
+          ? _value.championName
+          : championName // ignore: cast_nullable_to_non_nullable
               as String,
       championThumbnail: null == championThumbnail
           ? _value.championThumbnail
@@ -132,8 +151,9 @@ class __$$MatchUserImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MatchUserImpl implements _MatchUser {
   const _$MatchUserImpl(
-      {required this.puuid,
+      {required this.id,
       required this.nickname,
+      required this.championName,
       required this.championThumbnail,
       required this.win});
 
@@ -141,9 +161,11 @@ class _$MatchUserImpl implements _MatchUser {
       _$$MatchUserImplFromJson(json);
 
   @override
-  final String puuid;
+  final int id;
   @override
   final String nickname;
+  @override
+  final String championName;
   @override
   final String championThumbnail;
   @override
@@ -151,7 +173,7 @@ class _$MatchUserImpl implements _MatchUser {
 
   @override
   String toString() {
-    return 'MatchUser(puuid: $puuid, nickname: $nickname, championThumbnail: $championThumbnail, win: $win)';
+    return 'MatchUser(id: $id, nickname: $nickname, championName: $championName, championThumbnail: $championThumbnail, win: $win)';
   }
 
   @override
@@ -159,9 +181,11 @@ class _$MatchUserImpl implements _MatchUser {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MatchUserImpl &&
-            (identical(other.puuid, puuid) || other.puuid == puuid) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
+            (identical(other.championName, championName) ||
+                other.championName == championName) &&
             (identical(other.championThumbnail, championThumbnail) ||
                 other.championThumbnail == championThumbnail) &&
             (identical(other.win, win) || other.win == win));
@@ -169,8 +193,8 @@ class _$MatchUserImpl implements _MatchUser {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, puuid, nickname, championThumbnail, win);
+  int get hashCode => Object.hash(
+      runtimeType, id, nickname, championName, championThumbnail, win);
 
   @JsonKey(ignore: true)
   @override
@@ -188,8 +212,9 @@ class _$MatchUserImpl implements _MatchUser {
 
 abstract class _MatchUser implements MatchUser {
   const factory _MatchUser(
-      {required final String puuid,
+      {required final int id,
       required final String nickname,
+      required final String championName,
       required final String championThumbnail,
       required final bool win}) = _$MatchUserImpl;
 
@@ -197,9 +222,11 @@ abstract class _MatchUser implements MatchUser {
       _$MatchUserImpl.fromJson;
 
   @override
-  String get puuid;
+  int get id;
   @override
   String get nickname;
+  @override
+  String get championName;
   @override
   String get championThumbnail;
   @override

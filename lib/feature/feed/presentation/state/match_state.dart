@@ -12,12 +12,12 @@ mixin MatchState on StateMapper<MatchState> {
 
   Match get match;
   MatchUser get myself;
-  List<MatchUser> get stakeHolders;
+  MatchUser get stakeHolder;
 
   R whenPState<R>({
     R Function(Match match)? matchSearched,
     R Function(Match match, MatchUser myself)? matchSelected,
-    R Function(Match match, MatchUser myself, List<MatchUser> stakeHolders)?
+    R Function(Match match, MatchUser myself, MatchUser stakeHolders)?
         stakeHolderSelected,
     R Function()? orElse,
   }) {
@@ -26,7 +26,7 @@ mixin MatchState on StateMapper<MatchState> {
     } else if (isMatchSearched && matchSelected != null) {
       return matchSelected(match, myself);
     } else if (isStakeHolderSelected && stakeHolderSelected != null) {
-      return stakeHolderSelected(match, myself, stakeHolders);
+      return stakeHolderSelected(match, myself, stakeHolder);
     } else {
       return orElse!();
     }
@@ -41,7 +41,7 @@ class MatchSearched extends StateMapper<MatchState> with MatchState {
   MatchUser get myself => throw UnimplementedError();
 
   @override
-  List<MatchUser> get stakeHolders => throw UnimplementedError();
+  MatchUser get stakeHolder => throw UnimplementedError();
 
   MatchSearched({required this.match});
 }
@@ -54,7 +54,7 @@ class MatchSelected extends StateMapper<MatchState> with MatchState {
   final MatchUser myself;
 
   @override
-  List<MatchUser> get stakeHolders => throw UnimplementedError();
+  MatchUser get stakeHolder => throw UnimplementedError();
 
   MatchSelected({
     required this.match,
@@ -70,11 +70,11 @@ class StakeHolderSelected extends StateMapper<MatchState> with MatchState {
   final MatchUser myself;
 
   @override
-  final List<MatchUser> stakeHolders;
+  final MatchUser stakeHolder;
 
   StakeHolderSelected({
     required this.match,
     required this.myself,
-    required this.stakeHolders,
+    required this.stakeHolder,
   });
 }

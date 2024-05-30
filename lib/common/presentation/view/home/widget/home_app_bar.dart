@@ -5,10 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
-import 'package:gamemuncheol/common/service/theme_service.dart';
+import 'package:gamemuncheol/common/util/theme_util.dart';
 import 'package:gamemuncheol/common/const/assets.dart';
 
-class HomeAppBar extends ConsumerWidget with ThemeServiceProvider {
+class HomeAppBar extends ConsumerWidget with ThemeProvider {
   final VoidCallback onSearchIconTap;
   final VoidCallback onNotiIconTap;
 

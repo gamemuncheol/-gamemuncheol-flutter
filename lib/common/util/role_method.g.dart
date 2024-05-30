@@ -6,7 +6,7 @@ part of 'role_method.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$excecuteWhenHash() => r'29fc454f24e345ad90fecdafd2fbd86ee0dd620f';
+String _$excecuteWhenHash() => r'6882bce110597d989c113412150ba89c74d38904';
 
 /// Copied from Dart SDK
 class _SystemHash {

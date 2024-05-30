@@ -7,7 +7,7 @@ part of 'video_upload_provider.dart';
 // **************************************************************************
 
 String _$videoUploadNotifierHash() =>
-    r'fc22e69f83ea2101a7f6bf4a561992d79ef00c82';
+    r'11b977b766195e9c1b2f7e0eea976db1edac2513';
 
 /// See also [VideoUploadNotifier].
 @ProviderFor(VideoUploadNotifier)

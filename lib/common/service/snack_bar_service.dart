@@ -10,11 +10,8 @@ class ScaffoldService {
 
 mixin SnackBarService {
   void showSnackBar({required Widget content}) {
-    locator.scaffoldKey.currentState!.showSnackBar(
-      _buildSnackBar(
-        content: content,
-      ),
-    );
+    locator.scaffoldKey.currentState!
+        .showSnackBar(_buildSnackBar(content: content));
   }
 
   SnackBar _buildSnackBar({required Widget content}) {

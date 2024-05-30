@@ -2,61 +2,62 @@
 
 class AppAsset {
   // 기본 경로
-  static const imagePath = "assets/images";
-  static const videoPath = "assets/videos";
+  static const IMAGE_PATH = "assets/images";
+  static const VIDEO_PATH = "assets/videos";
 
   // 하위 경로
-  static const communicationPath = "$imagePath/communication";
-  static const arrowPath = "$imagePath/arrow";
+  static const COMMU_PATH = "$IMAGE_PATH/communication";
+  static const LOGO_PATH = "$IMAGE_PATH/logo";
+  static const arrowPath = "$IMAGE_PATH/arrow";
 
   // video
-  static const authBackgroundVideo = "$videoPath/auth_background_video.mp4";
+  static const AUTH_BACKGROUND_VIDEO = "$VIDEO_PATH/auth_background_video.mp4";
 
   // arrow
-  static const chevronRightBlack = "$arrowPath/28w_chevron_right.svg";
-  static const chevronLeftBlack = "$arrowPath/28b_chevron_left.svg";
-  static const chevronLeftWhite = "$arrowPath/28w_chevron_left.svg";
-  static const closeWhite = "$arrowPath/28w_close.svg";
-  static const closeBlack = "$arrowPath/28b_close.svg";
+  static const CHEVRON_RIGHT_BLACK = "$arrowPath/28w_chevron_right.svg";
+  static const CHEVRON_LEFT_BLACK = "$arrowPath/28b_chevron_left.svg";
+  static const CHEVRON_LEFT_WHITE = "$arrowPath/28w_chevron_left.svg";
+  static const CLOSE_WHITE = "$arrowPath/28w_close.svg";
+  static const CLOSE_BLACK = "$arrowPath/28b_close.svg";
+
+  // logo
+  static const THUMB_IMAGE_BASIC = "$LOGO_PATH/img_thum_basic.png";
 
   // communication
-  static const appleLogo = "$communicationPath/apple.svg"; // 애플 로고
-  static const googleLogo = "$communicationPath/google.svg"; // 구글 로고
+  static const APPLE_LOGO = "$COMMU_PATH/apple.svg"; // 애플 로고
+  static const GOOGLE_LOGO = "$COMMU_PATH/google.svg"; // 구글 로고
 
-  static const title = "$communicationPath/title.svg"; // 제목 아이콘
-  static const contents = "$communicationPath/contents.svg"; // 본문 아이콘
+  static const TITLE = "$COMMU_PATH/title.svg"; // 제목 아이콘
+  static const CONTENTS = "$COMMU_PATH/contents.svg"; // 본문 아이콘
 
-  static const cameraOn = "$communicationPath/camera_on.svg"; // 카메라 아이콘
-  static const cameraOff = "$communicationPath/camera_off.svg"; // 카메라 아이콘
+  static const CAMERA_ON = "$COMMU_PATH/camera_on.svg"; // 카메라 아이콘
+  static const CAMERA_OFF = "$COMMU_PATH/camera_off.svg"; // 카메라 아이콘
 
-  static const galleryOn = "$communicationPath/gallery_on.svg"; // 갤러리 아이콘
-  static const galleryOff = "$communicationPath/gallery_off.svg"; // 갤러리 아이콘
+  static const GALLER_ON = "$COMMU_PATH/gallery_on.svg"; // 갤러리 아이콘
+  static const GALLERY_OFF = "$COMMU_PATH/gallery_off.svg"; // 갤러리 아이콘
 
-  static const youtubeOn = "$communicationPath/youtube_on.svg"; // 유튜브 아이콘
-  static const youtubeOff = "$communicationPath/youtube_off.svg"; // 유튜브 아이콘
+  static const YOUTUBE_ON = "$COMMU_PATH/youtube_on.svg"; // 유튜브 아이콘
+  static const YOUTUBE_OFF = "$COMMU_PATH/youtube_off.svg"; // 유튜브 아이콘
 
-  static const lolMuncheolLogo = "$communicationPath/LolMunCheol.png";
-  static const lolMuncheolUnderlinePath =
-      "$communicationPath/LolMuncheol_underline.svg";
+  static const LOL_MUNCHEOL_LOGO = "$COMMU_PATH/LolMunCheol.png";
+  static const LOL_MUNCHEOL_UNDERLINE_PATH =
+      "$COMMU_PATH/LolMuncheol_underline.svg";
 
-  static const CHECKBOX_BLANK =
-      "$communicationPath/checkbox_blank_ver.svg";
-  static const CHECKBOX_FILLED =
-      "$communicationPath/checkbox_filled_ver.svg";
+  static const CHECKBOX_BLANK = "$COMMU_PATH/checkbox_blank_ver.svg";
+  static const CHECKBOX_FILLED = "$COMMU_PATH/checkbox_filled_ver.svg";
 
-  static const APP_BAR_ICON_PATH = "$communicationPath/app_bar_icon.svg";
-  static const APP_BAR_LOGO_TEXT_PATH = "$communicationPath/app_bar_text.svg";
+  static const APP_BAR_ICON_PATH = "$COMMU_PATH/app_bar_icon.svg";
+  static const APP_BAR_LOGO_TEXT_PATH = "$COMMU_PATH/app_bar_text.svg";
 
   static const NOTIFICATION_NEW_ICON_PATH =
-      "$communicationPath/notification_new_icon.svg";
+      "$COMMU_PATH/notification_new_icon.svg";
   static const NOTIFICATION_BASIC_ICON_PATH =
-      "$communicationPath/notification_basic_icon.svg";
+      "$COMMU_PATH/notification_basic_icon.svg";
 
-  static const MATCH__INFO_TEXT_PATH = "$communicationPath/match_info_text.svg";
-  static const MATCH__INFO_IMAGE_PATH =
-      "$communicationPath/match_info_image.png";
+  static const MATCH__INFO_TEXT_PATH = "$COMMU_PATH/match_info_text.svg";
+  static const MATCH__INFO_IMAGE_PATH = "$COMMU_PATH/match_info_image.png";
 
-  static const DIALOG_ICON = "$communicationPath/dialog_icon.png";
+  static const DIALOG_ICON = "$COMMU_PATH/dialog_icon.png";
 
-  static const SEARCH_ICON_PATH = "$communicationPath/search_icon.svg";
+  static const SEARCH_ICON_PATH = "$COMMU_PATH/search_icon.svg";
 }

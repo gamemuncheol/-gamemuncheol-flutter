@@ -9,6 +9,6 @@ sealed class Result<T> with _$Result<T> {
   ) = Success<T>;
 
   const factory Result.failure(
-    BaseError error,
+    CustomError error,
   ) = Failure<T>;
 }

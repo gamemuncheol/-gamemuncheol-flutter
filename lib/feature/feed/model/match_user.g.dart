@@ -8,16 +8,18 @@ part of 'match_user.dart';
 
 _$MatchUserImpl _$$MatchUserImplFromJson(Map<String, dynamic> json) =>
     _$MatchUserImpl(
-      puuid: json['puuid'] as String,
+      id: json['id'] as int,
       nickname: json['nickname'] as String,
+      championName: json['championName'] as String,
       championThumbnail: json['championThumbnail'] as String,
       win: json['win'] as bool,
     );
 
 Map<String, dynamic> _$$MatchUserImplToJson(_$MatchUserImpl instance) =>
     <String, dynamic>{
-      'puuid': instance.puuid,
+      'id': instance.id,
       'nickname': instance.nickname,
+      'championName': instance.championName,
       'championThumbnail': instance.championThumbnail,
       'win': instance.win,
     };

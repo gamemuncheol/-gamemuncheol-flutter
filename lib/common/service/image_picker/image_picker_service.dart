@@ -1,10 +1,10 @@
 import 'dart:io';
 
+import 'package:gamemuncheol/common/repository/image_picker_repository.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:gamemuncheol/common/model/media_model.dart';
-import 'package:gamemuncheol/common/service/image_picker/image_picker_repository.dart';
 
 part 'image_picker_service.g.dart';
 
@@ -12,27 +12,20 @@ part 'image_picker_service.g.dart';
 ImagePickerService imagePickerService(ImagePickerServiceRef ref) {
   final ImagePickerRepository imagePickerRepository =
       ref.read(imagePickerRepositoryProvider);
-  return ImagePickerServiceImpl(imagePickerRepository: imagePickerRepository);
+  return ImagePickerService(imagePickerRepository: imagePickerRepository);
 }
 
-abstract class ImagePickerService {
-  Future<MediaModel?> pickImageFromGallery({required int? maxByte});
-  Future<MediaModel?> pickVideoFromGallery({required int? maxByte});
-}
-
-class ImagePickerServiceImpl implements ImagePickerService {
+class ImagePickerService {
   final ImagePickerRepository _imagePickerRepository;
 
-  ImagePickerServiceImpl({required ImagePickerRepository imagePickerRepository})
+  ImagePickerService({required ImagePickerRepository imagePickerRepository})
       : _imagePickerRepository = imagePickerRepository;
 
-  @override
   Future<MediaModel?> pickImageFromGallery({required int? maxByte}) async {
     final XFile? xfile = await _imagePickerRepository.pickImageFromGallery();
     return _makeMediaModel(xFile: xfile, maxByte: maxByte);
   }
 
-  @override
   Future<MediaModel?> pickVideoFromGallery({required int? maxByte}) async {
     final XFile? xfile = await _imagePickerRepository.pickVideoFromGallery();
     return _makeMediaModel(xFile: xfile, maxByte: maxByte);

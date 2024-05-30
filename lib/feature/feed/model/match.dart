@@ -14,7 +14,5 @@ class Match with _$Match {
     required List<MatchUser> matchUsers,
   }) = _MatchHistory;
 
-  factory Match.fromJson(Map<String, dynamic> json) =>
-      _$MatchFromJson(json);
-
+  factory Match.fromJson(Map<String, dynamic> json) => _$MatchFromJson(json);
 }

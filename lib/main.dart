@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:gamemuncheol/common/di/locator.dart';
-import 'package:gamemuncheol/common/isar/isar.dart';
-import 'package:gamemuncheol/common/service/naviation_service.dart';
-import 'package:gamemuncheol/common/service/redirect_injection_service.dart';
-import 'package:gamemuncheol/common/service/snack_bar_service.dart';
-import 'package:gamemuncheol/common/service/theme_service.dart';
-import 'package:gamemuncheol/common/util/system_util.dart';
-import 'package:gamemuncheol/config/router/go_router.dart';
-
-import 'package:go_router/go_router.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:gamemuncheol/common/di/locator.dart';
+import 'package:gamemuncheol/common/repository/isar/isar.dart';
+import 'package:gamemuncheol/common/service/redirect_injection_service.dart';
+import 'package:gamemuncheol/common/service/snack_bar_service.dart';
+import 'package:gamemuncheol/common/util/naviation_util.dart';
+import 'package:gamemuncheol/common/util/system_util.dart';
+import 'package:gamemuncheol/common/util/theme_util.dart';
+import 'package:gamemuncheol/config/router/go_router.dart';
 import 'package:gamemuncheol/config/theme/theme_enum.dart';
 import 'package:gamemuncheol/config/theme/theme_manger.dart';
 
@@ -49,6 +48,7 @@ class MyApp extends ConsumerWidget with SystemUtil {
   Widget build(BuildContext context, WidgetRef ref) {
     // 기기 기본 인터페이스 설정
     setDefaultSystemUiMode();
+    portraitUp();
 
     // 인터페이스 테마 설정
     if (brightness == Brightness.light) {
@@ -61,7 +61,7 @@ class MyApp extends ConsumerWidget with SystemUtil {
     final ThemeManger theme = ref.watch(themeProvider);
     final GoRouter router = ref.read(
       goRouterProvider(
-        naveKey: locator.get<NavigationService>().navigatorKey,
+        naveKey: locator.get<NavigationUtil>().navigatorKey,
         redirectInjectionService: ref.read(redirectInjectionServiceProvider),
       ),
     );
@@ -75,7 +75,7 @@ class MyApp extends ConsumerWidget with SystemUtil {
           scaffoldMessengerKey:
               locator.get<ScaffoldService>().scaffoldMessengerKey,
           builder: (context, child) {
-            ThemeService.init(context);
+            ThemeUtil.init(context);
             return child!;
           },
         );

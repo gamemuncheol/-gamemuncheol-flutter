@@ -9,10 +9,9 @@ mixin DialogService {
         const double elevation = 0;
 
         return AlertDialog(
-          alignment: Alignment.center,
-          elevation: elevation,
-          content: content,
-        );
+            alignment: Alignment.center,
+            elevation: elevation,
+            content: content);
       },
     );
   }

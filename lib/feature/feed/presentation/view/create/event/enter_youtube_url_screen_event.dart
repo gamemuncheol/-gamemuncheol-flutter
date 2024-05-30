@@ -1,58 +1,36 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gamemuncheol/common/di/locator.dart';
-import 'package:gamemuncheol/feature/feed/presentation/provider/video_upload_provider.dart';
-import 'package:gamemuncheol/feature/feed/presentation/view/create/enter_feed_form_screen.dart';
-import 'package:gamemuncheol/feature/feed/presentation/view/create/youtube_url_preview_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'package:gamemuncheol/common/model/extra_data.dart';
-import 'package:gamemuncheol/feature/feed/model/feed_error.dart';
-import 'package:go_router/go_router.dart';
+import 'package:gamemuncheol/common/presentation/layout/base_screen_v2.dart';
+import 'package:gamemuncheol/feature/feed/presentation/provider/video_upload_provider.dart';
+import 'package:gamemuncheol/feature/feed/presentation/view/create/screen/feed_form_screen.dart';
+import 'package:gamemuncheol/feature/feed/presentation/view/create/screen/enter_youtube_url_screen.dart';
+import 'package:gamemuncheol/feature/feed/presentation/view/create/screen/youtube_url_preview_screen.dart';
 
-mixin EnterYoutubeUrlScreenEvent {
-  void onLeadingTap(WidgetRef ref) {
+mixin EnterYoutubeUrlScreenState
+    on BaseScreenV2State<EnterYoutubeUrlScreen> {
+  void onLeadingTap() {
     ref.read(videoUploadNotifierProvider.notifier).clearCache();
-    locator.navKey.context.pop();
+    context.pop();
   }
 
   void onNextButtonTap() {
-    locator.navKey.context.pushReplacement(EnterFeedFormScreen.PATH);
+    context.pushReplacement(FeedFormScreen.PATH);
   }
 
-  Future<void> enterYoutubeUrl(
-    WidgetRef ref, {
-    required String youtubeUrl,
-  }) async {
+  Future<void> enterYoutubeUrl(String youtubeUrl) async {
     await ref
         .read(videoUploadNotifierProvider.notifier)
-        .enterYoutubeUrl(youtubeUrl, validator: _validator);
-  }
-
-  String? _validator(String? value) {
-    if (value == null || value.isEmpty) {
-      return NoSuchYoutubeUrl().message;
-    }
-
-    final RegExp pattern = RegExp(
-        r'^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$');
-    bool match = pattern.hasMatch(value);
-
-    if (!match) {
-      return NoSuchYoutubeUrl().message;
-    }
-
-    return null;
+        .enterYoutubeUrl(youtubeUrl);
   }
 
   void onPreviewButtonTap({required String youtubeUrl}) {
-    final String videoId = YoutubePlayer.convertUrlToId(youtubeUrl)!;
+    final playerController = YoutubePlayerController(
+        initialVideoId:
+            ref.read(videoUploadNotifierProvider).pState.videoModel.videoUrl);
 
-    final YoutubePlayerController playerController =
-        YoutubePlayerController(initialVideoId: videoId);
-
-    final ExtraData extraData =
-        ExtraData({"playerController": playerController});
-
-    locator.navKey.context.push(YoutubeUrlPreviewScreen.PATH, extra: extraData);
+    context.push(YoutubeUrlPreviewScreen.PATH,
+        extra: ExtraData({"playerController": playerController}));
   }
 }

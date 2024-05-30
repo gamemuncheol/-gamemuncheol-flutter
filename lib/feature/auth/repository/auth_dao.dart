@@ -1,7 +1,7 @@
-import 'package:gamemuncheol/common/isar/isar.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:isar/isar.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:gamemuncheol/common/repository/isar/isar.dart';
 import 'package:gamemuncheol/feature/auth/model/sign_in_method.dart';
 
 part 'auth_dao.g.dart';
@@ -14,15 +14,13 @@ AuthDao authDao(AuthDaoRef ref) {
 
 abstract class AuthDao {
   Future<SignInMethodModel> readLastSignInMethod();
-  Future<void> recordSignInHistory(SignInMethodModel signInMethodDataModel);
+  Future<void> updateSignInHistory(SignInMethodModel signInMethodDataModel);
 }
 
 class AuthDaoImpl implements AuthDao {
   final Isar _isar;
 
-  AuthDaoImpl({
-    required Isar isar,
-  }) : _isar = isar;
+  AuthDaoImpl({required Isar isar}) : _isar = isar;
 
   @override
   Future<SignInMethodModel> readLastSignInMethod() async {
@@ -36,7 +34,7 @@ class AuthDaoImpl implements AuthDao {
   }
 
   @override
-  Future<void> recordSignInHistory(
+  Future<void> updateSignInHistory(
     SignInMethodModel signInMethodDataModel,
   ) async {
     await _isar.writeTxn(() async {

@@ -43,7 +43,7 @@ dependencies:
   hooks_riverpod: ^2.4.9
   equatable: ^2.0.5
   flutter_screenutil: ^5.9.0
-  flutter_svg: ^2.0.9
+  flutter_svg: ^2.0.10+1
   sign_in_with_apple: ^5.0.0
   dio: ^5.4.0
   flutter_inappwebview: ^6.0.0
@@ -66,6 +66,7 @@ dependencies:
   youtube_player_flutter: ^9.0.1
   get_it: ^7.6.7
   easy_debounce: ^2.0.3
+  http_parser: ^4.0.2
   
 
 
@@ -104,6 +105,7 @@ flutter:
     - assets/images/
     - assets/images/communication/
     - assets/images/arrow/
+    - assets/images/logo/
     - app_config.env
 
 

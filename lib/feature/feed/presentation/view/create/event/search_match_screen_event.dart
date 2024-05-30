@@ -1,25 +1,25 @@
 import 'package:go_router/go_router.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:gamemuncheol/common/di/locator.dart';
-import 'package:gamemuncheol/feature/feed/presentation/provider/match_provider.dart';
+import 'package:gamemuncheol/common/presentation/layout/base_screen_v2.dart';
 import 'package:gamemuncheol/feature/feed/model/match_user.dart';
-import 'package:gamemuncheol/feature/feed/presentation/view/create/select_stakeholder_screen.dart';
+import 'package:gamemuncheol/feature/feed/presentation/provider/match_provider.dart';
+import 'package:gamemuncheol/feature/feed/presentation/view/create/screen/search_match_screen.dart';
+import 'package:gamemuncheol/feature/feed/presentation/view/create/screen/select_stakeholder_screen.dart';
 
-mixin SearchMatchScreenEvent {
+mixin SearchMatchScreenState on BaseScreenV2State<SearchMatchScreen> {
   void onLeadingTap() {
-    locator.navKey.context.pop();
+    context.pop();
   }
 
   void onNextButtonTap() {
-    locator.navKey.context.pushNamed(SelectStakeHolderScreen.NAME);
+    context.pushNamed(SelectStakeHolderScreen.NAME);
   }
 
-  void search(WidgetRef ref, {required String gameId}) {
+  void search({required String gameId}) {
     ref.read(matchNotiferProvider.notifier).search(gameId);
   }
 
-  void selectMySelf(WidgetRef ref, {required MatchUser myself}) {
+  void selectMySelf({required MatchUser myself}) {
     ref.read(matchNotiferProvider.notifier).selectMySelf(myself);
   }
 }
